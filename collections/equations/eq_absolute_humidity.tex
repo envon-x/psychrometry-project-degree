@@ -1,0 +1,59 @@
+% Con número: \eqnAbsoluteHumidity
+% Sin número: \eqnAbsoluteHumidity*
+\NewDocumentCommand{\eqAbsoluteHumidity}{s}{
+    \begin{equation}
+        \IfBooleanTF{#1}{\nonumber}{\label{eq:AbsoluteHumidity}}
+        \absoluteHumidity = \frac{\vaporMass}{\gasMass}
+    \end{equation}
+    Donde \vaporMass representa a la masa del vapor y \gasMass a la masa del gas libre de vapor.
+}
+
+%%% Si está bien configurado, puede acceder directamente desde donde se
+%%% invoca, en vscode con: Ctrl+clic izq.
+\newcommand{\eqAbsoluteHumidityToMol}{
+    \begin{equation}
+        \label{eq:AbsoluteHumidityToMol}
+        \absoluteHumidity = \frac{{\vaporMole}{\vaporMolecularWeight}}{{\gasMole}{\gasMolecularWeight}}
+    \end{equation}
+}
+
+%%%% La humedad absoluta expresado como fracción molar
+\newcommand{\eqAbsoluteHumidityToMolAsMolarFraction}{
+    \begin{equation}
+        \label{eq:AbsoluteHumidityToMolAsMolarFraction}
+        \absoluteHumidity = \frac{{\vaporMoleFraction}{\vaporMolecularWeight}}{{\gasMoleFraction}{\gasMolecularWeight}}
+    \end{equation}
+}
+
+\newcommand{\eqAbsoluteHumidityToMolAsMolarVaporFraction}{
+    \begin{equation}
+        \label{eq:AbsoluteHumidityToMolAsMolarVaporFraction}
+        \absoluteHumidity = \frac{\vaporMolecularWeight}{\gasMolecularWeight} \frac{{\vaporMoleFraction}}{{(1 - \vaporMoleFraction)}}
+    \end{equation}
+}
+
+
+
+
+\NewDocumentCommand{\eqMixSimplAbsoluteHumidityAsPtotal}{s}{
+    \begin{equation}
+        \IfBooleanTF{#1}{\nonumber}{\label{eq:MixSimplAbsoluteHumidityAsPtotal}}
+        {\absoluteHumidity} = \frac{\vaporMolecularWeight}{\gasMolecularWeight} \frac{\pVapor}{\pTotal - \pVapor}
+    \end{equation}
+}
+
+\NewDocumentCommand{\eqMixSimplAbsoluteHumidityAsPtotalAndPressureSaturated}{s}{
+    \begin{equation}
+        \IfBooleanTF{#1}{\nonumber}{\label{eq:MixSimplAbsoluteHumidityAsPtotalAndPressureSaturated}}
+        {\absoluteHumidity} = \frac{\vaporMolecularWeight}{\gasMolecularWeight} \frac{\relativeHumidity[]{} \pSat}{\pTotal - \relativeHumidity[]{} \pSat}
+    \end{equation}
+}
+
+\newcommand{\eqnMolarAbsoluteHumidity}{
+    \begin{equation}
+        \label{eqn:MolarAbsoluteHumidity}
+        \molarAbsoluteHumidity = \frac{\mole[]{\vapor}}{\mole[]{\gas}}
+    \end{equation}%
+    Donde \mole[]{\vapor} son los moles de vapor y \mole[]{\gas} moles para el gas en la mezcla.
+
+}

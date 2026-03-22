@@ -1,0 +1,160 @@
+\section{Marco Conceptual}
+\label{sec:marco_conceptual}
+Probando las ecuaciones:
+\eqnHeatFlow
+\begin{equation}
+    \specificVolume = 1
+\end{equation}
+\begin{subequations}  
+\begin{align}
+    \specificVolume &= 1 \quad \rightarrow v \\
+    \vaporVolume    &= 1 \quad \rightarrow V_{\text{v}} \\
+    \gasVolume      &= 1 \quad \rightarrow V_{\text{g}} \\
+    \fluxVolume     &= 1 \quad \rightarrow \dot{V}
+    % \molarVolume  &= 1 \quad \rightarrow \bar{V}
+\end{align}
+\end{subequations}
+
+\begin{subequations}
+\begin{align}
+    % Mass of components (lower case m)
+    \vaporMass          &= 10 \quad \text{[kg]} \\
+    \gasMass            &= 5  \quad \text{[kg]} \\[1ex]
+    % Mass flow (default dot over m)
+    \vaporFlowMass      &= 0.5 \quad \text{[kg/s]} \\
+    \gasFlowMass        &= 0.2 \quad \text{[kg/s]} \\[1ex]
+    % Molecular Weights (Upper case M)
+    \vaporMolecularWeight &= 18.02 \quad \text{[kg/kmol]} \\
+    \gasMolecularWeight   &= 28.97 \quad \text{[kg/kmol]} 
+\end{align}
+\end{subequations}
+
+\subsection{Definiciones termodinámicas}
+
+    \subsection{Sustancia}
+        Una sustancia es una forma de materia que tiene composición definida  que lo distinguen de los demás; es decir, difieren entre ellas por su composición, aspecto, color, sabor y otras propiedades.
+    
+    \subsection{Mezcla}
+        Es una combinación de dos o más sustancias, donde cada uno ellos conserva sus propiedades que los hacen únicos y los distinguen de los demás. Las mezclas pueden ser \textit{homogéneas}, cuando la composición de la mezcla es uniforme, o \textit{heterogéneas} cuando la mezcla resulta no uniforme; ejemplo: una mezcla de arena y aserrín. 
+    
+    \subsection{Elemento}
+        Un elemento es una sustancia que no puede separarse en otras más sencillas por medios químicos; ejemplo: los 118 elementos de la tabla periódica; pueden ser naturales o artificiales.
+
+    \subsection{Compuesto}
+        Es una sustancia formada por dos átomos de dos o más elementos unidos químicamente en proporciones fijas y solo pueden separarse a través de medios químicos.
+    
+    \subsection{Estado de agregación}
+        Es la forma física en la que se presenta la materia basándose en la intensidad de las fuerzas de cohesión entre sus partículas (átomos, moléculas o iones) que dependen de su energía cinética (asociado a la temperatura) y potencial (atracción). Actualmente se conocen 7 estados de la materia; para el desarrollo de este trabajo solo se consideran los estados: sólido líquido, gaseoso.
+
+    \subsection{Fase}
+        región de un sistema termodinámico donde todas las propiedades físicas son uniformes; es decir, son homogéneos, uniforme, y presentan ausencia de interfaces.
+
+    \subsection{Vapor}
+        Es la sustancia condensable que, bajo condiciones de presión y temperatura, tiene la capacidad de migrar de la fase gaseosa a la fase líquida o sólida. Su comportamiento está limitado por su presión de saturación, la cual es una función de la temperatura
+    
+    \subsection{Gas}
+        Es el componente o mezcla de ellas que no se condensa en todo rango de operación y es químicamente inerte con el vapor, lo cual permite la aplicación de la ley de Dalton. 
+
+Presión de Saturación (\pSat): Se define como la presión cuando a una temperatura dada coexisten la fase líquida y vapor en equilibrio termodinámico. 
+
+
+\subsubsection{Capacidad calorífica y calor específico}
+    La capacidad calorífica de una sustancia, es la cantidad de calor que se necesita añadirse a una cantidad de sustancia en $1 \unit{\celsius}$ 
+
+
+\subsection{Variables de Estado Psicrométrico}
+
+    \subsection{Humedad absoluta} % specific humidity
+        Según \parencite[p. 729]{bib:cengel2015termodinamica} se le conoce también como humedad específica\footnote{para \parencite{bib:green2007perry} esta expresión en específico tiene su propia definición y distinto que se verá más adelante.}, contenido de humedad o \textit{índice de humedad} y para \parencite[p. 12-4]{bib:green2007perry} como \textit{relación de masa} o \textit{relación de mezcla}; para el desarrollo de este proyecto se ha optado usar las definiciones de este último. La humedad absoluta se representa la relación matemática de la masa de vapor respecto a una unidad de masa del gas; generalmente se expresa en, $\specificHumidityUnit$.
+        \eqAbsoluteHumidity*
+    
+    
+    \subsection{Humedad específica}
+        Conocido también como fracción másica y se define como la masa del vapor por unidad de masa de la mezcla vapor-gas.
+        \eqnSpecificHumidity
+
+    \subsection{Volumen específico}
+        Es la cantidad de volumen que ocupa el gas una cantidad de gas. A medida que la temperatura aumenta también aumenta el volumen específico 
+
+    \subsection{Humedad volumétrica}
+        \eqnVolumetricHumidity
+
+    \subsubsection{Humedad relativa}
+        Es la relación de la presión de vapor del sistema respecto a la presión de vapor saturado del sistema bajo las mismas condiciones de temperatura. Para una mezcla binaria de vapor de agua y aire seco, la capacidad de retención de vapor aumenta con la temperatura.
+        \eqnRelativeHumidity
+
+
+
+    \subsubsection{Temperatura de Bulbo Seco}
+
+
+    \subsubsection{Temperatura de Bulbo Húmedo} % Wet-bulb temperature
+        Corresponde a la temperatura de equilibrio dinámico alcanzado por una superfice líquida de la cual el component vapor que se encuentra en estado líquido se evapora en una corriente de gas seco que fluye cuando la tasa de transferencia de calor a la superficie por convección es igual a la velocidad de transferencia de masa lejos de la superficie. Esta temperatura está muy cerca a la temperatura a la temperatura de saturación adiabática para la mezcla del sistema agua-aire; pero, no para otras mezclas.
+
+
+    \subsubsection{Punto de Rocío} %  (Dew Point)
+        También se le conoce com la \textbf{temperatura de saturación}; es la temperatura al cual se satura el vapor al enfriarse; es decir, la temperatura donde el vapor ejerce una presión de vapor igual a la presión de saturación; la condición de saturación ocurre cuando:
+        \eqnSaturationCondition
+        \figurePuntoRocio{fig:rocio_isobarico}
+        Representa la temperatura más baja que puede alcanzarse por enfriamiento evaporativo de una superficie ventilada humedecida con el vapor. 
+        En condiciones donde la presión de vapor es baja y la temperatura desciende bajo el punto triple del condensable, esta transición implica la sublimación del sólido (formación de escarcha) para alcanzar el equilibrio de saturación.
+
+
+        \begin{figure}[h]
+            \centering
+            \input{collections/diagrams/adiabatic_saturation_temperature.tex} % Llamada al segundo módulo
+            \caption{Localización del punto de rocío en la línea de vapor saturado ($x=1$).}
+        \end{figure}
+        
+
+    \figureAdiabaticSaturationTS{fig:water_TS}
+    
+    % \subsubsection{Relación de Humedad ($\omega$)}
+
+
+    \subsubsection{Humedad absoluta molar}
+        Se define como la relación de moles del vapor respecto a moles del gas seco; matemáticamente se expresa de la siguiente manera
+
+
+    \subsubsection{Grado de saturación}
+        Se define como la relación de la humedad absoluta respecto a la humedad absoluta saturada,
+        \eqnDegreeOfSaturation
+
+        La diferencia con la humedad relativa (\relativeHumidity) es, que el grado de saturación (\degreeOfSaturation[]{}) es una relación de masas; la humedad relativa es una relación de presiones.
+
+
+
+    \subsubsection{Humedad específica}
+        Es la relación  entre el contenido de vpaor de la mezcla respecto al contenido total del aire. Algunas veces también se le llama como relación de humedad o contenido de humedad o relación de mezcla
+    \subsubsection{Punto de }
+
+    \subsubsection{Calor sensible}
+    El calor sensible es la energía que se asocia al cambio de temperatura de una sustancia sin que suceda algún cambio de estado; se define así:
+    % \eqnSensibleHeat{}
+    
+    \subsubsection{Calor latente}
+
+    % Definiciones breves y precisas
+    \subsubsection{Relación de Humedad ($\omega$).}
+
+
+
+
+\newpage
+\section{Psicrometría}
+
+Estas son las propiedades psicrométricas que se muestran en los diagramas psicrométricos
+
+
+
+
+
+
+
+\subsection{Conceptos de Desarrollo de Software (Crate)}
+\begin{itemize}
+    \item \textbf{Abstracción de Datos:} Representación de estados termodinámicos como objetos.
+    \item \textbf{Interfaz de Programación de Aplicaciones (API):} Definición de métodos de entrada y salida para el usuario.
+    \item \textbf{Visualización de Datos:} Conceptos de renderizado de gráficos vectoriales.
+\end{itemize}
+

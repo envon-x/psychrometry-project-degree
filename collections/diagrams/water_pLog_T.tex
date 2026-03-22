@@ -1,0 +1,48 @@
+% #1: Label para la referencia (ej: fig:punto_rocio_1)
+\newcommand{\figurePuntoRocio}[1]{
+    \begin{figure}[H]
+        \centering
+        \caption{Representación del enfriamiento isobárico hasta el punto de rocío}
+        \label{#1}
+        % Invocación de la plantilla modular (usa los \def globales \Tamb, \Pv, \Tdp)
+        \diagramaPsicrometrico{\Tamb}{\Pv}{\Tdp}{\Pv}
+                            {Enfriamiento}
+                            {} % Título interno vacío
+        \vspace{4pt}
+        \begin{flushleft}
+            \small \textit{Nota.} Al ser un proceso isobárico, las presiones se unifican en el eje de ordenadas.
+        \end{flushleft}
+    \end{figure}
+}
+
+% #1: Label para la referencia (ej: fig:punto_rocio_1)
+\newcommand{\figureAdiabaticSaturationTS}[1]{
+    \begin{figure}[H]
+        \centering
+        \caption{Representación del enfriamiento isobárico hasta el punto de rocío}
+        \label{#1}
+        % Invocación de la plantilla modular (usa los \def globales \Tamb, \Pv, \Tdp)
+        \centering
+        \input{collections/diagrams/adiabatic_saturation_t_S.tex} % Llamada al segundo módulo
+            \vspace{4pt}
+        \begin{flushleft}
+            \small \textit{Nota.} Al ser un proceso isobárico, las presiones se unifican en el eje de ordenadas.
+        \end{flushleft}
+    \end{figure}    
+}
+% % #1: Label para la referencia
+% \newcommand{\figureXXX}{%
+%     \begin{figure}[H]
+%         \centering
+%         \caption{Representación del enfriamiento isobárico hasta el punto de rocío}
+%         \label{sdfdsf}
+%         % Invocación con argumentos protegidos
+%         \diagramaPsicrometrico{\Tamb}{\Pv}{\Tdp}{\Pv}
+%                             {Enfriamiento}
+%                             {} 
+%         \vspace{4pt}
+%         \begin{flushleft}
+%             \small \textit{Nota.} Al ser un proceso isobárico, las presiones se unifican en el eje de ordenadas.
+%         \end{flushleft}
+%     \end{figure}
+% }

@@ -1,0 +1,59 @@
+% Diagrama real de eatados de agregación, para el agua 
+\begin{tikzpicture}
+\begin{axis}[
+    width=10cm, height=8cm,
+    title={\textbf{Diagrama de Fases $P$-$T$ (Detalle Psicrométrico)}},
+    xlabel={Temperatura $T$ [°C]},
+    ylabel={Presión de Vapor $P_v$ [kPa]},
+    xmin=-20, xmax=\Tmax, 
+    ymin=0, ymax=\Pmax,
+    axis lines=left,
+    % Ticks dinámicos
+    xtick={0, \Tdp, \Tamb}, 
+    xticklabels={0, $T_{dp}$, $T_{amb}$},
+    ytick={\Ptp, \Pv, 101.3}, 
+    yticklabels={$P_{tp}$, $P_{v}$, $P_{atm}$},
+    clip=true,
+    grid=both,
+    grid style={line width=.1pt, draw=gray!10},
+    major grid style={line width=.2pt,draw=gray!20}
+]
+    % --- REGIONES (Fills) ---
+    % Sólido
+    % \fill[cyan!10] (axis cs:-20,0) -- plot[domain=-20:\Ttp] (axis cs:\x, {0.611*exp(22.5*(1 - 273.16/(\x+273.15)))}) -- (axis cs:-20,\Pmax) -- cycle;
+    % Líquido
+    % \fill[blue!10] (axis cs:\Ttp,\Pmax) -- (axis cs:\Ttp,\Ptp) -- plot[domain=\Ttp:\Tmax] (axis cs:\x, {0.611*exp(17.27*\x/(\x+237.3))}) -- (axis cs:\Tmax,\Pmax) -- cycle;
+    % Vapor
+    % \fill[orange!5] (axis cs:-20,0) -- plot[domain=-20:\Ttp] (axis cs:\x, {0.611*exp(22.5*(1 - 273.16/(\x+273.15)))}) -- plot[domain=\Ttp:\Tmax] (axis cs:\x, {0.611*exp(17.27*\x/(\x+237.3))}) -- (axis cs:\Tmax,0) -- cycle;
+
+    % --- CURVAS DE COEXISTENCIA ---
+    % 1. Sublimación (Hielo-Vapor)
+    \addplot[teal, thick, domain=-20:\Ttp, samples=50] {0.611*exp(22.5*(1 - 273.16/(x+273.15)))};
+    
+    % 2. Fusión (Sólido-Líquido) - Casi vertical a 0°C
+    \draw[blue, thick] (axis cs:\Ttp,\Ptp) -- (axis cs:0,\Pmax);
+    
+    % 3. Vaporización (Líquido-Vapor) - Curva de Saturación real
+    \addplot[blue, ultra thick, domain=\Ttp:\Tmax, samples=100] {0.611*exp(17.27*x/(x+237.3))}
+        node[pos=0.6, sloped, above, black, font=\tiny] {Saturación $P_{sat}(T)$};
+
+    % --- ETIQUETAS DE ESTADO ---
+    \node[blue!80!black] at (axis cs:-10, \Pmax*0.8) {\textbf{SÓLIDO}};
+    \node[blue!70!black] at (axis cs:35, \Pmax*0.8) {\textbf{LÍQUIDO}};
+    \node[orange!70!black] at (axis cs:85, \Pmax*0.15) {\textbf{VAPOR}};
+
+    % --- PROCESO DE ENFRIAMIENTO (Psicrometría) ---
+    \draw[red, ultra thick, -{Stealth[scale=1.2]}] (axis cs:\Tamb,\Pv) -- (axis cs:\Tdp,\Pv)
+        node[midway, below, font=\scriptsize] {Enfriamiento};
+    
+    % Proyecciones y puntos
+    \draw[gray, dashed] (axis cs:\Tdp,\Pv) -- (axis cs:\Tdp,0);
+    \draw[gray, dashed] (axis cs:\Tamb,\Pv) -- (axis cs:\Tamb,0);
+    \draw[gray, dashed] (axis cs:\Tdp,\Pv) -- (axis cs:0,\Pv);
+
+    \node[circle, fill=black, inner sep=1.5pt, label=right:{\scriptsize 1 (Aire)}] at (axis cs:\Tamb,\Pv) {};
+    \node[circle, fill=red, inner sep=1.5pt, label=above left:{\scriptsize 2 (Rocío)}] at (axis cs:\Tdp,\Pv) {};
+    \node[circle, fill=black, inner sep=1pt] at (axis cs:\Ttp,\Ptp) {}; % Punto Triple
+
+\end{axis}
+\end{tikzpicture}

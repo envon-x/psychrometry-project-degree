@@ -1,0 +1,29 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% ARCHIVO: algorithms/saturation_pressure.tex
+%% Algoritmo de presión de saturación
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{algorithm}[H]
+\caption{Presión de Saturación (Hyland-Wexler)}
+\label{alg:saturation}
+\begin{algorithmic}[1]
+\Function{HylandWexler}{$T$ [\si{\celsius}]}
+    \Require Temperatura en [\si{\celsius}], válido: $0 < T < 200$
+    \Ensure $P_v^{\text{sat}}$ [Pa]
+    
+    \State $T_K \gets T + 273.15$
+    
+    \State
+    \comentario{Ecuación para agua líquida}
+    \State $\ln(P) \gets -5800.2206/T_K + 1.3914993$
+    \State \hspace{1.8cm} $- 0.048640239 T_K$
+    \State \hspace{1.8cm} $+ 4.1764768 \times 10^{-5} T_K^2$
+    \State \hspace{1.8cm} $- 1.4452093 \times 10^{-8} T_K^3$
+    \State \hspace{1.8cm} $+ 6.5459673 \ln(T_K)$
+    
+    \State
+    \State $P_v^{\text{sat}} \gets \exp(\ln(P))$
+    \State \Return $P_v^{\text{sat}}$
+\EndFunction
+\end{algorithmic}
+\end{algorithm}

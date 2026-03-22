@@ -1,0 +1,101 @@
+\subsection{PSICROMETRÍA}
+
+De la ecuación del estado que describe el comportamiento de gases:
+\eqEosWithZ
+
+Para una mezcla gaseosa (componente  vapor y componente gas), se puede escribir las ecuaciones
+\begin{subequations}
+    \label{eqn:every_component_mixture_of_gases} % Etiqueta para el grupo completo (opcional)
+    \begin{align}
+        {\pVapor}{\volume[]{}[]} &= {\zVapor}{\vaporMole}{\idealConstantGas}{\tVapor}  \quad \text{(Para el Vapor)} \label{eqn:vapor} \\
+        {\pGas}{\volume[]{}[]}   &= {\zGas}{\gasMole}{\idealConstantGas}{\tGas}  \quad \text{(Para el Gas)} \label{eqn:gas}
+    \end{align}
+\end{subequations}
+
+Dividiendo la ecuación \eqref{eqn:vapor} y la ecuación \eqref{eqn:gas}:
+\begin{align}
+    \frac{{\pVapor}{\volume[]{}[]}}{{\pGas}{\volume[]{}[]}} &= \frac{{\zVapor}{\vaporMole}{\idealConstantGas}{\tVapor}}{{\zGas}{\gasMole}{\idealConstantGas}{\tGas}}
+\end{align}
+
+Simplificando:
+
+\begin{align}
+    % Simplificamos el Volumen con el índice [1] (Rojo)
+    % Simplificamos la constante R con el índice [2] (Azul)
+    \frac{P_v \cancelC[1]{V}}{P_g \cancelC[1]{V}} &= \frac{z_v n_v \cancelC[2]{R} T_v}{z_g n_g \cancelC[2]{R} T_g}
+\end{align}
+
+Queda,
+
+\begin{align}
+    \frac{\pVapor}{\pGas} &= \frac{\zVapor \vaporMole \tVapor}{\zGas \gasMole \tGas}
+\end{align}
+
+Según la ley de Willard Gibbs, las variables independientes del sistema, son: \pTotal , \temperature[]{} y \pVapor (o \vaporMoleFraction)
+
+\begin{equation}
+    F = C - P + 2
+\end{equation}
+
+De acuerdo a la Ley de Dalton,
+
+\eqTotalPressure
+
+
+% \subsubsection{Temperatura de punto de rocío (\tDewPoint)}
+% \subsubsection{Temperatura de punto de rocío (\texorpdfstring{\tDewPoint}{DewPoint}) }
+\subsubsection{Temperatura de punto de rocío (\texorpdfstring{\tDewPoint}{Troc})}
+
+Sabemos que temperatura de rocío es la temperatura a la que la presión de vapor (\pVapor), iguala la presión de saturación; es decir;
+\begin{align}
+    \pVapor = \pSat(\tDewPoint) \quad \rightarrow \quad \tDewPoint = \pSatInv(\pSat)
+\end{align}
+
+Donde $\pVapor$ se puede calcular a partir de la ecuación de Antoine, Wagner, Lee y Kesler; sin embargo, se usará la biblioteca de \href{https://coolprop.org}{\textcolor{purple}{CoolProp}}, el cual es utilizado por Thermocycle, \href{https://pdsim.sourceforge.net/}{\textcolor{purple}{PDSim}}, \href{https://achp.sourceforge.net/ACHPGUI/Tutorial.html#getting-started}{\textcolor{purple}{ACHP}}, \href{https://sourceforge.net/projects/dwsim/}{\textcolor{purple}{DWSim}}, StateCalc, SmoWeb, T-Props, \href{https://app.fproperties.org/}{\textcolor{purple}{fProperties}}, \href{https://github.com/dvd101x/web-thermodynamics}{\textcolor{purple}{CoolPropJavascriptDemo}}, \href{https://app.psolver.org/app/}{\textcolor{purple}{pSolver}}.
+
+\subsubsection{Humedad relativa (\texorpdfstring{\relativeHumidity[]{}}{phi})}
+    \eqnRelativeHumidity
+
+
+
+\subsubsection{Relación de humedad o humedad absoluta}
+    \eqAbsoluteHumidity
+    Expresándolo en relación de presiones del vapor y el gas:
+    \eqMassToMolOfVaporAndGas
+    
+    Reemplazando las ecuaciones \eqref{eqn:mass_to_mole_vapor} y \eqref{eqn:mass_to_mole_gas} en la ecuación \eqref{eq:AbsoluteHumidity}
+    \eqAbsoluteHumidityToMol
+    
+    Del número total de moles,
+    \eqTotalMoles*
+
+    Tenemos la suma de las fracciones molares    
+    \eqGasFracAsVaporFrac
+
+    \eqAbsoluteHumidityToMolAsMolarFraction
+
+    \eqAbsoluteHumidityToMolAsMolarVaporFraction
+
+
+    Y la fracción molar del vapor puede escribirse asi,
+    \eqMoleVaporFractionAsAbsoluteHumidity
+
+
+    También se puede escribir en función de la presión de vapor,
+    \eqMixSimplAbsoluteHumidityAsPtotal
+
+    O bien, como una función de la presión de vapor saturado,
+    \eqMixSimplAbsoluteHumidityAsPtotalAndPressureSaturated
+
+
+    El peso molecular promedio se puede calcular a partir de la expresión,
+    \eqMolecularWeightAverage
+
+    
+\subsubsection{Volumen específico y molar del aire}
+    % De la ecuación \eqref{eq:EosWithZ}; sustituimos 
+    % \eqEosWithMolarVolumeZ
+
+\subsubsection{Humedad absoluta molar}
+    Se define la humedad absoluta molar como:
+    \eqnMolarAbsoluteHumidity 

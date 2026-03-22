@@ -1,0 +1,35 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% ARCHIVO: styles/algorithm_styles.tex
+%% Estilos y configuración para algoritmos
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\usepackage{algorithm}
+\usepackage{algpseudocode}
+\usepackage{xcolor}
+
+% === CONFIGURACIÓN EN ESPAÑOL ===
+\algrenewcommand\algorithmicif{\textbf{Si}}
+\algrenewcommand\algorithmicthen{\textbf{entonces}}
+\algrenewcommand\algorithmicelse{\textbf{sino}}
+\algrenewcommand\algorithmicend{\textbf{fin}}
+\algrenewcommand\algorithmicwhile{\textbf{mientras}}
+\algrenewcommand\algorithmicdo{\textbf{hacer}}
+\algrenewcommand\algorithmicfor{\textbf{para}}
+\algrenewcommand\algorithmicforall{\textbf{para todo}}
+\algrenewcommand\algorithmicrepeat{\textbf{repetir}}
+\algrenewcommand\algorithmicuntil{\textbf{hasta que}}
+\algrenewcommand\algorithmicreturn{\textbf{retornar}}
+\algrenewcommand\algorithmicfunction{\textbf{Función}}
+\algrenewcommand\algorithmicprocedure{\textbf{Procedimiento}}
+\algrenewcommand\algorithmicloop{\textbf{bucle}}
+\algrenewcommand\algorithmicrequire{\textbf{Entrada:}}
+\algrenewcommand\algorithmicensure{\textbf{Salida:}}
+\algrenewcommand\algorithmiccomment[1]{\hfill\textit{// #1}}
+
+% === COMANDOS PERSONALIZADOS ===
+\newcommand{\comentario}[1]{\State \textcolor{blue}{\textbf{// #1}}}
+\newcommand{\comentarioerror}[1]{\State \textcolor{red}{\textbf{// #1}}}
+
+% === NOTA: ElsIf no es un comando predefinido en algpseudocode ===
+% Para usar "sino si", simplemente usa \ElsIf en el código
+% (ya viene incluido en algpseudocode, no necesita renombrarse)

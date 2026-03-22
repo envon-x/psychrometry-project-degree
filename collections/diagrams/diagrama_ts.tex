@@ -1,0 +1,25 @@
+\begin{tikzpicture}
+\begin{axis}[
+    width=8cm, height=7cm,
+    title={Diagrama $T$-$s$ (Entropía)},
+    xlabel={Entropía específica $s$},
+    ylabel={Temperatura $T$},
+    xmin=0, xmax=10, ymin=0, ymax=120,
+    axis lines=left,
+    xticklabels={}, yticklabels={},
+    clip=false
+]
+    % Campana de saturación (Líquido + Vapor)
+    \addplot[black, thick, domain=1:5, samples=50] {100 - (x-5)^2 * 4}; 
+    \addplot[black, thick, domain=5:9, samples=50] {100 - (x-5)^2 * 4};
+
+    % Enfriamiento del vapor
+    \draw[red, thick, -{Stealth}] (axis cs:9.8, 90) -- (axis cs:8.7, 68);
+    
+    % Puntos
+    \node[circle, fill=black, inner sep=1.2pt, label=right:{$T_{amb}$}] at (axis cs:9.8,90) {};
+    \node[circle, fill=orange, inner sep=1.5pt, label=left:{\textbf{$T_{dp}$}}] at (axis cs:8.7,68) {};
+    
+    \node[blue] at (axis cs:8.5, 40) {\small Vapor Sat.};
+\end{axis}
+\end{tikzpicture}

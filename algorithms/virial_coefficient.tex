@@ -1,0 +1,33 @@
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% ARCHIVO: algorithms/virial_coefficient.tex
+%% Algoritmo del coeficiente virial
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{algorithm}[H]
+\caption{Coeficiente Virial (Tsonopoulos)}
+\label{alg:virial}
+\begin{algorithmic}[1]
+\Function{CoeficienteVirial}{$T_r$, $P_c$, $\omega$, $\mu_r$}
+    \Require Temperatura reducida, presión crítica, factor acéntrico, momento dipolar
+    \Ensure $B$ (segundo coeficiente virial)
+    
+    \comentario{Correlación de Tsonopoulos}
+    \State $B^{(0)} \gets 0.1445 - 0.330/T_r - 0.1385/T_r^2 - 0.0121/T_r^3$
+    \State $B^{(1)} \gets 0.0637 + 0.331/T_r^2 - 0.423/T_r^3 - 0.008/T_r^8$
+    
+    \State
+    \If{$\mu_r > 0$} \Comment{Componente polar}
+        \State $a \gets -2.14 \times 10^{-4} \mu_r$
+        \State $B^{(2)} \gets a/T_r^6$
+        \State $B \gets \frac{RT_c}{P_c}(B^{(0)} + \omega B^{(1)} + B^{(2)})$
+    \Else
+        \State $B \gets \frac{RT_c}{P_c}(B^{(0)} + \omega B^{(1)})$
+    \EndIf
+    
+    \State \Return $B$
+\EndFunction
+\end{algorithmic}
+\end{algorithm}
+

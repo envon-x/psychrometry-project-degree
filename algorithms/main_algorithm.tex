@@ -1,0 +1,60 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% ARCHIVO: algorithms/main_algorithm.tex
+%% Algoritmo principal
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{algorithm}[H]
+\caption{Cálculo de Propiedades Psicrométricas}
+\label{alg:main}
+\begin{algorithmic}[1]
+\Require $M_v$, $M_{gs}$, $P_{\text{tot}}$, $T_{bs}$, dato de humedad
+\Ensure $HR$, $Y$, $P_v$, $T_{\text{rocío}}$, $H$, $V_h$, $z$
+
+\comentario{PASO 1: Cálculos preliminares}
+\State $T_{\text{abs}} \gets T_{bs} + 273.15$
+\State $r \gets M_v / M_{gs}$
+
+\State
+\comentario{PASO 2: Factor de compresibilidad}
+\If{modelo ideal}
+    \State $z \gets 1$
+\Else
+    \State $z \gets$ \Call{CalcularZ}{$T_{\text{abs}}$, $P_{\text{tot}}$}
+\EndIf
+
+\State
+\comentario{PASO 3: Presión de saturación}
+\State $P_v^{\text{sat}} \gets$ \Call{PresionSaturacion}{$T_{bs}$}
+
+\State
+\comentario{PASO 4: Determinar $P_v$ según dato}
+\If{dato es HR}
+    \State $P_v \gets (HR/100) \cdot P_v^{\text{sat}}$
+\ElsIf{dato es Y}
+    \State $P_v \gets P_{\text{tot}} \cdot Y/(r + Y)$
+\ElsIf{dato es $T_{\text{rocío}}$}
+    \State $P_v \gets$ \Call{PresionSaturacion}{$T_{\text{rocío}}$}
+\EndIf
+
+\State
+\comentario{PASO 5: Validación}
+\If{$P_v \geq P_v^{\text{sat}}$ \textbf{o} $P_v \geq P_{\text{tot}}$}
+    \State \textbf{Error}: Condiciones no válidas
+\EndIf
+
+\State
+\comentario{PASO 6: Calcular propiedades}
+\State $Y \gets r \cdot P_v / (P_{\text{tot}} - P_v)$
+\State $HR \gets (P_v / P_v^{\text{sat}}) \times 100$
+\State $T_{\text{rocío}} \gets$ \Call{TempRocio}{$P_v$}
+
+\State
+\comentario{PASO 7: Propiedades termodinámicas}
+\State $\Delta H_{\text{exceso}} \gets$ \Call{EntalpiaExceso}{params}
+\State $H \gets C_{p,gs} T_{bs} + Y(h_{fg,0} + C_{p,v} T_{bs}) + \Delta H_{\text{exceso}}$
+\State $V_h \gets z \frac{R_{gs} T_{\text{abs}}}{P_{\text{tot}} - P_v}(1 + Y/r)$
+
+\State
+\State \Return resultados
+\end{algorithmic}
+\end{algorithm}

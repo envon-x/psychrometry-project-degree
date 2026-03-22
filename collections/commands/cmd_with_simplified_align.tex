@@ -1,0 +1,17 @@
+% --- CONFIGURACIÓN DE COLORES PARA SIMPLIFICACIÓN ---
+% Definimos una paleta de colores clara
+\definecolor{simRed}{RGB}{200,0,0}
+\definecolor{simBlue}{RGB}{0,0,200}
+\definecolor{simGreen}{RGB}{0,150,0}
+\definecolor{simOrange}{RGB}{255,140,0}
+
+% Comando: \cancelC[índice_color]{término}
+% [1]=Rojo, [2]=Azul, [3]=Verde, [4]=Naranja
+\newcommand{\cancelC}[2][1]{%
+    \ifcase#1\or
+        {\color{simRed}\cancel{\color{black}#2}}\or % Caso 1
+        {\color{simBlue}\cancel{\color{black}#2}}\or % Caso 2
+        {\color{simGreen}\cancel{\color{black}#2}}\or % Caso 3
+        {\color{simOrange}\cancel{\color{black}#2}}\else % Caso 4
+        {\color{gray}\cancel{\color{black}#2}}\fi   % Por defecto gris
+}

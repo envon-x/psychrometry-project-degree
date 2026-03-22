@@ -1,0 +1,65 @@
+% --- DEFINICIONES PARA DIAGRAMA GLOBAL ---
+\def\TminGlobal{-50}
+\def\TmaxGlobal{450} % Supera los 373.9°C del punto crítico
+\def\PminGlobal{0.1}
+\def\PmaxGlobal{30500} % Supera los 22064 kPa del punto crítico
+
+\begin{tikzpicture}
+\begin{axis}[
+    width=12cm, height=9cm,
+    % Separación de los nombres de los ejes
+    xlabel={Temperatura $\temperature[]{}$},
+    xlabel style={yshift=-0.5cm},
+    ylabel={Presión $\pressure[]{}$},
+    ylabel style={xshift=-0.1cm},
+    ylabel style={yshift=0.5cm},
+    xmin=0, xmax=110,
+    ymin=0, ymax=110,
+    axis lines=left,
+    ticks=none, 
+    clip=false 
+]
+    % --- REGIONES (Fills corregidos) ---
+    \fill[cyan!10] (axis cs:0,0) -- (axis cs:0,110) -- (axis cs:25,110) -- (axis cs:30,30) -- (axis cs:10,10) -- cycle;
+    
+    \fill[blue!10] (axis cs:30,30) -- (axis cs:25,110) -- (axis cs:80,110) -- (axis cs:80,75) 
+        .. controls (axis cs:70,60) and (axis cs:50,45) .. (axis cs:30,30) -- cycle;
+    
+    \fill[orange!5] (axis cs:0,0) -- (axis cs:10,10) -- (axis cs:30,30) 
+        .. controls (axis cs:50,45) and (axis cs:70,60) .. (axis cs:80,75) 
+        -- (axis cs:110,75) -- (axis cs:110,0) -- cycle;
+        
+    \fill[purple!10] (axis cs:80,75) -- (axis cs:110,75) -- (axis cs:110,110) -- (axis cs:80,110) -- cycle;
+
+    % --- CURVAS DE COEXISTENCIA ---
+    \draw[teal, ultra thick] (axis cs:10,10) -- (axis cs:30,30);
+    \draw[blue, ultra thick] (axis cs:30,30) -- (axis cs:25,110); 
+    \draw[blue, ultra thick] (axis cs:30,30) .. controls (axis cs:50,45) and (axis cs:70,60) .. (axis cs:80,75);
+
+    % --- PROYECCIONES Y LABELS EN EJES ---
+    % Punto Triple
+    \draw[gray, dotted, thick] (axis cs:30,30) -- (axis cs:30,0);
+    \node[below, font=\small, yshift=-2pt] at (axis cs:30,0) {$\tTriple$};
+    
+    \draw[gray, dotted, thick] (axis cs:30,30) -- (axis cs:0,30);
+    \node[left, font=\small, xshift=-2pt] at (axis cs:0,30) {$\pTriple$};
+    
+    % Punto Crítico
+    \draw[gray, dashed, thick] (axis cs:80,75) -- (axis cs:80,0);
+    \node[below, font=\small, yshift=-2pt] at (axis cs:80,0) {$\tCritic$};
+    
+    \draw[gray, dashed, thick] (axis cs:80,75) -- (axis cs:0,75);
+    \node[left, font=\small, xshift=-2pt] at (axis cs:0,75) {$\pCritic$};
+
+    % --- PUNTOS FÍSICOS ---
+    \filldraw (axis cs:30,30) circle (2.5pt) node[above left, font=\footnotesize, xshift=-2pt] {\textbf{P. Triple}};
+    \filldraw (axis cs:80,75) circle (2.5pt) node[above right, font=\footnotesize] {\textbf{P. Crítico}};
+
+    % --- ETIQUETAS DE ESTADO ---
+    \node[blue!80!black] at (axis cs:12, 60) {\large \textbf{SÓLIDO}};
+    \node[blue!70!black] at (axis cs:50, 85) {\large \textbf{LÍQUIDO}};
+    \node[orange!70!black] at (axis cs:60, 20) {\large \textbf{VAPOR}};
+    \node[purple!80!black, text width=2.5cm, align=center] at (axis cs:95, 92) {\footnotesize \textbf{Región Super Crítica}};
+
+\end{axis}
+\end{tikzpicture}

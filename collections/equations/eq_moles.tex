@@ -1,0 +1,46 @@
+% Con número: \eqnAbsoluteHumidity
+% Sin número: \eqnAbsoluteHumidity*
+\NewDocumentCommand{\eqTotalMoles}{s}{
+    \begin{equation}
+        \IfBooleanTF{#1}{\nonumber}{\label{eq:TotalMoles}}
+        \totalMole = \vaporMole + \gasMole
+    \end{equation}
+    \IfBooleanTF{#1}{}{Donde \vaporMole representa los moles del vapor y \gasMole los moles del gas (el componente que nos condensa).}
+}
+
+% y1 + y2 = 1
+\NewDocumentCommand{\eqSumGaseosusFracMoles}{s}{
+    \begin{equation}
+    % Si hay asterisco (*), no numera. Si no, sí.
+    \IfBooleanTF{#1}{\nonumber}{\label{eq:SumGaseosusFracMoles}}
+    \vaporMoleFraction + \gasMoleFraction = 1
+    \end{equation}
+    % Solo muestra el texto si NO hay asterisco (la ecuación está numerada)
+    \IfBooleanTF{#1}{}{Donde $\vaporMoleFraction$ representa la fracción molar del vapor y $\gasMoleFraction$ la fracción molar del gas.}
+}
+
+% y1 = 1 - y2
+\NewDocumentCommand{\eqGasFracAsVaporFrac}{s}{
+    \begin{subequations}
+        \IfBooleanTF{#1}{\nonumber}{\label{eq:GasFracAsVaporFrac}} % Etiqueta para el grupo completo (opcional)
+        \begin{align}
+            \vaporMoleFraction + \gasMoleFraction = 1 \label{eq:SumVapGasFrac}\\ %No dejar espacio entre las ecuaciones
+             \gasMoleFraction = 1 - \vaporMoleFraction \label{eq:GasFracAsVap}
+        \end{align}
+    \end{subequations}
+}
+
+\newcommand{\eqMoleVaporFractionAsAbsoluteHumidity}{
+    \begin{equation}
+        \label{eq:MoleVaporFractionAsAbsoluteHumidity}
+        \vaporMoleFraction =  \frac{{\absoluteHumidity}}{{(\frac{\vaporMolecularWeight}{\gasMolecularWeight} + \absoluteHumidity)}}
+    \end{equation}
+}
+
+\NewDocumentCommand{\eqMolecularWeightAverage}{s}{
+    \begin{equation}
+        \IfBooleanTF{#1}{\nonumber}{\label{eq:MolecularWeightAverage}}
+        \averageMolecularWeight = (1 - \vaporMoleFraction) \gasMolecularWeight + \vaporMoleFraction \vaporMolecularWeight
+    \end{equation}
+    % \IfBooleanTF{#1}{}{Donde \vaporMole representa los moles del vapor y \gasMole los moles del gas (el componente que nos condensa).}
+}

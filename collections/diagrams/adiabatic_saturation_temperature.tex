@@ -1,0 +1,67 @@
+\def\Tamb{85}       % Temperatura ambiente: 85
+\def\Pv{4}          % Presión de vapor actual: 40
+
+\def\Tas{60.0}  
+\def\Pas{20}
+
+% --- water_saturation_adiabatic.tex ---
+\begin{tikzpicture}
+\begin{axis}[
+    width=11cm, height=8.5cm,
+    ymode=log, 
+    log ticks with fixed point,
+    title={\textbf{Proceso de Saturación Adiabática ($H_2O$)}},
+    xlabel={$\temperature[]{}$ [$^\circ$C]},
+    ylabel={$\pressure[]{\vapor}$ [kPa] (Log)},
+    xmin=\Tmin, xmax=\Tmax, 
+    ymin=\Pmin, ymax=\Pmax,
+    axis lines=left,
+    % Ticks específicos para resaltar Tas y Tamb
+    xtick={0, \Tas, \Tamb}, 
+    xticklabels={0, $\temperature[]{sat}$, $\temperature[]{amb}$},
+    ytick={0.1, \Ptp, 10, \Pv, \Pas, 101.3}, 
+    yticklabels={0.1, \Ptp, 10, $\pressure[]{\vapor, 1}$, $\pressure[]{\text{sat}}(\temperature[]{sat})$, 101.3},
+    grid=both,
+    minor grid style={gray!5},
+    major grid style={gray!15},
+    clip=true
+]
+
+    % --- CURVAS DE COEXISTENCIA ---
+    % Sublimación
+    \addplot[teal, ultra thick, domain=\Tmin:\Ttp, samples=100] {0.611*exp(22.5*(1 - 273.16/(x+273.15)))};
+    
+    % Fusión
+    \draw[blue, thick] (axis cs:\Ttp,\Ptp) -- (axis cs:-1.5,\Pmax); 
+    
+    % Vaporización (Saturación)
+    \addplot[blue, ultra thick, domain=\Ttp:\Tmax, samples=100] {0.611*exp(17.27*x/(x+237.3))}
+        node[pos=0.3, sloped, above, black, font=\tiny] {Curva de saturación, $\pSat$};
+
+    % --- ETIQUETAS DE ESTADO ---
+    \node[blue!20!black, font=\footnotesize] at (axis cs:-15, 50) {\textbf{SÓLIDO}};
+    \node[blue!70!black, font=\footnotesize] at (axis cs:35, 80) {\textbf{LÍQUIDO}};
+    \node[orange!70!black, font=\footnotesize] at (axis cs:45, 0.5) {\textbf{VAPOR}};
+
+    % --- PROCESO DE SATURACIÓN ADIABÁTICA ---
+    % Trayectoria del estado 1 (ambiente) al estado 2 (saturado adiabáticamente)
+    \draw[red, ultra thick, -{Stealth[scale=1.2]}] (axis cs:\Tamb,\Pv) -- (axis cs:\Tas,\Pas)
+        node[midway, above, sloped, font=\tiny, text=red!50!black] {Sat. Adiabática};
+    
+    % Proyecciones de los puntos de interés
+    % \draw[gray, dashed] (axis cs:\Tas,\Pas) -- (axis cs:\Tas,\Pmin);
+    % \draw[gray, dashed] (axis cs:\Tamb,\Pv) -- (axis cs:\Tamb,\Pmin);
+    % \draw[gray, dashed] (axis cs:\Tas,\Pas) -- (axis cs:\Tmin,\Pas);
+    % \draw[gray, dotted] (axis cs:\Tamb,\Pv) -- (axis cs:\Tmin,\Pv);
+
+    % Punto 1: Aire de entrada (Estado inicial)
+    \node[circle, fill=black, inner sep=1.5pt, label=right:{\scriptsize 1}] at (axis cs:\Tamb,\Pv) {};
+    
+    % Punto 2: Aire saturado a la salida (Estado final)
+    \node[circle, fill=red, inner sep=1.5pt, label=above left:{\scriptsize 2}] at (axis cs:\Tas,\Pas) {};
+
+    % Punto Triple
+    \filldraw (axis cs:\Ttp,\Ptp) circle (1.5pt) node[right, font=\tiny, xshift=2pt] {\triplePoint};
+
+\end{axis}
+\end{tikzpicture}

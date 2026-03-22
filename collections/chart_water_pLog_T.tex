@@ -1,0 +1,61 @@
+% --- COMANDO MAESTRO REUTILIZABLE ---
+% #1: Temp P1 | #2: Pres P1 | #3: Temp P2 | #4: Pres P2 | #5: Etiqueta Proceso | #6: Título (Opcional)
+\newcommand{\diagramaPsicrometrico}[6]{
+\begin{tikzpicture}
+\begin{axis}[
+    width=11cm, height=8.5cm,
+    ymode=log, log ticks with fixed point,
+    xlabel={$\temperature[]{}$ [$^\circ$C]},
+    ylabel={$\pressure[]{\vapor}$ [kPa] (log)},
+    xmin=\Tmin, xmax=\Tmax, ymin=\Pmin, ymax=\Pmax,
+    axis lines=left,
+    xtick={0, #3, #1}, 
+    xticklabels={0, $T_2$, $T_1$},
+    % --- LÓGICA DE ETIQUETAS Y ---
+    ytick={0.1, \Ptp, #2, #4, 101.3}, 
+    yticklabels={
+        0.1, 
+        $\Ptp$, 
+        \ifthenelse{\equal{#2}{#4}}
+            {% SI SON IGUALES: Desplazamiento limpio a la izquierda
+             \makebox[0pt][r]{${\pVapor}_{,1} = {\pVapor}_{,2}$\hspace{-0.5em}}
+            } 
+            {${\pVapor}_{,1}$},
+        \ifthenelse{\equal{#2}{#4}}
+            {} % Evita duplicado
+            {${\pVapor}_{,2}$},
+        101.3
+    },
+    grid=both, minor grid style={gray!5}, major grid style={gray!15},
+    clip=true
+]
+    % --- CURVAS DE COEXISTENCIA ---
+    \addplot[teal, ultra thick, domain=\Tmin:\Ttp, samples=100] {0.611*exp(22.5*(1 - 273.16/(x+273.15)))} 
+        node[pos=0.6, sloped, below, black, font=\tiny] {Sublimación};
+    
+    \draw[blue, thick] (axis cs:\Ttp,\Ptp) -- (axis cs:-1.5,\Pmax); % Fusión
+    
+    \addplot[blue, ultra thick, domain=\Ttp:\Tmax, samples=100] {0.611*exp(17.27*x/(x+237.3))}
+        node[pos=0.35, sloped, above, black, font=\tiny] {Curva de saturación, $\pSat$};
+
+    % --- ETIQUETAS DE ESTADO ---
+    \node[blue!20!black] at (axis cs:-15, 0) {\textbf{SÓLIDO}};
+    \node[blue!70!black] at (axis cs:30, 80) {\textbf{LÍQUIDO}};
+    \node[orange!70!black] at (axis cs:40, 0.5) {\textbf{VAPOR}};
+    
+    % --- PROCESO DINÁMICO ---
+    \draw[red, ultra thick, -{Stealth[scale=1.2]}] (axis cs:#1,#2) -- (axis cs:#3,#4)
+        node[midway, above, sloped, font=\tiny, text=red!50!black] {#5};
+    
+    % Proyecciones automáticas
+    \draw[gray, dashed] (axis cs:#3,#4) -- (axis cs:#3,\Pmin);
+    \draw[gray, dashed] (axis cs:#1,#2) -- (axis cs:#1,\Pmin);
+    \draw[gray, dashed] (axis cs:#3,#4) -- (axis cs:\Tmin,#4);
+
+    % Puntos
+    \node[circle, fill=black, inner sep=1.5pt, label=right:{\scriptsize 1}] at (axis cs:#1,#2) {};
+    \node[circle, fill=red, inner sep=1.5pt, label=above left:{\scriptsize 2}] at (axis cs:#3,#4) {};
+    \filldraw (axis cs:\Ttp,\Ptp) circle (1.5pt) node[right, font=\tiny, xshift=3pt] {\triplePoint};
+\end{axis}
+\end{tikzpicture}
+}

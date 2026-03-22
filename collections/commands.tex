@@ -1,0 +1,255 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%% Las Variables siempre deben ir inclinadas      %%%%
+%%%% los símbolos o subíndices van erguidas         %%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%%%%%%%%%  Masa - inicio %%%%%%%%%%%%%%%%%%%%%%%%%%
+% 1. La base: #1=subíndice, #2=punto u otro acento (opcional)
+% Significado: \comando[opcional]{obligatorio}
+% Explicación:
+% [2]: Indica que el comando recibe dos argumentos en total.
+% [] (el segundo par de corchetes): Define que el primer argumento 
+% es opcional y que, por defecto, está vacío.
+% En LaTeX, el argumento opcional siempre es el #1 y se pasa entre 
+% corchetes [].
+% El argumento obligatorio es el #2 y se pasa entre llaves {}.
+% \mass*[acento]{subindice}[exponente]
+% Default: m  |  With *: M
+\NewDocumentCommand{\mass}{s O{} m O{}}{%
+  \ensuremath{%
+    \let\baseM\relax
+    % If * is used, switch to uppercase M; otherwise, use lowercase m
+    \IfBooleanTF{#1}{\def\baseM{M}}{\def\baseM{m}}%
+    \ifx\\#2\\ % If no accent is provided
+      {\baseM}_{\text{#3}}^{#4}%
+    \else % If an accent (\dot, \bar, etc.) is provided
+      {#2{\baseM}}_{\text{#3}}^{#4}%
+    \fi
+  }%
+}
+\newcommand{\vaporMass}{\mass{\vapor}}
+\newcommand{\gasMass}{\mass{\gas}}
+\newcommand{\vaporFlowMass}[1][\dot]{\mass[#1]{\vapor}}   %%%% Flujo de masa del vapor: kg/s
+\newcommand{\gasFlowMass}[1][\dot]{\mass[#1]{\gas}}       %%%% Flujo de masa del gas: kg/s
+%%%%%%%%%%%%%%%%%%%%%%  fin - Masa  %%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\newcommand{\molecularWeight}[2][]{%
+  \ensuremath{{M}_{\text{#2}}^{#1}}%
+}
+
+\newcommand{\vaporMolecularWeight}{\molecularWeight[]{\vapor}}        %%%% Molecular weight vapor: M_vap
+\newcommand{\gasMolecularWeight}{\molecularWeight[]{\gas}}            %%%% Molecular weight gas: M_g
+\newcommand{\averageMolecularWeight}{\molecularWeight[]{}}            %%%% Molecular weight average
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%  MOLES para el estado gaseoso- inicio %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\newcommand{\mole}[2][]{%
+  \ensuremath{{n}_{\text{#2}}^{#1}}%
+}
+\newcommand{\vaporMole}{\mole[]{\vapor}}      %%%% Moles del vapor
+\newcommand{\gasMole}{\mole[]{\gas}}          %%%% Moles del gas
+\newcommand{\totalMole}{\mole[]{\total}}      %%%% Moles totales de la mezcla
+
+
+\newcommand{\moleFractionPhaseGaseous}[2][]{%
+  \ensuremath{{y}_{\text{#2}}^{#1}}%
+}
+\newcommand{\vaporMoleFraction}{\moleFractionPhaseGaseous[]{\vapor}}  %%%% Moles del vapor
+\newcommand{\gasMoleFraction}{\moleFractionPhaseGaseous[]{\gas}}      %%%% Moles del gas
+%%%%%%%%%%%%%%%%%%%%%%  fin - MOLES  %%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%  Presión - inicio %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%% [2]: Indica que el comando acepta dos argumentos.
+%%%% []: Indica que el primer argumento (#1) es opcional y que, por defecto, está vacío.
+%%%% #1 is Optional: Because you put [] after the [2]. If you don't provide it, it defaults to "empty".
+%%%% #2 is Mandatory: You must provide the {subscript} or LaTeX will grab the next character in your text as the argument.
+%%%% \pressure{} produces: p
+%%%% \pressure{v} produces: p_v
+%%%% \pressure[]{} produces: p
+%%%% \pressure[o]{v} produces: p_{v}^{o}
+\newcommand{\pressure}[2][]{%
+  \ensuremath{p_{\text{#2}}^{#1}}%
+}
+\newcommand{\pAtm}{\pressure{\atmospheric}}               % Atmospheric pressure
+\newcommand{\pSat}{\pressure[\saturated]{\vapor}}         % Saturated pressure
+\newcommand{\pSatInv}{{\{\pressure[{\saturated}]{\vapor}\}}^{-1}}  
+\newcommand{\pVapor}{\pressure[]{\vapor}}                 % Vapor pressure (reuses your \vapor command)
+\newcommand{\pGas}{\pressure{\gas}}                       % Gas pressure (reuses your \gas command)
+\newcommand{\pTotal}{\pressure{\total}}                   % Presión total
+\newcommand{\pCritic}{\pressure{\critical}}               % Presión crítica
+\newcommand{\pTriple}{\pressure{\triple}}                 % Presión en el punto triple
+% \newcommand{\pSat}{\pressure[o]{v}\xspace}
+% \newcommand{\pVapor}{\pressure{\vapor}\xspace}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%  fin - Presión %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+%%%% Temperatura
+%%%% [2]: Indica que el comando acepta dos argumentos.
+%%%% []: Indica que el primer argumento (#1) es opcional y que, por defecto, está vacío.
+\newcommand{\temperature}[2][]{%
+  \ensuremath{{T}_{\text{#2}}^{#1}}%
+}
+\newcommand{\tVapor}{\temperature{\vapor}}                    % Temperatura del Vapor
+\newcommand{\tGas}{\temperature{\gas}}                    % Temperatura del Gas
+\newcommand{\tAtm}{\temperature{\atmospheric}}   
+\newcommand{\tCritic}{\temperature{\critical}}                    % Temperatura crítica
+\newcommand{\tTriple}{\temperature{\triple}}                    % Temperatura en el punto triple
+\newcommand{\tDewPoint}{\temperature{\dewPointSymbol}}                    % Temperatura en el punto rocío
+
+%%%% Generic Volume
+% \volume*[acento]{subindice}[exponente]
+\NewDocumentCommand{\volume}{s O{} m O{}}{%
+  \ensuremath{%
+    \let\baseV\relax
+    \IfBooleanTF{#1}{\def\baseV{v}}{\def\baseV{V}}%
+    \ifx\\#2\\ % Si no hay acento
+      {\baseV}_{\text{#3}}^{#4}%
+    \else % Si hay acento (\dot, \bar, etc)
+      {#2{\baseV}}_{\text{#3}}^{#4}%
+    \fi
+  }%
+}
+\newcommand{\specificVolume}{\volume*{}}                %%%% Volumen específico (minúscula v)
+\newcommand{\vaporVolume}{\volume{v}}                   %%%% Volumen de vapor (V_v)
+\newcommand{\gasVolume}{\volume{g}}                     %%%% Volumen de gas (V_g)
+\newcommand{\fluxVolume}{\volume[\dot]{}}               %%%% Flujo  volumétrico (V con punto)
+\newcommand{\molarVolume}{\volume[\bar]{}}            %%%% Volumen molar (V con barra)
+
+
+%%%%%%%%%%%%%%%%%%%%%%  Heat - inicio %%%%%%%%%%%%%%%%%%%%%%%%%%
+% 1. La base: #1=subíndice, #2=punto u otro acento (opcional)
+% Significado: \comando[opcional]{obligatorio}
+% Explicación:
+% [2]: Indica que el comando recibe dos argumentos en total.
+% [] (el segundo par de corchetes): Define que el primer argumento 
+% es opcional y que, por defecto, está vacío.
+% En LaTeX, el argumento opcional siempre es el #1 y se pasa entre 
+% corchetes [].
+% El argumento obligatorio es el #2 y se pasa entre llaves {}.
+% \heat*[acento]{subindice}[exponente]
+% Default: Q  |  With *: q
+\NewDocumentCommand{\heat}{s O{} m O{}}{%
+  \ensuremath{%
+    \let\baseQ\relax
+    % If * is used, switch to uppercase M; otherwise, use lowercase m
+    \IfBooleanTF{#1}{\def\baseQ{q}}{\def\baseQ{Q}}%
+    \ifx\\#2\\ % If no accent is provided
+      {\baseQ}_{\text{#3}}^{#4}%
+    \else % If an accent (\dot, \bar, etc.) is provided
+      {#2{\baseQ}}_{\text{#3}}^{#4}%
+    \fi
+  }%
+}
+\newcommand{\heatFlow}{\heat[\dot]{}}  
+%%%%%%%%%%%%%%%%%%%%%%%%%%%  fin - Heat %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%%%%%%%%%  Specific Heat - inicio %%%%%%%%%%%%%%%%%%%%%%%%%%
+% 1. La base: #1=subíndice, #2=punto u otro acento (opcional)
+% Significado: \comando[opcional]{obligatorio}
+% Explicación:
+% [2]: Indica que el comando recibe dos argumentos en total.
+% [] (el segundo par de corchetes): Define que el primer argumento 
+% es opcional y que, por defecto, está vacío.
+% En LaTeX, el argumento opcional siempre es el #1 y se pasa entre 
+% corchetes [].
+% El argumento obligatorio es el #2 y se pasa entre llaves {}.
+% \specificHeat*[acento]{subindice}[exponente]
+% Default: C  |  With *: c
+\NewDocumentCommand{\specificHeat}{s O{} m O{}}{%
+  \ensuremath{%
+    \let\baseC\relax
+    \IfBooleanTF{#1}{\def\baseC{c}}{\def\baseC{C}}%
+    \ifx\\#2\\ % If no accent is provided
+      {\baseC}_{\text{#3}}^{#4}%
+    \else % If an accent (\dot, \bar, etc.) is provided
+      {#2{\baseC}}_{\text{#3}}^{#4}%
+    \fi
+  }%
+}
+\newcommand{\specificHeatAtV}{\specificHeat[]{v}}  
+\newcommand{\specificHeatAtP}{\specificHeat[]{p}}  
+%%%%%%%%%%%%%%%%%%%%%%%%%%%  fin - Specific Heat %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+
+
+%%%% Representación para Humedad
+\newcommand{\humidity}[2][]{%
+  \ensuremath{{Y}_{\text{#2}}^{#1}}%
+}
+\newcommand{\absoluteHumidity}{\humidity[]{}}                     %%%% Humedad absoluta
+\newcommand{\molarAbsoluteHumidity}{\humidity[]{\molar}}          %%%% Humedad absoluta molar
+\newcommand{\saturatedAbsoluteHumidity}{\humidity[]{\saturated}}  %%%% Humedad absoluta saturada
+\newcommand{\specificHumidity}{\humidity{w}}                      %%%% Humedad específica
+\newcommand{\volumetricHumidity}{\humidity{w}}                    %%%% Humedad volumétrica
+
+%%%% Variable para la humedad relativa
+\newcommand{\relativeHumidity}[2][]{%
+  \ensuremath{{\phi}_{\text{#2}}^{#1}}%
+}
+
+%%%% Factor acéntrico
+\newcommand{\acentricFactor}[2][]{%
+  \ensuremath{{\omega}_{\text{#2}}^{#1}}%
+}
+
+%%%% Entalpía: H
+\newcommand{\enthalpy}[2][]{%
+  \ensuremath{{H}_{\text{#2}}^{#1}}%
+}
+\newcommand{\specificEnthapy}{{{h}}}
+% \newcommand{\diffEnthalpy}{\heat{\latent{}}}
+
+%%%% Cambio de entalpía de vaporización
+\newcommand{\dhVap}{\Delta \enthalpy[]{\vapor}}
+
+
+
+\newcommand{\entropy}[2][]{%
+  \ensuremath{{S}_{\text{#2}}^{#1}}%
+}
+
+\newcommand{\gibbsEnergy}[2][]{%
+  \ensuremath{{G}_{\text{#2}}^{#1}}%
+}
+
+\newcommand{\helmotzEnergy}[2][]{%
+  \ensuremath{{A}_{\text{#2}}^{#1}}%
+}
+
+%%%% Calor total                                        %%%%
+\newcommand{\totalHeat}{\heat{\total{}}}
+
+%%%% Calor sensible
+\newcommand{\sensibleHeat}{\heat{\sensible{}}}
+
+%%%% Calor latente
+\newcommand{\latentHeat}{\heat{\latent{}}}
+
+\newcommand{\heatCapacityAtConstantPressure}{\heatCapacity{p}}
+
+\newcommand{\heatCapacityAtConstantVolume}{\heatCapacity{v}}
+
+
+
+
+
+
+%%%%
+
+
+%%%%
+
+
+%%%%
+\def\psychrometricRatio{\ensuremath{{r}}}
+
+%%%% Coeficiente de saturación
+\newcommand{\degreeOfSaturation}[2][]{%
+  \ensuremath{{\mu}_{\text{#2}}^{#1}}%
+}
+% Factor de compresibilidad
+\newcommand{\factorCompressibility}[2][]{%
+  \ensuremath{{z}_{\text{#2}}^{#1}}%
+}
+\newcommand{\zVapor}{\factorCompressibility[]{\vapor}}  %%%% Factor de compresibilidad para el vapor
+\newcommand{\zGas}{\factorCompressibility[]{\gas}}      %%%% Factor de compresibilidad para el gas

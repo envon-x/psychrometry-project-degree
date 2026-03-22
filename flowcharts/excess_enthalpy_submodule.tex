@@ -1,0 +1,140 @@
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% ARCHIVO: flowcharts/excess_enthalpy_submodule.tex
+%% Submódulo de entalpía en exceso
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{figure}[H]
+\centering
+\begin{tikzpicture}[
+    node distance=0.6cm,
+    font=\small\sffamily,
+    every node/.style={align=center}
+]
+
+% === INICIO SUBMÓDULO ===
+\node (start_sub) [startstop] {INICIO\\Submódulo $\Delta H_{\text{exceso}}$};
+
+% === ENTRADAS ===
+\node (inputs_sub) [doc, below=0.5cm of start_sub, text width=4.5cm] {
+    \textbf{Entradas:}\\[1pt]
+    $T_{bs}$, $P_{\text{tot}}$, $P_v$\\
+    $Y$, $z$, $r$\\
+    Propiedades: $T_c$, $P_c$, $\omega$
+};
+
+% === DECISIÓN: TIPO DE MODELO ===
+\node (model_choice) [decision, below=0.7cm of inputs_sub] {
+    ¿Usar modelo\\simplificado?
+};
+
+% === OPCIÓN 1: MODELO SIMPLIFICADO (IDEAL) ===
+\node (simple_model) [process, right=2cm of model_choice, text width=4cm] {
+    \textbf{Modelo ideal:}\\[1pt]
+    $\Delta H_{\text{exceso}} = 0$\\[1pt]
+    {\scriptsize Válido para gases ideales}
+};
+
+% === OPCIÓN 2: MODELO COMPLETO ===
+\node (complex_model) [process, left=4cm of model_choice, text width=4.5cm] {
+    Calcular propiedades reducidas:\\[1pt]
+    $\displaystyle T_r = \frac{T_{abs}}{T_c}$\\[1pt]
+    $\displaystyle P_r = \frac{P_{\text{tot}}}{P_c}$
+};
+
+% === CÁLCULO COEFICIENTE VIRIAL ===
+\node (calc_virial) [process, below=0.7cm of complex_model, text width=5cm] {
+    Calcular coeficiente virial $B$:\\[1pt]
+    $\displaystyle B = \frac{RT_c}{P_c}(B^{(0)} + \omega B^{(1)})$\\[1pt]
+    {\scriptsize Usar correlaciones de Pitzer}
+};
+
+% === CÁLCULO dB/dT ===
+\node (calc_dbdt) [process, below=0.6cm of calc_virial, text width=5.5cm] {
+    Calcular derivada del coeficiente virial:\\[1pt]
+    $\displaystyle \frac{dB}{dT} = \frac{R}{P_c}\left(\frac{dB^{(0)}}{dT_r} + \omega\frac{dB^{(1)}}{dT_r}\right)$
+};
+
+% === CORRELACIONES PITZER ===
+\node (pitzer) [process, below=0.6cm of calc_dbdt, text width=6cm] {
+    \textbf{Correlaciones de Pitzer:}\\[1pt]
+    $\displaystyle B^{(0)} = 0.083 - \frac{0.422}{T_r^{1.6}}$\\[1pt]
+    $\displaystyle B^{(1)} = 0.139 - \frac{0.172}{T_r^{4.2}}$\\[1pt]
+    $\displaystyle \frac{dB^{(0)}}{dT_r} = \frac{0.675}{T_r^{2.6}}$, \quad
+    $\displaystyle \frac{dB^{(1)}}{dT_r} = \frac{0.722}{T_r^{5.2}}$
+};
+
+% === CÁLCULO ENTALPÍA RESIDUAL GAS SECO ===
+\node (calc_hr_gs) [process, below=0.6cm of pitzer, text width=6cm] {
+    Entalpía residual del gas seco:\\[1pt]
+    $\displaystyle H_{\text{gs}}^{\text{res}} = P_{\text{tot}}\left(B - T\frac{dB}{dT}\right)$
+};
+
+% === CÁLCULO ENTALPÍA RESIDUAL VAPOR ===
+\node (calc_hr_v) [process, below=0.6cm of calc_hr_gs, text width=6cm] {
+    Entalpía residual del vapor:\\[1pt]
+    $\displaystyle H_{v}^{\text{res}} = P_v\left(B_v - T\frac{dB_v}{dT}\right)$\\[1pt]
+    {\scriptsize Usar $B_v$ con propiedades del vapor}
+};
+
+% === CÁLCULO ENTALPÍA MEZCLA ===
+\node (calc_mixing) [process, below=0.6cm of calc_hr_v, text width=6.5cm] {
+    Entalpía de mezcla no ideal:\\[1pt]
+    $\displaystyle \Delta H_{\text{mezcla}} = P_{\text{tot}} y_v y_{gs} \delta_{vgs}$\\[1pt]
+    {\scriptsize $\delta_{vgs}$ = parámetro de interacción binaria}\\
+    {\scriptsize $y_v = P_v/P_{\text{tot}}$, \quad $y_{gs} = 1 - y_v$}
+};
+
+% === CÁLCULO FINAL ===
+\node (calc_excess) [process, below=0.6cm of calc_mixing, text width=6.5cm] {
+    \textbf{Entalpía en exceso total:}\\[2pt]
+    $\displaystyle \Delta H_{\text{exceso}} = H_{\text{gs}}^{\text{res}} + Y \cdot H_{v}^{\text{res}} + \Delta H_{\text{mezcla}}$
+};
+
+% === PUNTO DE CONVERGENCIA ===
+\node (converge) [process, below=3cm of simple_model, text width=4cm] {
+    Valor de $\Delta H_{\text{exceso}}$\\
+    determinado
+};
+
+% === SALIDA ===
+\node (output_sub) [doc, right=0.6cm of converge, text width=4cm] {
+    \textbf{Salida:}\\[1pt]
+    $\Delta H_{\text{exceso}}$
+};
+
+\node (end_sub) [startstop, right=0.5cm of output_sub] {FIN\\Submódulo};
+
+% === CONEXIONES ===
+\draw [arrow] (start_sub) -- (inputs_sub);
+\draw [arrow] (inputs_sub) -- (model_choice);
+
+% Ramificación del modelo
+\draw [arrow_yes] (model_choice) -- node[label_node, above] {\isTrue} (simple_model);
+\draw [arrow_no] (model_choice) -- node[label_node, above] {\isFalse} (complex_model);
+
+% Flujo modelo complejo
+\draw [arrow] (complex_model) -- (calc_virial);
+\draw [arrow] (calc_virial) -- (calc_dbdt);
+\draw [arrow] (calc_dbdt) -- (pitzer);
+\draw [arrow] (pitzer) -- (calc_hr_gs);
+\draw [arrow] (calc_hr_gs) -- (calc_hr_v);
+\draw [arrow] (calc_hr_v) -- (calc_mixing);
+\draw [arrow] (calc_mixing) -- (calc_excess);
+\draw [arrow] (calc_excess) -| (converge);
+
+% Flujo modelo simple
+\draw [arrow] (simple_model) |- (converge);
+
+% Flujo final
+\draw [arrow] (converge) -- (output_sub);
+\draw [arrow] (output_sub) -- (end_sub);
+
+% === CAJA DEL SUBMÓDULO ===
+\node[module_box, fit=(start_sub)(inputs_sub)(simple_model)(calc_excess)(end_sub), 
+      label={[font=\Large\bfseries, purple!70]above:SUBMÓDULO: CÁLCULO DE $\Delta H_{\text{exceso}}$}] {};
+
+\end{tikzpicture}
+\caption{Diagrama del submódulo para cálculo de entalpía en exceso}
+\label{fig:excess_enthalpy}
+\end{figure}

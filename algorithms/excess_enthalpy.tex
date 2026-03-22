@@ -1,0 +1,47 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% ARCHIVO: algorithms/excess_enthalpy.tex
+%% Algoritmo de entalpía en exceso
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{algorithm}[H]
+\caption{Cálculo de Entalpía en Exceso}
+\label{alg:excess_enthalpy}
+\begin{algorithmic}[1]
+\Function{EntalpiaExceso}{$T$, $P_{\text{tot}}$, $P_v$, $Y$, $z$, $r$}
+    \Require Temperatura, presiones, humedad, factor z, relación molecular
+    \Ensure $\Delta H_{\text{exceso}}$
+    
+    \If{modelo ideal}
+        \State \Return $0$
+    \EndIf
+    
+    \State
+    \comentario{Calcular coeficientes viriales}
+    \State $B_{gs} \gets$ \Call{CoeficienteVirial}{$T_{r,gs}$, params$_{gs}$}
+    \State $B_v \gets$ \Call{CoeficienteVirial}{$T_{r,v}$, params$_v$}
+    
+    \State
+    \comentario{Calcular derivadas}
+    \State $\frac{dB_{gs}}{dT} \gets$ derivada numérica o analítica
+    \State $\frac{dB_v}{dT} \gets$ derivada numérica o analítica
+    
+    \State
+    \comentario{Entalpías residuales}
+    \State $H_{gs}^{\text{res}} \gets P_{\text{tot}}(B_{gs} - T \frac{dB_{gs}}{dT})$
+    \State $H_v^{\text{res}} \gets P_v(B_v - T \frac{dB_v}{dT})$
+    
+    \State
+    \comentario{Parámetros cruzados y mezcla}
+    \State $B_{ij} \gets$ calcular con reglas de combinación
+    \State $y_v \gets P_v/P_{\text{tot}}$
+    \State $B_{\text{mezcla}} \gets (1-y_v)^2 B_{gs} + 2y_v(1-y_v)B_{ij} + y_v^2 B_v$
+    
+    \State
+    \comentario{Entalpía total}
+    \State $\Delta H_{\text{exceso}} \gets H_{gs}^{\text{res}} + Y \cdot H_v^{\text{res}} + P_{\text{tot}}B_{\text{mezcla}}$
+    
+    \State \Return $\Delta H_{\text{exceso}}$
+\EndFunction
+\end{algorithmic}
+\end{algorithm}
+

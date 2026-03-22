@@ -1,0 +1,290 @@
+% \documentclass[border=10pt]{standalone}
+% \usepackage[utf8]{inputenc}
+% \usepackage{tikz}
+% \usepackage{amsmath}
+% \usepackage{amssymb}
+% \usetikzlibrary{shapes.geometric, arrows.meta, positioning, calc, fit, backgrounds}
+
+% Definición de estilos
+\tikzset{
+    startstop/.style={rectangle, rounded corners, minimum width=3cm, minimum height=1cm, text centered, draw=black, fill=green!20, font=\bfseries},
+    process/.style={rectangle, minimum width=3cm, minimum height=1cm, text centered, draw=black, fill=blue!10},
+    decision/.style={diamond, minimum width=3cm, minimum height=1cm, text centered, draw=black, fill=yellow!20, aspect=2},
+    io/.style={trapezium, trapezium left angle=70, trapezium right angle=110, minimum width=3cm, minimum height=1cm, text centered, draw=black, fill=blue!20},
+    route/.style={rectangle, rounded corners, minimum width=3cm, minimum height=1cm, text centered, draw=black, fill=orange!20, font=\bfseries},
+    calc/.style={rectangle, minimum width=3.5cm, minimum height=1cm, text centered, draw=black, fill=cyan!10},
+    equation/.style={rectangle, minimum width=4cm, minimum height=1cm, text centered, draw=black, fill=yellow!10, font=\small},
+    output/.style={trapezium, trapezium left angle=70, trapezium right angle=110, minimum width=3.5cm, minimum height=1.5cm, text centered, draw=black, fill=purple!10},
+    note/.style={rectangle, minimum width=3cm, minimum height=1cm, text centered, draw=black, fill=gray!10, font=\footnotesize, dashed},
+    arrow/.style={thick,-{Stealth[length=3mm]}},
+    dashedarrow/.style={thick, dashed, -{Stealth[length=2mm]}},
+}
+
+% \begin{document}
+\begin{tikzpicture}[node distance=1.5cm, scale=0.85, transform shape]
+
+% Inicio
+\node (start) [startstop] {INICIO:\\Cálculo Psicométrico};
+
+% Entrada inicial
+\node (input0) [io, below=of start, text width=4cm] {
+    \textbf{DATOS DE ENTRADA:}\\
+    - Peso molecular gas $M_g$\\
+    - Peso molecular vapor $M_v$\\
+    - 2 Propiedades conocidas\\
+    - Presión $P$ o Altitud $z$
+};
+
+% Decisión de presión
+\node (decisionP) [decision, below=of input0, yshift=-0.5cm] {¿Se conoce\\$P$?};
+
+% Ruta: Presión conocida
+\node (Pknown) [process, below left=of decisionP, xshift=-3cm, yshift=-0.5cm] {Usar $P$ conocida};
+
+% Ruta: Presión desconocida
+\node (Punknown) [process, below right=of decisionP, xshift=3cm, yshift=-0.5cm] {Calcular/Iterar $P$};
+
+% Subdecisión para presión desconocida
+\node (decisionAlt) [decision, below=of Punknown, yshift=-0.5cm] {¿Se conoce\\altitud $z$?};
+
+% Calcular P desde altitud
+\node (calcPalt) [calc, below left=of decisionAlt, xshift=-2cm, text width=4cm] {
+    Fórmula barométrica:\\
+    $P = P_0 \left(1 - \frac{Lz}{T_0}\right)^{\frac{gM}{RL}}$\\
+    o $P = 101.325 \left(1 - \frac{z}{44308}\right)^{5.255}$ [kPa]
+};
+
+% Iterar P
+\node (iterP) [calc, below right=of decisionAlt, xshift=2cm, text width=4.5cm] {
+    \textbf{ITERACIÓN DE P:}\\
+    1. Asumir $P$ inicial (ej. 101.325 kPa)\\
+    2. Calcular propiedades\\
+    3. Verificar consistencia\\
+    4. Ajustar $P$ hasta convergencia
+};
+
+% Convergencia de presión
+\node (Pconverge) [process, below=of decisionAlt, yshift=-4cm] {$P$ determinada};
+
+% Entrada consolidada
+\node (input) [io, below=of Pconverge, yshift=-0.5cm, text width=4cm] {
+    \textbf{DATOS CONSOLIDADOS:}\\
+    - Presión atmosférica $P$\\
+    - Peso molecular gas $M_g$\\
+    - Peso molecular vapor $M_v$\\
+    - 2 Propiedades conocidas
+};
+
+% Decisión principal
+\node (decision1) [decision, below=of input, yshift=-0.5cm] {¿Qué\\combinación?};
+
+% RUTA 1: Tbs + HR
+\node (route1) [route, below left=of decision1, xshift=-8cm, yshift=-1cm] {RUTA 1:\\$T_{bs}$ y HR};
+\node (calc1a) [calc, below=of route1, text width=3.8cm] {Calcular $P_{sat}$ a $T_{bs}$\\(Ec. Antoine)};
+\node (calc1b) [calc, below=of calc1a] {$P_v = HR \times P_{sat}$};
+\node (calc1c) [calc, below=of calc1b, text width=3.8cm] {$W = \frac{M_v}{M_g} \cdot \frac{P_v}{P - P_v}$};
+\node (calc1d) [calc, below=of calc1c, text width=3.8cm] {Calcular $T_{pr}$:\\inversa de $P_{sat} = P_v$};
+\node (calc1e) [calc, below=of calc1d, text width=3.8cm] {$h = C_{p,a} T_{bs} + W(h_{fg} + C_{p,v} T_{bs})$};
+\node (calc1f) [calc, below=of calc1e, text width=3.8cm] {Calcular $T_{bh}$:\\iterar hasta $h = h_{sat}$};
+
+% RUTA 2: Tbs + Tbh
+\node (route2) [route, below left=of decision1, xshift=-4cm, yshift=-1cm] {RUTA 2:\\$T_{bs}$ y $T_{bh}$};
+\node (calc2a) [calc, below=of route2, text width=3.8cm] {Calcular $P_{sat}$ a $T_{bh}$};
+\node (calc2b) [calc, below=of calc2a, text width=3.8cm] {Calcular $W$:\\Ec. psicrométrica};
+\node (calc2c) [calc, below=of calc2b, text width=3.8cm] {$P_v = \frac{W \times P \times M_g}{M_v + W \times M_g}$};
+\node (calc2d) [calc, below=of calc2c, text width=3.8cm] {$HR = \frac{P_v}{P_{sat,T_{bs}}}$};
+\node (calc2e) [calc, below=of calc2d, text width=3.8cm] {Calcular $T_{pr}$:\\inversa de $P_{sat} = P_v$};
+\node (calc2f) [calc, below=of calc2e, text width=3.8cm] {$h = C_{p,a} T_{bs} + W(h_{fg} + C_{p,v} T_{bs})$};
+
+% RUTA 3: Tbs + Tpr
+\node (route3) [route, below=of decision1, yshift=-1cm] {RUTA 3:\\$T_{bs}$ y $T_{pr}$};
+\node (calc3a) [calc, below=of route3, text width=3.8cm] {$P_v = P_{sat}$ a $T_{pr}$};
+\node (calc3b) [calc, below=of calc3a, text width=3.8cm] {$W = \frac{M_v}{M_g} \cdot \frac{P_v}{P - P_v}$};
+\node (calc3c) [calc, below=of calc3b, text width=3.8cm] {$HR = \frac{P_v}{P_{sat,T_{bs}}}$};
+\node (calc3d) [calc, below=of calc3c, text width=3.8cm] {$h = C_{p,a} T_{bs} + W(h_{fg} + C_{p,v} T_{bs})$};
+\node (calc3e) [calc, below=of calc3d, text width=3.8cm] {Calcular $T_{bh}$:\\iterar hasta $h = h_{sat}$};
+
+% RUTA 4: Tbs + W
+\node (route4) [route, below right=of decision1, xshift=4cm, yshift=-1cm] {RUTA 4:\\$T_{bs}$ y $W$};
+\node (calc4a) [calc, below=of route4, text width=3.8cm] {$P_v = \frac{W \times P \times M_g}{M_v + W \times M_g}$};
+\node (calc4b) [calc, below=of calc4a, text width=3.8cm] {$HR = \frac{P_v}{P_{sat,T_{bs}}}$};
+\node (calc4c) [calc, below=of calc4b, text width=3.8cm] {Calcular $T_{pr}$:\\inversa de $P_{sat} = P_v$};
+\node (calc4d) [calc, below=of calc4c, text width=3.8cm] {$h = C_{p,a} T_{bs} + W(h_{fg} + C_{p,v} T_{bs})$};
+\node (calc4e) [calc, below=of calc4d, text width=3.8cm] {Calcular $T_{bh}$:\\iterar hasta $h = h_{sat}$};
+
+% RUTA 5: Tbs + h
+\node (route5) [route, below right=of decision1, xshift=8cm, yshift=-1cm] {RUTA 5:\\$T_{bs}$ y $h$};
+\node (calc5a) [calc, below=of route5, text width=3.8cm] {Despejar $W$ de:\\$h = C_{p,a} T_{bs} + W(\ldots)$};
+\node (calc5b) [calc, below=of calc5a, text width=3.8cm] {$P_v = \frac{W \times P \times M_g}{M_v + W \times M_g}$};
+\node (calc5c) [calc, below=of calc5b, text width=3.8cm] {$HR = \frac{P_v}{P_{sat,T_{bs}}}$};
+\node (calc5d) [calc, below=of calc5c, text width=3.8cm] {Calcular $T_{pr}$:\\inversa de $P_{sat} = P_v$};
+\node (calc5e) [calc, below=of calc5d, text width=3.8cm] {Calcular $T_{bh}$:\\iterar hasta $h = h_{sat}$};
+
+% Convergencia de rutas
+\node (additional) [process, below=of calc3e, yshift=-3cm] {PROPIEDADES\\ADICIONALES};
+
+% Propiedades adicionales
+\node (calcv) [calc, below=of additional, text width=4.5cm] {Volumen específico:\\$v = \frac{RT}{P}\left(\frac{1}{M_g} + \frac{W}{M_v}\right)$};
+\node (calcrho) [calc, below=of calcv] {Densidad: $\rho = \frac{1}{v}$};
+\node (calcmu) [calc, below=of calcrho, text width=4.5cm] {Grado de saturación:\\$\mu = \frac{W}{W_s}$ (a $T_{bs}$)};
+\node (calcpa) [calc, below=of calcmu, text width=4.5cm] {Presión parcial aire seco:\\$P_a = P - P_v$};
+
+% Ecuaciones clave
+\node (keyeq) [process, below=of calcpa, yshift=-0.5cm] {\textbf{ECUACIONES CLAVE}};
+\node (eq0) [equation, below=of keyeq, text width=5cm] {0. Presión barométrica:\\$P = P_0 \left(1 - \frac{Lz}{T_0}\right)^{\frac{gM}{RL}}$};
+\node (eq1) [equation, below=of eq0, text width=5cm] {1. Antoine: $\log_{10}(P_{sat}) = A - \frac{B}{C+T}$};
+\node (eq2) [equation, below=of eq1, text width=5cm] {2. $W = \frac{M_v}{M_g} \cdot \frac{P_v}{P - P_v}$};
+\node (eq3) [equation, below=of eq2, text width=5cm] {3. $HR = \frac{P_v}{P_{sat}(T_{bs})}$};
+\node (eq4) [equation, below=of eq3, text width=5cm] {4. $h = C_{p,a}T_{bs} + W(h_{fg,0} + C_{p,v}T_{bs})$};
+\node (eq5) [equation, below=of eq4, text width=5cm] {5. Ec. estado: $Pv = \frac{RT(m_a/M_g + m_v/M_v)}{V}$};
+
+% Salida
+\node (output) [output, below=of eq4, yshift=-0.5cm, text width=5cm] {
+    \textbf{SALIDA - TODAS LAS PROPIEDADES:}\\
+    {\footnotesize
+    $\checkmark$ $T_{bs}$, $T_{bh}$, $T_{pr}$\\
+    $\checkmark$ HR, $W$, $\mu$\\
+    $\checkmark$ $h$, $v$, $\rho$\\
+    $\checkmark$ $P_v$, $P_a$
+    }
+};
+
+% Validación
+\node (validation) [decision, below=of output] {¿Validar?};
+\node (check) [calc, below=of validation, text width=4.5cm] {
+    \textbf{Verificar:}\\
+    $\bullet$ $P_v < P_{sat}$ a $T_{bs}$\\
+    $\bullet$ $0 < HR \leq 100\%$\\
+    $\bullet$ $T_{pr} \leq T_{bh} \leq T_{bs}$\\
+    $\bullet$ $P = P_a + P_v$\\
+    $\bullet$ $W \geq 0$\\
+    $\bullet$ Si se iteró $P$: consistencia\\
+    con altitud o temperatura
+};
+
+% Fin
+\node (end) [startstop, below=of check] {FIN};
+
+% Nota de parámetros
+\node (note) [note, right=of start, xshift=5cm, text width=4.5cm] {
+    \textbf{PARÁMETROS FLEXIBLES:}\\
+    $P$: Presión atmosférica\\
+    $z$: Altitud sobre nivel del mar\\
+    $P_0 = 101.325$ kPa (nivel mar)\\
+    $T_0 = 288.15$ K (15°C)\\
+    $L = 0.0065$ K/m (gradiente)\\
+    $M_g \approx 28.97$ kg/kmol\\
+    $M_v \approx 18.015$ kg/kmol\\
+    $R = 8.314$ kJ/(kmol·K)\\
+    $g = 9.81$ m/s²\\
+    $C_{p,a} \approx 1.006$ kJ/(kg·K)\\
+    $C_{p,v} \approx 1.86$ kJ/(kg·K)\\
+    $h_{fg,0} \approx 2501$ kJ/kg
+};
+
+% Flechas principales
+\draw [arrow] (start) -- (input0);
+\draw [arrow] (input0) -- (decisionP);
+
+% Flechas de presión
+\draw [arrow] (decisionP) -- node[anchor=south east] {Sí} (Pknown);
+\draw [arrow] (decisionP) -- node[anchor=south west] {No} (Punknown);
+\draw [arrow] (Punknown) -- (decisionAlt);
+\draw [arrow] (decisionAlt) -- node[anchor=south east] {Sí} (calcPalt);
+\draw [arrow] (decisionAlt) -- node[anchor=south west] {No} (iterP);
+\draw [arrow] (calcPalt) |- (Pconverge);
+\draw [arrow] (iterP) |- (Pconverge);
+\draw [arrow] (Pknown) |- (Pconverge);
+\draw [arrow] (Pconverge) -- (input);
+\draw [arrow] (input) -- (decision1);
+
+% Flechas a las rutas
+\draw [arrow] (decision1) -- node[anchor=south, xshift=-2cm] {$T_{bs}$+HR} (route1);
+\draw [arrow] (decision1) -- node[anchor=south, xshift=-1cm] {$T_{bs}$+$T_{bh}$} (route2);
+\draw [arrow] (decision1) -- node[anchor=east] {$T_{bs}$+$T_{pr}$} (route3);
+\draw [arrow] (decision1) -- node[anchor=south, xshift=1cm] {$T_{bs}$+$W$} (route4);
+\draw [arrow] (decision1) -- node[anchor=south, xshift=2cm] {$T_{bs}$+$h$} (route5);
+
+% Flechas RUTA 1
+\draw [arrow] (route1) -- (calc1a);
+\draw [arrow] (calc1a) -- (calc1b);
+\draw [arrow] (calc1b) -- (calc1c);
+\draw [arrow] (calc1c) -- (calc1d);
+\draw [arrow] (calc1d) -- (calc1e);
+\draw [arrow] (calc1e) -- (calc1f);
+\draw [arrow] (calc1f) |- (additional);
+
+% Flechas RUTA 2
+\draw [arrow] (route2) -- (calc2a);
+\draw [arrow] (calc2a) -- (calc2b);
+\draw [arrow] (calc2b) -- (calc2c);
+\draw [arrow] (calc2c) -- (calc2d);
+\draw [arrow] (calc2d) -- (calc2e);
+\draw [arrow] (calc2e) -- (calc2f);
+\draw [arrow] (calc2f) |- (additional);
+
+% Flechas RUTA 3
+\draw [arrow] (route3) -- (calc3a);
+\draw [arrow] (calc3a) -- (calc3b);
+\draw [arrow] (calc3b) -- (calc3c);
+\draw [arrow] (calc3c) -- (calc3d);
+\draw [arrow] (calc3d) -- (calc3e);
+\draw [arrow] (calc3e) -- (additional);
+
+% Flechas RUTA 4
+\draw [arrow] (route4) -- (calc4a);
+\draw [arrow] (calc4a) -- (calc4b);
+\draw [arrow] (calc4b) -- (calc4c);
+\draw [arrow] (calc4c) -- (calc4d);
+\draw [arrow] (calc4d) -- (calc4e);
+\draw [arrow] (calc4e) |- (additional);
+
+% Flechas RUTA 5
+\draw [arrow] (route5) -- (calc5a);
+\draw [arrow] (calc5a) -- (calc5b);
+\draw [arrow] (calc5b) -- (calc5c);
+\draw [arrow] (calc5c) -- (calc5d);
+\draw [arrow] (calc5d) -- (calc5e);
+\draw [arrow] (calc5e) |- (additional);
+
+% Flechas propiedades adicionales
+\draw [arrow] (additional) -- (calcv);
+\draw [arrow] (calcv) -- (calcrho);
+\draw [arrow] (calcrho) -- (calcmu);
+\draw [arrow] (calcmu) -- (calcpa);
+
+% Flechas ecuaciones
+\draw [arrow] (calcpa) -- (keyeq);
+\draw [arrow] (keyeq) -- (eq0);
+\draw [arrow] (eq0) -- (eq1);
+\draw [arrow] (eq1) -- (eq2);
+\draw [arrow] (eq2) -- (eq3);
+\draw [arrow] (eq3) -- (eq4);
+\draw [arrow] (eq4) -- (eq5);
+
+% Flechas salida y validación
+\draw [arrow] (eq5) -- (output);
+\draw [arrow] (output) -- (validation);
+\draw [arrow] (validation) -- node[anchor=east] {Sí} (check);
+\draw [arrow] (validation) -| node[anchor=south, xshift=1cm] {No} ($(validation) + (3,0)$) |- (end);
+\draw [arrow] (check) -- (end);
+
+% Flecha a nota
+\draw [dashedarrow] (start) -- (note);
+
+% Nota adicional sobre iteración de presión
+\node (note2) [note, below=of note, yshift=-2cm, text width=4.5cm] {
+    \textbf{MÉTODOS DE ITERACIÓN P:}\\
+    Si no se conoce $P$ ni $z$:\\
+    1. Suponer $P$ (ej. 101.325 kPa)\\
+    2. Calcular todas propiedades\\
+    3. Verificar $P$ con ec. de estado\\
+    4. Actualizar $P$ y repetir\\
+    \\
+    Criterio convergencia:\\
+    $|P_{n+1} - P_n| < \epsilon$\\
+    donde $\epsilon = 0.01$ kPa
+};
+
+\end{tikzpicture}
+\end{document}

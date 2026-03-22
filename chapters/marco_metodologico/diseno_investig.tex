@@ -1,0 +1,33 @@
+\section{Marco Metodológico}
+\label{sec:marco_metodologico}
+
+
+\subsection{Diseño de la Investigación}
+\begin{itemize}
+    \item \textbf{Tipo de Investigación:} Tecnológica y aplicada (Desarrollo de herramienta computacional).
+    \item \textbf{Enfoque:} Cuantitativo (Validación mediante error relativo porcentual).
+\end{itemize}
+
+\subsection{Fases del Desarrollo del Software (Metodología Ágil)}
+\begin{itemize}
+    \item \textbf{Fase 1: Requerimientos Técnicos:} Definición de rangos de presión y temperatura.
+    \item \textbf{Fase 2: Arquitectura del Motor de Cálculo:} Selección del lenguaje (Python/Julia/C++) y librerías base (ej. CoolProp o librerías propias).
+    \item \textbf{Fase 3: Algoritmo de Graficación:} Lógica para el trazado de isotermas e isentálpicas.
+\end{itemize}
+
+\subsubsection{Arquitectura del Motor de Cálculo}
+    Para el cálculo de la presión de vapor puede usarse la ecuación de Antoine, Wagner, Lee y Kesler, etc; sin embargo, se usará la biblioteca de \href{https://coolprop.org}{\textcolor{purple}{CoolProp}}, el cual es utilizado por PDSim, Thermocycle, ACHP, DWSim, StateCalc, SmoWeb, T-Props, fProperties, CoolPropJavascriptDemo, pSolver \parencite{bib:CoolProp:doi:10.1021/ie4033999}..
+
+\subsection{Técnicas de Recolección y Procesamiento de Datos}
+\begin{itemize}
+    \item \textbf{Fuentes de Datos:} Tablas de la ASHRAE 2025/2026.
+    \item \textbf{Instrumentos de Validación:} Comparación de resultados del software vs. cálculos manuales y software comercial.
+\end{itemize}
+
+\subsection{Plan de Pruebas (Benchmarking)}
+\begin{itemize}
+    \item Pruebas unitarias de las funciones termodinámicas.
+    \item Validación de la precisión gráfica en condiciones extremas (altas altitudes/presiones).
+\end{itemize}
+
+tikz, 

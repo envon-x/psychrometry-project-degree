@@ -1,0 +1,50 @@
+\begin{tikzpicture}
+\begin{axis}[
+    width=10cm, height=8cm,
+    title={\textbf{Diagrama de Fases $P$-$T$ (Punto de Rocío)}},
+    xlabel={Temperatura $T$ [°C]},
+    ylabel={Presión de Vapor $P_v$},
+    xmin=0, xmax=110, ymin=0, ymax=110,
+    axis lines=left,
+    xtick={\xTdp, 85}, 
+    xticklabels={$T_{dp}$, $T_{amb}$},
+    ytick={40, 80}, 
+    yticklabels={$P_v$, $P_{sat}(T_{amb})$},
+    clip=true % Changed to true to keep fills inside axes
+]
+    % --- REGIONS (Fills) ---
+    % Liquid Region (Left of saturation curve)
+    % \fill[blue!10] (axis cs:0,0) -- plot[domain=0:100] (axis cs:\x, {0.01*\x^2.05}) -- (axis cs:0,110) -- cycle;
+    % Vapor Region (Right of saturation curve)
+    % \fill[orange!5] (axis cs:0,0) -- plot[domain=0:110] (axis cs:\x, {0.01*\x^2.05}) -- (axis cs:110,0) -- cycle;
+
+    % --- SATURATION CURVE ---
+    \addplot[blue, ultra thick, domain=0:105, samples=100] {0.01*x^2.05} 
+        node[pos=0.675, sloped, above, black] {\small Saturación (L-V)};
+    
+    % --- TEXT LABELS FOR REGIONS ---
+    \node[blue!70!black] at (axis cs:20, 80) {\textbf{LÍQUIDO}};
+    \node[orange!70!black] at (axis cs:85, 20) {\textbf{VAPOR}};
+    \node[red!80!black, align=center, font=\footnotesize] at (axis cs:45, 25) {Zona de\\Condensación};
+
+    % --- COOLING PROCESS ---
+    % Path from Ambient to Dew Point
+    \draw[red, ultra thick, -{Stealth[scale=1.2]}] (axis cs:85,40) -- (axis cs:\xTdp,40)
+        node[midway, below, font=\scriptsize] {Enfriamiento};
+    
+    % --- POINTS AND PROJECTIONS ---
+    % Saturation at Ambient T (for Relative Humidity context)
+    \draw[gray, dotted] (axis cs:85,40) -- (axis cs:85,80);
+    \node[circle, fill=gray, inner sep=1pt] at (axis cs:85,80) {};
+
+    % Main Projections
+    \draw[gray, dashed] (axis cs:\xTdp,40) -- (axis cs:\xTdp,0);
+    \draw[gray, dashed] (axis cs:85,40) -- (axis cs:85,0);
+    \draw[gray, dashed] (axis cs:\xTdp,40) -- (axis cs:0,40);
+
+    % Points
+    \node[circle, fill=black, inner sep=1.5pt, label=right:{\small 1 (Aire)}] at (axis cs:85,40) {};
+    \node[circle, fill=red, inner sep=1.8pt, label=above left:{\small \textbf{2 (Rocío)}}] at (axis cs:\xTdp,40) {};
+
+\end{axis}
+\end{tikzpicture}

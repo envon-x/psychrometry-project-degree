@@ -1,0 +1,66 @@
+\begin{tikzpicture}
+\begin{axis}[
+    width=12cm, height=9cm,
+    axis lines=left,
+    xlabel={$s$ [kJ/kg$\cdot$K]},
+    ylabel={$T$ [$^\circ$C]},
+    xmin=0, xmax=10,
+    ymin=0, ymax=450,
+    xtick={0,2,4,6,8,10},
+    ytick={0,100,200,300,374.1,450},
+    yticklabels={0,100,200,300,374,450},
+    grid=major,
+    major grid style={line width=.1pt,draw=gray!15},
+    title={\textbf{Diagrama $T-s$ Completo del Agua ($H_2O$)}},
+    clip=false
+]
+
+    % --- DOMO DE SATURACIÓN COMPLETO (Datos Reales Aproximados) ---
+    % Curva de Líquido Saturado y Vapor Saturado unidas en el Punto Crítico (374.1°C, s ≈ 4.4)
+    \addplot[black, ultra thick, domain=0.01:374.1, samples=150] 
+        ({4.18 * ln((x+273.15)/273.15)}, {x}); % Líquido
+        
+    \addplot[black, ultra thick, domain=0.01:374.1, samples=150] 
+        ({4.18 * ln((x+273.15)/273.15) + (2501 - 2.4*x + 0.001*x^2)/(x+273.15)}, {x}); % Vapor
+
+    % --- ISÓBARA Pv1 (Presión de vapor constante) ---
+    % Una isobara típica que entra al domo a baja temperatura
+    \coordinate (DewPoint) at (8.3, 60); 
+    \draw[magenta, thick] (1.8, 60) -- (DewPoint); % Cambio de fase (horizontal)
+    \draw[magenta, thick] (DewPoint) .. controls (8.5, 120) and (9, 250) .. (9.5, 400)
+        node[pos=0.6, right, black, font=\small] {$P_{v1}$};
+
+    % --- PUNTOS DE ESTADO ---
+    % Punto 1: Aire sobrecalentado (Estado inicial)
+    \node[circle, fill=black, inner sep=1.5pt, label=right:{\textbf{1}}] (P1) at (9.1, 230) {};
+    
+    % Punto 2: Temperatura de Saturación Adiabática (Sobre la curva de vapor)
+    % Se elige un punto más alto en la curva para que la trayectoria se vea clara
+    \coordinate (P2) at (7.0, 165);
+    \node[circle, fill=black, inner sep=1.5pt] at (P2) {};
+    \node[left=4pt of P2, font=\boldmath] {2};
+
+    % --- PROCESOS (Líneas discontinuas como en la imagen) ---
+    % Trayectoria de Saturación Adiabática (Curva hacia la izquierda/abajo)
+    \draw[magenta, ultra thick, dashed, -{Stealth[scale=1.5]}] 
+        (P1) .. controls (8.2, 210) and (7.5, 190) .. (P2);
+    
+    % Trayectoria al Punto de Rocío (Enfriamiento isobárico vertical)
+    \draw[magenta, thick, dashed] (P1) -- (DewPoint);
+    \node[circle, fill=black, inner sep=1.2pt] at (DewPoint) {};
+
+    % --- ETIQUETAS Y SEÑALIZACIONES ---
+    
+    % Punto Crítico
+    \filldraw[black] (4.41, 374.1) circle (2pt) node[above] {\scriptsize Punto Crítico};
+
+    % Flecha y texto: Adiabatic saturation temperature
+    \draw[darkgray, semithick, <-] (P2) -- (3.5, 250) 
+        node[above, align=center, font=\small\sffamily] {Adiabatic\\saturation\\temperature};
+    
+    % Flecha y texto: Dew-point temperature
+    \draw[darkgray, semithick, <-] (DewPoint) -- (9.5, 60) 
+        node[right, font=\small\sffamily] {Dew-point temperature};
+
+\end{axis}
+\end{tikzpicture}

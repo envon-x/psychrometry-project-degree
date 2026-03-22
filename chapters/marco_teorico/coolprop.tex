@@ -1,0 +1,48 @@
+\begin{equation}
+\frac{\alpha(r, \delta)}{\idealConstantGas \temperature[]{}} = \alpha^0(\tau, \delta) + \alpha^r(\tau, \delta)
+\end{equation}
+
+Donde:
+\begin{itemize}
+    \item $\tau$ es la temperatura inversa reducida ($\tCritic / \temperature[]{}$).
+    \item $\delta$ es la densidad reducida ($\rho / \rho_c$).
+    \item $\alpha^0$ es la contribución del gas ideal.
+    \item $\alpha^r$ es la contribución residual.
+\end{itemize}
+
+La presión se obtiene mediante la relación:
+
+\begin{equation}
+    \pressure[]{}(\delta, \tau) = \rho {\idealConstantGas \temperature[]{}} \left[ 1 + \delta \left( \frac{\partial \alpha^r}{\partial \delta} \right)_\tau \right]
+\end{equation}
+
+Para encontrar la presión de vapor a una temperatura dada $\temperature[]{}$, CoolProp resuelve el sistema de ecuaciones para las densidades de saturación ($\delta_{liq}$ y $\delta_{vap}$) que satisfacen la condición de equilibrio de fases (Igualdad de Maxwell):
+
+\begin{equation}
+    \pressure[]{}(\delta_{liq}, \tau) = P(\delta_{vap}, \tau) = \pSat
+\end{equation}
+
+\begin{equation}
+    \mu(\delta_{liq}, \tau) = \mu(\delta_{vap}, \tau)
+\end{equation}
+
+
+\section{The Helmholtz Energy Functional}
+The fundamental equation of state is expressed in terms of the dimensionless Helmholtz energy $\alpha$:
+\begin{equation}
+\alpha(\tau, \delta) = \alpha^0(\tau, \delta) + \sum_{i=1}^k N_i \delta^{d_i} \tau^{t_i} \exp(-\delta^{p_i})
+\end{equation}
+
+\section{Pressure and Phase Equilibrium}
+La presión $\pressure[]{}$ is derived from the partial derivative of the residual Helmholtz energy $\alpha^r$ with respect to the reduced density $\delta$:
+\begin{equation}
+Z = \frac{P}{\rho RT} = 1 + \delta \left( \frac{\partial \alpha^r}{\partial \delta} \right)_\tau
+\end{equation}
+
+To find the saturation pressure at a given $T$, the solver must find $\delta_{liq}$ and $\delta_{vap}$ such that:
+\begin{equation}
+1 + \delta_l \alpha_{\delta}^r(\delta_l) = 1 + \delta_v \alpha_{\delta}^r(\delta_v)
+\end{equation}
+\begin{equation}
+\alpha^r(\delta_l) + \delta_l \alpha_{\delta}^r(\delta_l) + \ln \delta_l = \alpha^r(\delta_v) + \delta_v \alpha_{\delta}^r(\delta_v) + \ln \delta_v
+\end{equation}

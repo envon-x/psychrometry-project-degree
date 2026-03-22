@@ -1,0 +1,17 @@
+% p v = n R T
+\NewDocumentCommand{\eqEosWithZ}{s}{
+    \begin{equation}
+        \IfBooleanTF{#1}{\nonumber}{\label{eq:EosWithZ}}
+        {\pressure[]{}}{\volume[]{}[]} = {\factorCompressibility[]{}}{\mole[]{}}{\idealConstantGas}{\temperature[]{}}
+    \end{equation}
+    Donde $\pressure[]{}$ representa a la presión....
+}
+
+% p v' = R T
+\NewDocumentCommand{\eqEosWithMolarVolumeZ}{s}{
+    \begin{equation}
+        \IfBooleanTF{#1}{\nonumber}{\label{eq:EosWithMolarVolumeZ}}
+        {\pressure[]{}}{\molarVolume} = {\factorCompressibility[]{}}{\idealConstantGas}{\temperature[]{}}
+    \end{equation}
+    Donde $\pressure[]{}$ representa a la presión....
+}

@@ -1,0 +1,186 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% ARCHIVO PRINCIPAL: main.tex
+%% Proyecto modular de cálculo de propiedades psicrométricas
+%% Version 2.0.0
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\documentclass[12pt]{article}
+%%%%
+% === CONFIGURACIÓN DE GEOMETRÍA ===
+% \usepackage[letterpaper, margin=1in]{geometry}
+\usepackage[papersize={31.59cm,45.94cm}, margin=1in]{geometry}
+%%%%
+% === PAQUETES BÁSICOS ===
+\usepackage[utf8]{inputenc}
+\usepackage[spanish]{babel}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{siunitx}
+\usepackage{graphicx}
+\usepackage{hyperref}
+\usepackage{csquotes} 
+
+\usepackage{pgfplots}
+\pgfplotsset{compat=1.18}
+\usetikzlibrary{arrows.meta}
+
+\usepackage[version=4]{mhchem}
+\usepackage{caption}
+\usepackage{float} % Para usar [H] si es necesario
+
+\usepackage{fontspec}
+% \setmainfont{Times New Roman} % O Georgia
+
+%%%%
+% Estilo APA - para bibliografía
+\usepackage[style=apa,sorting=nyt,backend=biber]{biblatex}
+\DeclareLanguageMapping{spanish}{spanish-apa}
+% Opciones adicionales de APA
+\ExecuteBibliographyOptions{
+  sorting=nyt,      % Ordenar por nombre-año-título
+  maxcitenames=2,   % Máximo 2 nombres en cita
+  mincitenames=1,   % Mínimo 1 nombre
+  maxbibnames=999,  % Todos los autores en bibliografía
+  uniquelist=false,
+  doi=true,         % Mostrar DOI
+  url=true,         % Mostrar URL
+  eprint=false
+}
+\addbibresource{bibliographies/P_T_correlations.bib}
+%%%%
+\usepackage{siunitx}
+% \usepackage{xcolor, cancel,environ,expl3}     %%%% Lineas para mostrar la simplificación en las ecuaciones
+\usepackage{cancel}
+\usepackage{xcolor}
+\usepackage{environ}
+\usepackage{expl3}
+\usepackage{hyperref}
+\usepackage{bookmark}
+
+%
+% === CARGAR ESTILOS PERSONALIZADOS ===
+\input{styles/tikz_styles}
+\input{styles/algorithm_styles}
+%%%%
+% === INFORMACIÓN DEL DOCUMENTO ===
+\title{%
+    \textbf{Cálculo de Propiedades Termodinámicas}\\
+    \large Sistema Psicrométrico con Correlaciones Mejoradas
+}
+%%%%
+% cabecera definiciones y ecuaciones
+\input{collections/definitions.tex}
+\input{collections/commands.tex}
+\input{collections/equations_correlation.tex}
+\input{collections/physical_variables.tex}
+\input{collections/equations/eq_moles.tex}                  % moles y fracciones molares
+\input{collections/equations/eq_eos.tex}                    % eos
+\input{collections/equations/eq_absolute_humidity.tex}               % Load your equation library
+\input{collections/equations_deprecated.tex}               % Load your equation library
+\input{collections/constants.tex}
+\input{collections/chart_water_pLog_T.tex}
+\input{collections/diagrams/water_pLog_T.tex}
+
+\input{collections/commands/cmd_with_simplified_align.tex}
+%%%%
+\author{Departamento de Ingeniería Química}
+\date{\today}
+
+
+
+\begin{document}
+
+    \maketitle
+
+    \tableofcontents
+    \newpage
+
+    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+    \section{Introducción}
+    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+    Este documento presenta un sistema completo para el cálculo de propiedades psicrométricas utilizando correlaciones termodinámicas mejoradas. El sistema incluye:
+
+    \begin{itemize}
+        \item Ecuación virial con correlaciones de Tsonopoulos y Meng-Duan
+        \item Método Lee-Kesler para condiciones extremas
+        \item Reglas de mezcla mejoradas para sistemas aire-vapor
+        \item Cálculo preciso de entalpía en exceso
+    \end{itemize}
+
+
+
+
+    %%%% Add chapters here
+    \input{sections/correlaciones.tex}
+    \input{chapters/marco_metodologico/diseno_investig.tex}
+    \input{chapters/marco_teorico/marco_teorico.tex}
+    \input{chapters/marco_teorico/mt_psychrometry.tex}
+    \input{chapters/marco_conceptual/marco_conceptual.tex}
+    \input{chapters/marco_conceptual/procesos_psichrometricos.tex}
+
+
+    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+    \section{Diagramas de Flujo}
+    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+    \subsubsection{Diagrama Principal}
+    \label{sec:flowchart_main}
+
+    El siguiente diagrama muestra el flujo completo del algoritmo principal para el cálculo de propiedades psicrométricas.
+
+    \input{flowcharts/main_flowchart}
+
+    El diagrama de flujo alternativo.
+    \input{flowcharts/dev_flowchart}
+
+    \newpage
+    \subsection{Submódulo: Cálculo de $\Delta H_{\text{exceso}}$}
+    \label{sec:flowchart_submodule}
+
+    Este diagrama detalla el cálculo de la entalpía en exceso, considerando diferentes correlaciones según las condiciones del sistema.
+
+    \input{flowcharts/excess_enthalpy_submodule}
+
+    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+    \section{Algoritmos}
+    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+    \subsection{Algoritmo Principal}
+    \label{sec:algo_main}
+
+    \input{algorithms/main_algorithm}
+
+
+    \newpage
+    \subsection{Coeficiente Virial}
+    \label{sec:algo_virial}
+
+    \input{algorithms/virial_coefficient}
+
+    \newpage
+    \subsection{Entalpía en Exceso}
+    \label{sec:algo_excess}
+
+    \input{algorithms/excess_enthalpy}
+
+    \newpage
+    \subsection{Presión de Saturación}
+    \label{sec:algo_saturation}cite
+
+    \input{algorithms/saturation_pressure}
+
+
+
+
+    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+    \section{Referencias  Adicionales}
+    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+    Para más información sobre propiedades termodinámicas y correlaciones, consultar \parencite{PolingPrausnitz2001,RowlinsonSwinton1982}.
+
+    % \printbibliography
+
+    % Imprimir bibliografía
+    \printbibliography[title=Referencias]
+
+\end{document}

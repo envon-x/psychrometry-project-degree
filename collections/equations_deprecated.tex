@@ -1,0 +1,114 @@
+
+% Con número: \eqTotalPressure
+% Sin número: \eqTotalPressure*
+\NewDocumentCommand{\eqTotalPressure}{s}{
+    \begin{equation}
+        \IfBooleanTF{#1}{\nonumber}{\label{eq:TotalPressure}}
+        \pTotal = {\pVapor} + {\pGas}
+    \end{equation}
+}
+
+% Con número: \eqnTotalHeat
+% Sin número: \eqnTotalHeat*
+\NewDocumentCommand{\eqnTotalHeat}{s}{
+    \begin{equation}
+        \IfBooleanTF{#1}{\nonumber}{\label{eq:heatFlow}}
+        \totalHeat{} = \sensibleHeat{} + \latentHeat{}
+    \end{equation}
+}
+
+\NewDocumentCommand{\eqMassToMol}{s}{
+        \begin{equation}
+            \IfBooleanTF{#1}{\nonumber}{\label{eq:massToMol}}
+            {\mass[]{}[]} &= {\mole[]{}}{\molecul}
+        \end{equation}
+    Donde \vaporMass representa a la masa del vapor y \gasMass a la masa del gas libre de vapor.
+}
+
+
+\NewDocumentCommand{\eqMassToMolOfVaporAndGas}{s}{
+    \begin{subequations}
+        \IfBooleanTF{#1}{\nonumber}{\label{eq:MassToMolOfVaporAndGas}} % Etiqueta para el grupo completo (opcional)
+        \begin{align}
+            {\vaporMass} &= {\vaporMole}{\vaporMolecularWeight}  \quad \text{(Para el Vapor)} \label{eqn:mass_to_mole_vapor}\\ %No dejar espacio entre las ecuaciones
+            {\gasMass} &= {\gasMole}{\gasMolecularWeight}  \quad \text{(Para el Gas)} \label{eqn:mass_to_mole_gas}
+        \end{align}
+    \end{subequations}
+ 
+}
+
+
+
+\newcommand{\eqnSpecificHumidity}{
+    \begin{equation}
+        \label{eqn:SpecificHumidity}
+        \specificHumidity = \frac{\absoluteHumidity}{\absoluteHumidity + 1}
+    \end{equation}
+    Donde \absoluteHumidity es la humedad absoluta.
+}
+
+\newcommand{\eqnSaturationCondition}{
+    \begin{equation}
+        \label{eqn:SaturationCondition}
+        \pressure[]{\vapor} = \left. \pressure[\saturated]{\vapor}\right|_{{\temperature[]{\dewPointSymbol}}}
+    \end{equation}%
+    Donde, \pVapor\ presión del vapor sob y \pSat\ presión de vapor saturado a la misma temperatura.
+}
+
+
+\newcommand{\eqnRelativeHumidity}{
+    \begin{equation}
+        \label{eqn:RelativeHumidity}
+        {\relativeHumidity[]{}} = \frac{\pVapor}{\pSat}
+    \end{equation}%
+    Donde, \pVapor\ presión del vapor y \pSat\ presión de vapor saturado a la misma temperatura.
+}
+
+
+
+\newcommand{\eqnVolumetricHumidity}{
+    \begin{equation}
+        \label{eqn:VolumetricHumidity}
+        \volumetricHumidity[]{} = \left(\frac{\vaporMolecularWeight}{\idealConstantGas \temperature{}} \right) \left( \frac{\pTotal \absoluteHumidity}{\vaporMolecularWeight / \gasMolecularWeight + \absoluteHumidity} \right)
+    \end{equation}%
+    Donde \absoluteHumidity es la humedad absoluta, \pTotal\ es la presión total del sistema, \vaporMolecularWeight es el peso molecular del vapor, \gasMolecularWeight es el peso molecular del gas, \idealConstantGas\ es la constante ideal de gases.
+}
+
+\newcommand{\eqnDegreeOfSaturation}{
+    \begin{equation}
+        \label{eqn:DegreeOfSaturation}
+        \degreeOfSaturation[]{} = {{\left( \frac{\absoluteHumidity}{\saturatedAbsoluteHumidity}\right)}}_{\temperature[]{}\text{, }\pressure[]{}\ }
+    \end{equation}%
+    Donde \absoluteHumidity es la humedad absoluta, y se representa a la humedad absoluta saturada como \saturatedAbsoluteHumidity, el cual es la máxima cantidad de vapor que el aire puede contener a la misma presión y temperatura.
+
+}
+
+\newcommand{\eqnClausiusClapeyron}{
+    \begin{equation}
+        \label{eqn:ClausiusClapeyron}
+        \frac{d \pressure[]{}}{d \temperature[]{}} = \frac{L}{\temperature[]{} \Delta \volume[]{}}
+    \end{equation}%
+    Donde \absoluteHumidity es la humedad absoluta, y se representa a la humedad absoluta saturada como \saturatedAbsoluteHumidity, el cual es la máxima cantidad de vapor que el aire puede contener a la misma presión y temperatura.
+
+}
+
+\newcommand{\eqnAdiabaticSaturacion}{
+    \begin{equation}
+        \label{eqn:AdiabaticSaturacion}
+        \frac{d \pressure[]{}}{d \temperature[]{}} = \frac{L}{\temperature[]{} \Delta \volume[]{}}
+    \end{equation}%
+    Donde \absoluteHumidity es la humedad absoluta, y se representa a la humedad absoluta saturada como \saturatedAbsoluteHumidity, el cual es la máxima cantidad de vapor que el aire puede contener a la misma presión y temperatura.
+
+}
+
+\newcommand{\eqnHeatFlow}{
+    \begin{equation}
+        \label{eqn:HeatFlow}
+        \heatFlow = {\specificHeatAtP}{\Delta \temperature[]{}}
+    \end{equation}%
+    Donde 
+
+}
+
+
+

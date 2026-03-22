@@ -1,0 +1,254 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% ARCHIVO: flowcharts/main_flowchart_improved.tex
+%% Diagrama de flujo principal mejorado
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{figure}[H]
+\centering
+\begin{tikzpicture}[
+    node distance=0.6cm,
+    font=\small\sffamily,
+    every node/.style={align=center}
+]
+
+    % === INICIO ===
+    \node (start) [startstop] {INICIO};
+
+    % === ENTRADAS ===
+    \node (inputs) [io, below=0.5cm of start] {
+        \textbf{Datos de entrada:} \\[1pt]
+        Compuestos: $M_{\text{v}}$, $M_{\text{g}}$ \\
+        Presión total: $P_{\text{t}}$ \\
+        Temperatura: $T_{bs}$ [\si{\celsius}] \\
+        Dato de humedad: HR, Y o $T_{\text{rocío}}$
+    };
+
+    % === CÁLCULO RELACIÓN MOLECULAR ===
+    \node (ratio) [process, below=0.5cm of inputs] {
+        Calcular relación molecular:\\[1pt]
+        $\displaystyle r = \frac{M_v}{M_{gs}}$
+    };
+
+    % === DECISIÓN: MODELO DE GAS ===
+    \node (model) [decision, below=0.7cm of ratio] {
+        ¿Usar modelo\\ideal de gas?
+    };
+
+    \node (ideal) [process, right=2cm of model] {
+        \textbf{Modelo ideal:}\\[1pt]
+        $z = 1$
+    };
+
+    % === ELECCIÓN DE CORRELACIÓN ===
+    \node (choose_corr) [decision, left=4cm of model, text width=2.5cm] {
+        ¿$P_{\text{tot}} > 5$ bar\\o\\$T_r < 0.75$?
+    };
+
+    \node (virial_3) [process, left=3.5cm of choose_corr, text width=4.5cm] {
+        \textbf{Ecuación virial 3 términos:}\\[1pt]
+        $\displaystyle z = 1 + \frac{BP}{RT} + \frac{CP^2}{(RT)^2}$\\[0pt]
+        {\scriptsize Correlación Meng-Duan (2004)}\\
+        {\scriptsize Válido: $T_r < 0.75$ o $P > 5$ bar}
+    };
+
+    \node (virial_2) [process, below=1.2cm of choose_corr, text width=4.5cm] {
+        \textbf{Ecuación virial truncada:}\\[1pt]
+        $\displaystyle z = 1 + \frac{BP}{RT}$\\[0pt]
+        {\scriptsize Correlación Tsonopoulos}\\
+        {\scriptsize Para vapor: incluir término polar}\\
+        {\scriptsize Válido: $P < 5$ bar, $T_r > 0.75$}
+    };
+
+    % === FACTOR DE COMPRESIBILIDAD ===
+    \node (z_set) [process, below=1.0cm of virial_2] {
+        \textbf{Factor de compresibilidad}\\
+        definido: $z$
+    };
+
+    % === DECISIÓN: TIPO DE VAPOR ===
+    \node (is_water) [decision, below=1cm of z_set] {
+        ¿El vapor\\es agua?
+    };
+
+    \node (hyland) [process, left=1.2cm of is_water, text width=4.5cm] {
+        \textbf{Presión de saturación:}\\[1pt]
+        Ecuación Hyland-Wexler\\[0pt]
+        {\scriptsize Rango: $0 < T < 200$ [\si{\celsius}]}
+    };
+
+    \node (wagner) [process, right=3.5cm of is_water, text width=4.3cm] {
+        \textbf{Presión de saturación:}\\[1pt]
+        Ecuación Wagner (genérica)\\[0pt]
+        {\scriptsize Usar constantes del compuesto}
+    };
+
+    % === CÁLCULO Pv^sat ===
+    \node (calc_pvsat) [process, below=1.0cm of is_water] {
+        Calcular: $P_v^{\text{sat}}(T_{bs})$
+    };
+
+    % === ESTRUCTURA IF-ELSE IF-ELSE IF PARA TIPO DE HUMEDAD ===
+    \node (check_hr) [decision, below=0.7cm of calc_pvsat] {
+        ¿Dato es\\HR?
+    };
+
+    \node (calc_pv_hr) [process, right=8.5cm of check_hr, text width=4.2cm] {
+        \textbf{Desde HR:}\\[2pt]
+        $\displaystyle P_{v} = \frac{HR}{100} \cdot P_{v}^{\text{sat}}$
+    };
+        
+    \node (check_y) [decision, below=4.0cm of hyland] {
+        ¿Dato es\\Y?
+    };
+
+    \node (calc_pv_y) [process, right=7cm of check_y, text width=4.2cm] {
+        \textbf{Desde Y (absoluta):}\\[2pt]
+        $\displaystyle P_{v} = P_{\text{tot}} \frac{Y}{r+Y}$
+    };
+
+    \node (calc_pv_tr) [process, below=1.5cm of check_hr, text width=4.5cm] {
+        \textbf{Desde} $T_{\textbf{rocío}}$:\\[2pt]
+        $P_v = P_v^{\text{sat}}(T_{\text{rocío}})$\\[1pt]
+        {\scriptsize Calcular $P_v^{\text{sat}}$ a $T_{\text{rocío}}$}
+    };
+
+    \node (check_tr) [decision, left=5cm of calc_pv_tr] {
+        ¿Dato es\\$T_{\text{rocío}}$?
+    };
+
+    \node (error_input) [error, below=15.7cm of check_tr, text width=3.5cm] {
+        ERROR:\\[1pt]
+        Dato de humedad\\
+        no reconocido
+    };
+
+    % === VALIDACIÓN ===
+    \node (validate) [decision, below=2.5cm of calc_pv_y] {
+        ¿$P_v < P_v^{\text{sat}}$\\[0pt]
+        y\\[0pt]
+        $P_v < P_{\text{tot}}$?
+    };
+
+    \node (error_sat) [error, left=4cm of validate] {
+        ERROR:\\[1pt]
+        Condiciones de\\
+        saturación o presión\\
+        no válidas
+    };
+
+    % === CÁLCULOS CONDICIONALES ===
+    \node (need_y) [decision, below=1.0cm of validate] {
+        ¿Falta\\calcular Y?
+    };
+
+    \node (calc_y) [process, right=2.5cm of need_y, text width=4.5cm] {
+        \textbf{Calcular humedad absoluta:}\\[1pt]
+        $\displaystyle Y = r \frac{P_v}{P_{\text{tot}} - P_v}$
+    };
+
+    \node (need_hr) [decision, below=0.8cm of need_y] {
+        ¿Falta\\calcular HR?
+    };
+
+    \node (calc_hr) [process, right=2.5cm of need_hr, text width=4.5cm] {
+        \textbf{Calcular HR:}\\[1pt]
+        $\displaystyle HR = \frac{P_v}{P_v^{\text{sat}}} \times 100$
+    };
+
+    \node (need_tdew) [decision, below=0.8cm of need_hr] {
+        ¿Falta calcular\\$T_{\text{rocío}}$?
+    };
+
+    \node (calc_tdew) [process, right=2.5cm of need_tdew, text width=4.5cm] {
+        \textbf{Calcular} $T_{\textbf{rocío}}$:\\[1pt]
+        Resolver $P_v = P_v^{\text{sat}}(T_{\text{rocío}})$\\[0pt]
+        {\scriptsize Iteración Newton-Raphson}
+    };
+
+    % === PROPIEDADES TERMODINÁMICAS ===
+    \node (calc_hv) [process, below=0.8cm of need_tdew, text width=8.5cm] {
+        \textbf{Propiedades termodinámicas:}\\[2pt]
+        \textbf{Entalpía específica:}\\[1pt]
+        $\displaystyle H = C_{p,gs}T_{bs} + Y(h_{fg,0} + C_{p,v}T_{bs}) + \Delta H_{\text{exceso}}$\\[3pt]
+        \textbf{Volumen específico húmedo:}\\[1pt]
+        $\displaystyle V_h = z \frac{R_{gs} T_{\text{abs}}}{P_{\text{tot}} - P_v}(1 + Y/r)$\\[1pt]
+        {\scriptsize $\Delta H_{\text{exceso}}$ calculado con reglas de mezcla mejoradas}
+    };
+
+    % === SALIDA ===
+    \node (output) [doc, below=0.6cm of calc_hv, text width=4.5cm] {
+        \textbf{RESULTADOS:}\\[2pt]
+        $HR$, $Y$, $P_v$\\
+        $T_{\text{rocío}}$, $H$, $V_h$, $z$
+    };
+
+    \node (end_stop) [startstop, below=0.5cm of output] {FIN};
+
+    % === CONEXIONES INICIALES ===
+    \draw [arrow] (start) -- (inputs);
+    \draw [arrow] (inputs) -- (ratio);
+    \draw [arrow] (ratio) -- (model);
+
+    % Modelo de gas
+    \draw [arrow_yes] (model) -- node[label_node, above] {\isTrue} (ideal);
+    \draw [arrow_no] (model) -- node[label_node, above] {\isFalse} (choose_corr);
+
+    % Bifurcación para correlaciones
+    \draw [arrow_yes] (choose_corr) -- node[label_node, above] {\isTrue} (virial_3);
+    \draw [arrow_no] (choose_corr) -- node[label_node, right] {\isFalse} (virial_2);
+
+    \draw [arrow] (ideal) |- (z_set);
+    \draw [arrow] (virial_3) |- (z_set);
+    \draw [arrow] (virial_2) -- (z_set);
+
+    % Tipo de vapor
+    \draw [arrow] (z_set) -- (is_water);
+    \draw [arrow_yes] (is_water) -- node[label_node, right] {\isTrue} (hyland);
+    \draw [arrow_no] (is_water) -- node[label_node, above, pos=0.25] {\isFalse} (wagner);
+    \draw [arrow] (hyland) |- (calc_pvsat);
+    \draw [arrow] (wagner) |- (calc_pvsat);
+
+    % Estructura IF-ELSE IF-ELSE IF para humedad
+    \draw [arrow] (calc_pvsat) -- (check_hr);
+    \draw [arrow_yes] (check_hr) -- node[label_node, above] {\isTrue} (calc_pv_hr);
+    \draw [arrow_no] (check_hr) -| node[label_node, right] {\isFalse} (check_y);
+    \draw [arrow_yes] (check_y) -- node[label_node, above] {\isTrue} (calc_pv_y);
+    \draw [arrow_no] (check_y) -| node[label_node, right] {\isFalse} (check_tr);
+    \draw [arrow_yes] (check_tr) -- node[label_node, above] {\isTrue} (calc_pv_tr);
+    \draw [arrow_no] (check_tr) -- node[label_node, right] {\isFalse} (error_input);
+
+    % Convergencia a validación
+    \draw [arrow] (calc_pv_hr) |- (validate);
+    \draw [arrow] (calc_pv_y) -- (validate);
+    \draw [arrow] (calc_pv_tr) -| (validate);
+    \draw [arrow] (error_input) -- (end_stop);
+
+    % Validación
+    \draw [arrow_no] (validate) -- node[label_node, above] {\isFalse} (error_sat);
+    \draw [arrow_yes] (validate) -- node[label_node, right] {\isTrue} (need_y);
+    \draw [arrow] (error_sat) |- (end_stop);
+
+    % Cálculos condicionales de Y
+    \draw [arrow_yes] (need_y) -- node[label_node, above] {\isTrue} (calc_y);
+    \draw [arrow_no] (need_y) -- node[label_node, right] {\isFalse} (need_hr);
+    \draw [arrow] (calc_y) |- (need_hr);
+
+    % Cálculos condicionales de HR
+    \draw [arrow_yes] (need_hr) -- node[label_node, above] {\isTrue} (calc_hr);
+    \draw [arrow_no] (need_hr) -- node[label_node, right] {\isFalse} (need_tdew);
+    \draw [arrow] (calc_hr) |- (need_tdew);
+
+    % Cálculos condicionales de Trocío
+    \draw [arrow_yes] (need_tdew) -- node[label_node, above] {\isTrue} (calc_tdew);
+    \draw [arrow_no] (need_tdew) -- node[label_node, right] {\isFalse} (calc_hv);
+    \draw [arrow] (calc_tdew) |- (calc_hv);
+
+    % Salida
+    \draw [arrow] (calc_hv) -- (output);
+    \draw [arrow] (output) -- (end_stop);
+
+    \end{tikzpicture}
+
+\caption{Diagrama de flujo principal mejorado del algoritmo psicrométrico con cálculos condicionales}
+\label{fig:main_flowchart_improved}
+\end{figure}

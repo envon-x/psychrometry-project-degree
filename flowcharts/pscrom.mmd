@@ -1,0 +1,108 @@
+flowchart TD
+    Start([INICIO: Cálculo Psicométrico]) --> Input[/"DATOS DE ENTRADA:<br/>- Presión Atmosférica P<br/>- Peso Molecular Gas Mg<br/>- Peso Molecular Vapor Mv<br/>- 2 Propiedades Conocidas"/]
+    
+    Input --> CheckInputs{¿Qué combinación<br/>de propiedades<br/>tenemos?}
+    
+    %% Ruta 1: Tbs + HR
+    %% CheckInputs -->|Tbs + HR| Route1[RUTA 1:<br/>Tbs y HR conocidos]
+    %% Route1 --> Calc1_Psat["Calcular Psat a Tbs<br/>Ecuación Antoine o<br/>Correlación específica"]
+    %% Calc1_Psat --> Calc1_Pv[Calcular Pv:<br/>Pv = HR × Psat]
+    %% Calc1_Pv --> Calc1_W[Calcular W:<br/>W = 0.622 * Pv/(P - Pv)<br/>o W = Mv/Mg × Pv/(P - Pv)]
+    %% Calc1_W --> Calc1_Tpr[Calcular Tpr:<br/>Inversa de Psat = Pv]
+    %% Calc1_Tpr --> Calc1_h[Calcular h:<br/>h = Cp_aire/Tbs + W*(hfg + Cp_vapor*Tbs)]
+    %% Calc1_h --> Calc1_Tbh[Calcular Tbh:<br/>Iterar hasta h = h_sat a Tbh]
+    %% Calc1_Tbh --> CalcAdditional
+    
+    %% Ruta 2: Tbs + Tbh
+    CheckInputs -->|Tbs + Tbh| Route2[RUTA 2:<br/>Tbs y Tbh conocidos]
+    Route2 --> Calc2_Psat_bh[Calcular Psat a Tbh]
+    Calc2_Psat_bh --> Calc2_W[Calcular W usando:<br/>Ecuación psicrométrica<br/>h_Tbs = h_sat_Tbh<br/>Iterar o resolver]
+    Calc2_W --> Calc2_Pv[Calcular Pv:<br/>Pv = W × P/(0.622 + W)<br/>o Pv = W × P × Mg/(Mv + W×Mg)]
+    Calc2_Pv --> Calc2_HR[Calcular HR:<br/>HR = Pv/Psat_Tbs]
+    Calc2_HR --> Calc2_Tpr[Calcular Tpr:<br/>Inversa de Psat = Pv]
+    Calc2_Tpr --> Calc2_h[Calcular h:<br/>h = Cp_aire×Tbs + W×(hfg + Cp_vapor×Tbs)]
+    Calc2_h --> CalcAdditional
+    
+    %% Ruta 3: Tbs + Tpr
+    CheckInputs -->|Tbs + Tpr| Route3[RUTA 3:<br/>Tbs y Tpr conocidos]
+    Route3 --> Calc3_Pv[Calcular Pv:<br/>Pv = Psat a Tpr]
+    Calc3_Pv --> Calc3_W[Calcular W:<br/>W = Mv/Mg × Pv/(P - Pv)]
+    Calc3_W --> Calc3_HR[Calcular HR:<br/>HR = Pv/Psat_Tbs]
+    Calc3_HR --> Calc3_h[Calcular h:<br/>h = Cp_aire×Tbs + W×(hfg + Cp_vapor×Tbs)]
+    Calc3_h --> Calc3_Tbh[Calcular Tbh:<br/>Iterar hasta h = h_sat a Tbh]
+    Calc3_Tbh --> CalcAdditional
+    
+    %% Ruta 4: Tbs + W
+    CheckInputs -->|Tbs + W| Route4[RUTA 4:<br/>Tbs y W conocidos]
+    Route4 --> Calc4_Pv[Calcular Pv:<br/>Pv = W × P × Mg/(Mv + W×Mg)]
+    Calc4_Pv --> Calc4_HR[Calcular HR:<br/>HR = Pv/Psat_Tbs]
+    Calc4_HR --> Calc4_Tpr[Calcular Tpr:<br/>Inversa de Psat = Pv]
+    Calc4_Tpr --> Calc4_h[Calcular h:<br/>h = Cp_aire×Tbs + W×(hfg + Cp_vapor×Tbs)]
+    Calc4_h --> Calc4_Tbh[Calcular Tbh:<br/>Iterar hasta h = h_sat a Tbh]
+    Calc4_Tbh --> CalcAdditional
+    
+    %% Ruta 5: Tbs + h
+    CheckInputs -->|Tbs + h| Route5[RUTA 5:<br/>Tbs y h conocidos]
+    Route5 --> Calc5_W[Calcular W:<br/>h = Cp_aire×Tbs + W×(hfg + Cp_vapor×Tbs)<br/>Despejar W]
+    Calc5_W --> Calc5_Pv[Calcular Pv:<br/>Pv = W × P × Mg/(Mv + W×Mg)]
+    Calc5_Pv --> Calc5_HR[Calcular HR:<br/>HR = Pv/Psat_Tbs]
+    Calc5_HR --> Calc5_Tpr[Calcular Tpr:<br/>Inversa de Psat = Pv]
+    Calc5_Tpr --> Calc5_Tbh[Calcular Tbh:<br/>Iterar hasta h = h_sat a Tbh]
+    Calc5_Tbh --> CalcAdditional
+    
+    %% Ruta 6: Tbh + HR
+    CheckInputs -->|Tbh + HR| Route6[RUTA 6:<br/>Tbh y HR conocidos]
+    Route6 --> Calc6_Iter[Iterar Tbs:<br/>1. Asumir Tbs<br/>2. Calcular con Ruta 1<br/>3. Verificar Tbh calculada<br/>4. Ajustar hasta convergencia]
+    Calc6_Iter --> CalcAdditional
+    
+    %% Ruta 7: HR + Tpr
+    CheckInputs -->|HR + Tpr| Route7[RUTA 7:<br/>HR y Tpr conocidos]
+    Route7 --> Calc7_Pv[Calcular Pv:<br/>Pv = Psat a Tpr]
+    Calc7_Pv --> Calc7_Tbs[Calcular Tbs:<br/>Psat_Tbs = Pv/HR]
+    Calc7_Tbs --> Calc7_W[Calcular W:<br/>W = Mv/Mg × Pv/(P - Pv)]
+    Calc7_W --> Calc7_h[Calcular h:<br/>h = Cp_aire×Tbs + W×(hfg + Cp_vapor×Tbs)]
+    Calc7_h --> Calc7_Tbh[Calcular Tbh:<br/>Iterar hasta h = h_sat a Tbh]
+    Calc7_Tbh --> CalcAdditional
+    
+    %% Propiedades adicionales
+    CalcAdditional[PROPIEDADES ADICIONALES]
+    CalcAdditional --> Calc_v[Volumen específico v:<br/>v = R×T/P × (1/Mg + W/Mv)<br/>o v usando ecuación gases ideales]
+    Calc_v --> Calc_rho[Densidad ρ:<br/>ρ = 1/v<br/>o ρ = (P×Mg + W×P×Mv)/(R×T×(Mg + W×Mv))]
+    Calc_rho --> Calc_Tdp[Verificar Tpr:<br/>Temperatura punto rocío<br/>ya calculada]
+    Calc_Tdp --> Calc_Twb[Verificar Tbh:<br/>Temperatura bulbo húmedo<br/>ya calculada]
+    Calc_Twb --> Calc_mu[Grado de saturación μ:<br/>μ = W/Ws<br/>donde Ws a saturación a Tbs]
+    Calc_mu --> Calc_Pvap[Presión parcial vapor:<br/>Pv ya calculada]
+    Calc_Pvap --> Calc_Paire[Presión parcial aire seco:<br/>Pa = P - Pv]
+    
+    %% Sección de ecuaciones clave
+    Calc_Paire --> KeyEq[ECUACIONES CLAVE USADAS]
+    KeyEq --> Eq1["1. Presión vapor saturado:<br/>Antoine: log₁₀(Psat) = A - B/(C+T)<br/>o Correlaciones específicas"]
+    Eq1 --> Eq2["2. Razón de humedad:<br/>W = (Mv/Mg) × Pv/(P - Pv)"]
+    Eq2 --> Eq3["3. Humedad relativa:<br/>HR = Pv/Psat(Tbs)"]
+    Eq3 --> Eq4["4. Entalpía específica:<br/>h = Cp_a×Tbs + W×(hfg₀ + Cp_v×Tbs)<br/>hfg₀ a 0°C"]
+    Eq4 --> Eq5["5. Volumen específico:<br/>v = (R×T/P) × (1/Mg + W/Mv)"]
+    Eq5 --> Eq6["6. Ecuación psicrométrica:<br/>W ≈ (Cp_a/hfg) × (Tbh - Tbs) × (P/(P - Psat_Tbh))"]
+    
+    %% Resultados finales
+    Eq6 --> Output[/"SALIDA - TODAS LAS PROPIEDADES:<br/>✓ Tbs - Temperatura bulbo seco<br/>✓ Tbh - Temperatura bulbo húmedo<br/>✓ Tpr - Temperatura punto rocío<br/>✓ HR - Humedad relativa<br/>✓ W - Razón de humedad<br/>✓ h - Entalpía específica<br/>✓ v - Volumen específico<br/>✓ ρ - Densidad<br/>✓ Pv - Presión parcial vapor<br/>✓ Pa - Presión parcial aire seco<br/>✓ μ - Grado de saturación"/]
+    
+    Output --> Validation{¿Validar<br/>resultados?}
+    Validation -->|Sí| Check1[Verificar:<br/>Pv < Psat a Tbs]
+    Check1 --> Check2[Verificar:<br/>0 < HR ≤ 100%]
+    Check2 --> Check3[Verificar:<br/>Tpr ≤ Tbh ≤ Tbs]
+    Check3 --> Check4[Verificar:<br/>W ≥ 0]
+    Check4 --> Check5[Verificar:<br/>P = Pa + Pv]
+    Check5 --> End([FIN])
+    
+    Validation -->|No| End
+    
+    %% Notas adicionales
+    Start -.->|Nota| Note1["PARÁMETROS FLEXIBLES:<br/>- P: Presión atmosférica variable<br/>- Mg: PM aire seco ≈ 28.97 kg/kmol<br/>- Mv: PM vapor ≈ 18.015 kg/kmol<br/>- R: Constante gases = 8.314 kJ/kmol·K<br/>- Cp_a ≈ 1.006 kJ/kg·K<br/>- Cp_v ≈ 1.86 kJ/kg·K<br/>- hfg₀ ≈ 2501 kJ/kg a 0°C"]
+    
+    style Start fill:#e1f5e1
+    style End fill:#ffe1e1
+    style Output fill:#e1e5ff
+    style KeyEq fill:#fff4e1
+    style Note1 fill:#f0f0f0
+    style CalcAdditional fill:#ffe1f5
+    style Validation fill:#fff9e1

@@ -1,0 +1,148 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% ARCHIVO: styles/tikz_styles.tex
+%% Estilos para diagramas de flujo con TikZ
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\usepackage{tikz}
+\usetikzlibrary{
+    shapes.geometric,
+    arrows.meta,
+    calc,
+    positioning,
+    shadows.blur,
+    fit,
+}
+
+% === DEFINICIÓN DE LA FORMA 'document' ===
+\makeatletter
+\pgfdeclareshape{document}{
+    \inheritsavedanchors[from=rectangle]
+    \inheritanchorborder[from=rectangle]
+    \inheritanchor[from=rectangle]{center}
+    \inheritanchor[from=rectangle]{north}
+    \inheritanchor[from=rectangle]{south}
+    \inheritanchor[from=rectangle]{west}
+    \inheritanchor[from=rectangle]{east}
+    \backgroundpath{
+        \southwest \pgf@xa=\pgf@x \pgf@ya=\pgf@y
+        \northeast \pgf@xb=\pgf@x \pgf@yb=\pgf@y
+        \pgf@xc=\pgf@xb \advance\pgf@xc by-10pt
+        \pgf@yc=\pgf@yb \advance\pgf@yc by-10pt
+        \pgfpathmoveto{\pgfpoint{\pgf@xa}{\pgf@ya}}
+        \pgfpathlineto{\pgfpoint{\pgf@xa}{\pgf@yb}}
+        \pgfpathlineto{\pgfpoint{\pgf@xc}{\pgf@yb}}
+        \pgfpathlineto{\pgfpoint{\pgf@xb}{\pgf@yc}}
+        \pgfpathlineto{\pgfpoint{\pgf@xb}{\pgf@ya}}
+        \pgfpathclose
+        \pgfpathmoveto{\pgfpoint{\pgf@xc}{\pgf@yb}}
+        \pgfpathlineto{\pgfpoint{\pgf@xc}{\pgf@yc}}
+        \pgfpathlineto{\pgfpoint{\pgf@xb}{\pgf@yc}}
+    }
+}
+\makeatother
+
+% === ESTILOS DE NODOS ===
+\tikzset{
+    startstop/.style={
+        ellipse, 
+        draw=black!80, 
+        fill=gray!25,
+        blur shadow={shadow blur steps=5},
+        minimum width=3.5cm, 
+        minimum height=1.0cm, 
+        text centered, 
+        font=\bfseries,
+        line width=1.2pt
+    },
+    io/.style={
+        trapezium, 
+        trapezium left angle=70, 
+        trapezium right angle=110,
+        draw=blue!70, 
+        fill=blue!20,
+        blur shadow={shadow blur steps=5},
+        minimum width=3cm, 
+        minimum height=0.9cm, 
+        text centered,
+        font=\small\sffamily,
+        line width=1pt
+    },
+    process/.style={
+        rectangle, 
+        draw=orange!70, 
+        fill=orange!20,
+        blur shadow={shadow blur steps=5},
+        minimum width=2cm, 
+        minimum height=1.0cm, 
+        text centered,
+        font=\small\sffamily,
+        rounded corners=3pt, 
+        line width=1pt
+    },
+    decision/.style={
+        diamond, 
+        draw=green!60!black, 
+        fill=green!20,
+        blur shadow={shadow blur steps=5},
+        minimum width=1.8cm, 
+        minimum height=0.9cm, 
+        text centered,
+        font=\small\sffamily,
+        aspect=2.5, 
+        inner sep=0pt,
+        line width=1pt
+    },
+    doc/.style={
+        document, 
+        draw=yellow!70!orange, 
+        fill=yellow!25,
+        blur shadow={shadow blur steps=5},
+        minimum width=3.2cm, 
+        minimum height=0.9cm, 
+        text centered,
+        font=\small\sffamily,
+        line width=1pt
+    },
+    error/.style={
+        document,
+        draw=red!70,
+        fill=red!15,
+        blur shadow={shadow blur steps=5},
+        minimum width=3.2cm,
+        minimum height=0.9cm,
+        text centered,
+        font=\small\sffamily\bfseries,
+        line width=1.2pt
+    },
+    arrow/.style={
+        -Stealth,
+        thick,
+        draw=black!70,
+        line width=1pt
+    },
+    arrow_yes/.style={
+        arrow,
+        draw=green!60!black
+    },
+    arrow_no/.style={
+        arrow,
+        draw=red!60!black
+    },
+    label_node/.style={
+        font=\scriptsize\sffamily\bfseries,
+        fill=white,
+        inner sep=2pt
+    },
+    module_box/.style={
+        rectangle,
+        draw=purple!70,
+        thick,
+        dashed,
+        rounded corners=5pt,
+        inner sep=10pt
+    }
+}
+
+% === DEFINICIONES DE TEXTO ===
+\def\isTrue{Sí}
+\def\isFalse{No}

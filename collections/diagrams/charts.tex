@@ -1,0 +1,53 @@
+
+% --- DIAGRAMA P-T (Presión vs Temperatura) ---
+\begin{tikzpicture}
+\begin{axis}[
+    title={Diagrama P-T (Agua)},
+    xlabel={Temperatura $T$},
+    ylabel={Presión Parcial $P_v$},
+    xmin=0, xmax=100,
+    ymin=0, ymax=100,
+    xticklabels={}, yticklabels={},
+    axis lines=left,
+    clip=false
+]
+    % Curva de saturación (simplificada)
+    \addplot[blue, thick, domain=10:90, samples=100] {0.01*x^2};
+    \node[blue, right] at (axis cs:70,50) {Curva de Saturación};
+
+    % Proceso de enfriamiento (Punto de Rocío)
+    \draw[red, dashed, thick, -{Stealth}] (axis cs:80,40) -- (axis cs:63.2,40) node[pos=0, circle, fill, inner sep=1.5pt, label=above:{\small 1 (Aire Ambiente)}] {} ;
+    \node[circle, fill=orange, inner sep=2pt, label=above left:{\small 2 (Punto de Rocío)}] at (axis cs:63.2,40) {};
+
+    % Proyecciones
+    \draw[gray, dotted] (axis cs:63.2,40) -- (axis cs:63.2,0) node[below, black] {$T_{dp}$};
+    \draw[gray, dotted] (axis cs:80,40) -- (axis cs:80,0) node[below, black] {$T_{actual}$};
+    \draw[gray, dotted] (axis cs:63.2,40) -- (axis cs:0,40) node[left, black] {$P_v$};
+\end{axis}
+\end{tikzpicture}
+
+% --- DIAGRAMA T-S (Temperatura vs Entropía) ---
+\begin{tikzpicture}
+\begin{axis}[
+    title={Diagrama T-s (Agua en el Aire)},
+    xlabel={Entropía específica $s$},
+    ylabel={Temperatura $T$},
+    xmin=0, xmax=10,
+    ymin=0, ymax=100,
+    xticklabels={}, yticklabels={},
+    axis lines=left,
+    clip=false
+]
+    % Campana de saturación
+    \addplot[black, thick, domain=1:5, samples=50] {100 - (x-5)^2 * 4}; 
+    \addplot[black, thick, domain=5:9, samples=50] {100 - (x-5)^2 * 4};
+    \node at (axis cs:5, 70) {Líquido + Vapor};
+
+    % Punto de Rocío en la línea de vapor saturado
+    \draw[red, thick, -{Stealth}] (axis cs:9.5, 80) -- (axis cs:8.5, 64);
+    \node[circle, fill, inner sep=1.5pt, label=right:{\small 1 (Vapor Sobrecalentado)}] at (axis cs:9.5,80) {};
+    \node[circle, fill=orange, inner sep=2pt, label=left:{\small 2 ($T_{dp}$)}] at (axis cs:8.5,64) {};
+
+    \node[right, align=left] at (axis cs:9, 40) {\small Línea de\\ \small Vapor Saturado};
+\end{axis}
+\end{tikzpicture}

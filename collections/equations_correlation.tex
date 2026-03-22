@@ -1,0 +1,212 @@
+% equations_correlation.tex
+% Ecuaciones de presión de vapor
+
+
+
+
+
+% ============================================================
+% 1. CORRELACIONES DE BASE TEÓRICA
+% ============================================================
+
+% Ecuación de Antoine
+\newcommand{\eqAntoine}{%
+    \begin{equation}
+        \log_{10}\pressure[\saturated]{\vapor} = A - \frac{B}{\temperature{}{} + C}
+    \end{equation}
+}
+
+% Ecuación de Thodos
+\newcommand{\eqThodos}{%
+    \begin{equation}
+        % \ln\pressure[]{r} = A + \frac{B}{\temperature[]{r}} + C \ln\temperature[]{r} + D \temperature[]{r}^6
+        1=1
+    \end{equation}
+}
+
+% Ecuación de Clausius-Clapeyron (forma integrada)
+\newcommand{\eqClausiusClapeyron}{%
+    \begin{equation}
+        \ln\pressure[\saturated]{\vapor} = -\frac{\dhVap}{{\idealConstantGas}\temperature{}{}} + C
+    \end{equation}
+}
+
+% Ecuación de Clausius-Clapeyron (forma diferencial)
+\newcommand{\eqClausiusClapeyronDiff}{%
+    \begin{equation}
+    \frac{d\ln\pressure[\saturated]{\vapor}}{d\temperature{}{}} = 
+    \frac{\dhVap}{{\idealConstantGas} {\temperature{}{}}^2}
+    \end{equation}
+}
+
+% ============================================================
+% 2. CORRELACIONES EMPÍRICAS
+% ============================================================
+
+% Otras opciones para psat(T)p_{\text{sat}}(T)
+% psat​(T): Antoine, Magnus, Tetens, Wagner —
+% esta elección define la precisión del modelo completo.
+
+% Ecuación de Lee y Kesler - Forma principal
+\newcommand{\eqLeeKesler}{%
+    \begin{equation}
+        \ln\pressure[]{r} = f^{(0)} + \acentricFactor{}{} \cdot f^{(1)}
+    \end{equation}
+}
+
+% Ecuación de Lee y Kesler - Función f^(0)
+\newcommand{\eqLeeKeslerFZero}{%
+    \begin{equation}
+        f^{(0)} = 5.92714 - \frac{6.09648}{\temperature[]{r}} - 1.28862\ln\temperature[]{r} + 0.169347{\temperature[]{r}}^6
+    \end{equation}
+}
+
+% Ecuación de Lee y Kesler - Función f^(1)
+\newcommand{\eqLeeKeslerFOne}{%
+    \begin{equation}
+        f^{(1)} = 15.2518 - \frac{15.6875}{\temperature[]{r}} - 13.4721\ln\temperature[]{r} + 0.43577{\temperature[]{r}}^6
+    \end{equation}
+}
+
+% Correlación de Gomez-Nieto y Thodos
+\newcommand{\eqGomezNieto}{%
+    \begin{equation}
+        \ln\pressure[]{r} = A_0 + \frac{A_1}{\temperature[]{r}} + A_2\ln\temperature[]{r} + A_3{\temperature[]{r}}^2 + A_4{\temperature[]{r}}^3
+    \end{equation}
+}
+
+% Correlación de Riedel, Planck y Miller - Forma principal
+\newcommand{\eqRiedel}{%
+    \begin{equation}
+        \ln\pressure[]{r} = {\alpha}_{c}\left(1 - \frac{1}{\temperature[]{r}}\right)
+    \end{equation}
+}
+
+% Correlación de Riedel - Parámetro alpha_c
+\newcommand{\eqRiedelAlpha}{%
+    \begin{equation}
+        {\alpha}_{c} = \frac{-35\psi + 36\psi^{0.19} - \ln\pressure{c}{}}{(\psi - 1)}
+    \end{equation}
+}
+
+% Correlación de Riedel - Parámetro psi
+\newcommand{\eqRiedelPsi}{%
+    \begin{equation}
+        \psi = -\left.\frac{d\ln\pressure[]{r}}{d\ln\temperature[]{r}}\right|_{\temperature[]{r} = 1}
+    \end{equation}
+}
+
+% ============================================================
+% 3. OTRAS CORRELACIONES
+% ============================================================
+
+% Ecuación de Wagner
+\newcommand{\eqWagner}{%
+    \begin{equation}
+        \ln\pressure[]{r} = 
+            \frac{1}{
+                \temperature[]{r}}
+                \left(
+                    A_1{\tau} + 
+                    A_2{{\tau}}^{1.5} + 
+                    A_3{{\tau}}^3 + 
+                    A_4{{\tau}}^6
+                \right)
+    \end{equation}        
+}
+
+% Ecuación de Wagner - Tau
+\newcommand{\eqWagnerTau}{%
+    \begin{equation}
+        {\tau} = 1 - \temperature[]{r}
+    \end{equation}
+}
+
+% Ecuación de Frost-Kalkwarf-Thodos
+\newcommand{\eqFrostKalkwarf}{%
+    \begin{equation}
+        \ln\pressure[]{r} = A_1\left(1 - \frac{1}{\temperature[]{r}}\right) + A_2\left(1 - \frac{1}{\temperature[]{r}}\right)^2
+    \end{equation}
+}
+
+% Ecuación de Miller
+\newcommand{\eqMiller}{%
+    \begin{equation}
+        \log_{10}\pressure[]{r} = A_1\left(1 - \frac{1}{\temperature[]{r}}\right) + A_2\left(1 - \frac{1}{\temperature[]{r}}\right)^{1.5}
+    \end{equation}
+}
+
+% Ecuación de Ambrose-Walton - Forma principal
+\newcommand{\eqAmbroseWalton}{%
+    \begin{equation}
+        \ln\pressure[]{r} = f^{(0)}({\tau}) + \acentricFactor{}{}f^{(1)}({\tau})
+    \end{equation}
+}
+
+% Ecuación de Ambrose-Walton - Función f^(0)
+\newcommand{\eqAmbroseWaltonFZero}{%
+    \begin{equation}
+        f^{(0)} = 
+        frac{-5.97616{\tau} + 
+        1.29874 {{\tau}}^{1.5} - 
+        0.60394 {{\tau}}^{2.5} - 
+        1.06841 {{\tau}}^5}{1 - {{\tau}}}
+    \end{equation}
+}
+
+% Ecuación de Ambrose-Walton - Función f^(1)
+\newcommand{\eqAmbroseWaltonFOne}{%
+    \begin{equation}
+        f^{(1)} = \frac{-5.03365{\tau} + 1.11505{{\tau}}^{1.5} - 5.41217{{\tau}}^{2.5} - 7.46628{{\tau}}^5}{1 - {{\tau}}}
+    \end{equation}
+}
+
+% Ecuación de Ambrose-Walton - Tau
+\newcommand{\eqAmbroseWaltonTau}{%
+    \begin{equation}
+        {\tau} = 1 - \temperature[]{r}
+    \end{equation}
+}
+
+% Ecuación de Cox
+\newcommand{\eqCox}{%
+    \begin{equation}
+        \log_{10}\pressure[\saturated]{\vapor} = A - \frac{B}{(\temperature{}{} + C)^n}
+    \end{equation}
+}
+
+% Ecuación de Kirchhoff
+\newcommand{\eqKirchhoff}{%
+    \begin{equation}
+        \ln\pressure[\saturated]{\vapor} = A + \frac{B}{\temperature{}{}} + C\ln\temperature{}{} + D\temperature{}{}
+    \end{equation}
+}
+
+% Ecuación de Haggenmacher
+\newcommand{\eqHaggenmacher}{%
+    \begin{equation}
+        \log_{10}\pressure[\saturated]{\vapor} = 
+        A + 
+        \frac{B}{\temperature{}{}} + 
+        C\temperature{}{} + 
+        D{\temperature{}{}}^2
+    \end{equation}
+}
+
+% Ecuación de Chebyshev
+\newcommand{\eqChebyshev}{%
+    \begin{equation}
+        \ln\pressure[\saturated]{\vapor} = \sum_{i=0}^{n} {a_i}\temperature[]{\textit{i}}(x)
+    \end{equation}
+}
+
+% Ecuación DIPPR 101
+\newcommand{\eqDIPPR}{%
+    \begin{equation}
+        \ln\pressure[\saturated]{\vapor} = 
+        A + \frac{B}{\temperature{}{}} + 
+        C\ln\temperature{}{} + 
+        D{\temperature{}{}}^E
+    \end{equation}
+
+}
