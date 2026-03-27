@@ -1,0 +1,248 @@
+% ============================================================
+% PASO 1 — Entalpía molar rigurosa
+%          Gas real con ecuación virial truncada
+%          Herrmann et al. (2009), Hyland & Wexler (1983)
+%
+%   ψ_w  →  \vaporMoleFraction   (y_v)
+%   1-ψ_w → \gasMoleFraction     (y_g)
+%   T    →  \T
+% ============================================================
+\NewDocumentCommand{\eqEnthalpyRigorous}{s}{%
+    \begin{equation}
+        \IfBooleanTF{#1}{}{\label{eq:enthalpy:rigorous}}
+        \hMolar\!\left(\T,\, \molarVolume,\, \vaporMoleFraction\right)
+        =
+        \hMolarRef
+        + \gasMoleFraction\, \hMolarGas
+        + \vaporMoleFraction\, \hMolarVapor
+        + \universalConstantGas\T
+          \left[
+            \left(
+              \constBm
+              - \T\frac{\mathrm{d}\constBm}{\mathrm{d}\T}
+            \right)
+            \frac{1}{\molarVolume}
+            +
+            \left(
+              \constCm
+              - \frac{\T}{2}\frac{\mathrm{d}\constCm}{\mathrm{d}\T}
+            \right)
+            \frac{1}{\molarVolume^2}
+          \right]
+    \end{equation}
+    \IfBooleanTF{#1}{}{%
+        \noindent donde:
+        \begin{itemize}
+            \item $\hMolar$ es la entalpía molar de la mezcla gaseosa \unit{\frac{kJ}{mol}}.
+            \item $\T$ es la temperatura seca de la mezcla \unit{K}.
+            \item $\molarVolume$ es el volumen molar de la mezcla
+                  \unit{\frac{m^3}{mol}}.
+            \item $\vaporMoleFraction$ es la fracción molar del vapor
+                  en la mezcla.
+            \item $\hMolarRef$ es la entalpía molar en el estado de
+                  referencia \unit{\frac{kJ}{mol}}.
+            \item $\gasMoleFraction = 1 - \vaporMoleFraction$ es la
+                  fracción molar del gas seco en la mezcla.
+            \item $\hMolarGas$ es la entalpía molar estándar del gas
+                  seco \unit{\frac{kJ}{mol}}.
+            \item $\hMolarVapor$ es la entalpía molar estándar del
+                  vapor \unit{\frac{kJ}{mol}}.
+            \item $\universalConstantGas$ es la constante universal de los
+                  gases ideales
+                  ($\universalConstantGas = 8.314\,\unit{\frac{J}{mol\cdot K}}$).
+            \item $\constBm$ es el segundo coeficiente virial de la
+                  mezcla \unit{\frac{m^3}{mol}}; cuantifica las
+                  interacciones entre pares de moléculas.
+            \item $\constCm$ es el tercer coeficiente virial de la
+                  mezcla \unit{\frac{m^6}{mol^2}}; cuantifica las
+                  interacciones entre tríos de moléculas.
+        \end{itemize}
+    }%
+}
+
+% ============================================================
+% PASO 2 — Gas ideal: términos viriales → 0
+%          Hipótesis: z_v = z_g = 1  →  v̄ → ∞
+% ============================================================
+\NewDocumentCommand{\eqEnthalpyIdealMolar}{s}{%
+    \begin{equation}
+        \IfBooleanTF{#1}{}{\label{eq:enthalpy:ideal:molar}}
+        \hMolar\!\left(\T,\, \vaporMoleFraction\right)
+        \approx
+        \hMolarRef
+        + \gasMoleFraction\, \hMolarGas
+        + \vaporMoleFraction\, \hMolarVapor
+    \end{equation}
+}
+
+% ============================================================
+% PASO 3 — Relaciones entre entalpías molares y propiedades
+%          caloríficas + relación con Y
+%
+%   y_v = ψ_w = Y·M_g / (M_v + Y·M_g)
+%   y_g = 1 - y_v
+%
+%   CORRECCIÓN: \latentHeat (= Q_L, calor latente total) fue
+%   reemplazado por \vapLatentHeat (= λ, calor latente
+%   específico de vaporización, kJ/kg).
+%   CORRECCIÓN: \omega reemplazado por \humidityRatio (= Y).
+% ============================================================
+\NewDocumentCommand{\eqEnthalpyConversion}{s}{%
+    \begin{align}
+        \IfBooleanTF{#1}{}{\label{eq:enthalpy:conversion}}
+        \hMolarGas
+            &= \cpGas \cdot \left(\T - \Tref\right) \cdot \gasMolecularWeight
+            \notag \\
+        \hMolarVapor
+            &= \left[\vapLatentHeat + \cpVapor \cdot \left(\T - \Tref\right) \right]
+               \cdot \vaporMolecularWeight
+            \notag
+    \end{align}
+    \IfBooleanTF{#1}{}{%
+        \noindent donde:
+        \begin{itemize}
+            \item $\hMolarGas$ es la entalpía molar estándar del gas
+                  seco, calculada a partir de su calor específico
+                  \unit{\frac{kJ}{mol}}.
+            \item $\hMolarVapor$ es la entalpía molar estándar del
+                  vapor, que incluye la contribución del calor
+                  latente de vaporización \unit{\frac{kJ}{mol}}.
+            \item $\cpGas$ es el calor específico a presión constante
+                  del gas seco \unit{\frac{kJ}{kg \cdot K}}.
+            \item $\cpVapor$ es el calor específico a presión constante
+                  del vapor \unit{\frac{kJ}{kg \cdot K}}.
+            \item $\T$ es la temperatura seca de la mezcla \unit{K}.
+            \item $\Tref$ es la temperatura de referencia 
+                  del estado estándar, habitualmente 
+                  $\Tref = \qty{273.15}{K}$ 
+                  o $\qty{298.15}{K}$ según la convención adoptada.
+            \item $\vapLatentHeat$ es el calor latente de
+                  vaporización del componente que se condensa a la temperatura $\T$
+                  \unit{\frac{kJ}{kg}}.
+            % \item $\gasMolecularWeight$ es el peso molecular del gas seco \unit{\frac{kg}{mol}}.
+            % \item $\vaporMolecularWeight$ es el peso molecular del vapor \unit{\frac{kg}{mol}}.
+            % \item $\humidityRatio$ es la razón de humedad másica, definida como la masa de vapor por unidad de masa de gas seco ($\humidityRatio = \nicefrac{\vaporMass}{\gasMass}$) \unit{\frac{kg_{\vapor}}{kg_{\gas}}}.
+            % \item $\vaporMoleFraction$ es la fracción molar del vapor
+                  % en la mezcla, obtenida a partir de $\humidityRatio$,
+                  % $\gasMolecularWeight$ y $\vaporMolecularWeight$.
+            % \item $\gasMoleFraction$ es la fracción molar del gas seco
+                  % en la mezcla.
+        \end{itemize}
+    }%
+}
+
+% ============================================================
+% PASO 4 — Entalpía específica expandida
+%          Por unidad de masa de gas no condensable
+%
+%   h = c_{p,g}·T + Y·(λ + c_{p,v}·T)
+%
+%   CORRECCIÓN: \latentHeat → \vapLatentHeat
+%   CORRECCIÓN: \omega      → \humidityRatio (Y)
+% ============================================================
+\NewDocumentCommand{\eqEnthalpyExpanded}{s}{%
+    \begin{equation}
+        \IfBooleanTF{#1}{}{\label{eq:enthalpy:expanded}}
+        \hSpec
+        =
+        \cpGas \cdot \left(\T - \Tref \right)
+        + \humidityRatio \cdot 
+          \!\left[\vapLatentHeat + \cpVapor \cdot \left(\T - \Tref \right)\right]
+        \quad \text{expresado en }
+        \left[\frac{\text{kJ}}{\text{kg}_{\text{\gas}}}\right]
+    \end{equation}
+    \IfBooleanTF{#1}{}{%
+        \noindent donde:
+        \begin{itemize}
+            \item $\hSpec$ es la cantidad de energía cedida a la mezcla por kg de gas seco; es decir, es la entalpía específica de la mezcla gaseosa
+                  por unidad de masa de gas seco \unit{\frac{kJ}{kg_{\gas}}}.
+            \item $\cpGas$ es el calor específico a presión constante
+                  del gas seco \unit{\frac{kJ}{kg \cdot K}}.
+            \item $\T$ es la temperatura seca de la mezcla \unit{K}.
+            \item $\humidityRatio$ es la razón de humedad de la mezcla
+                  \unit{\frac{kg_{\vapor}}{kg_{\gas}}}.
+            \item $\vapLatentHeat$ es el calor latente de
+                  vaporización del componente que se condensa a la temperatura $\T$
+                  \unit{\frac{kJ}{kg}}.
+            \item $\cpVapor$ es el calor específico a presión constante
+                  del vapor \unit{\frac{kJ}{kg \cdot K}}.
+        \end{itemize}
+    }%
+}
+
+\NewDocumentCommand{\eqEnthalpyExpandedDevelop}{s}{%
+    \begin{equation*}
+        \IfBooleanTF{#1}{}{\label{eq:enthalpy:expanded:develop}}
+        \hSpec
+        =
+        \left(\cpGas + \humidityRatio \cdot \cpVapor \right)  \left(\T - \Tref \right)
+        + \humidityRatio \cdot \vapLatentHeat,
+    \end{equation*}
+}
+
+
+% ============================================================
+% PASO 5 — Calor específico húmedo
+%
+%   c_{p,H} = c_{p,g} + Y·c_{p,v}
+%
+%   CORRECCIÓN: \omega → \humidityRatio (Y)
+% ============================================================
+\NewDocumentCommand{\eqCpHumid}{s}{%
+    \begin{equation}
+        \IfBooleanTF{#1}{}{\label{eq:enthalpy:cp:humid}}
+        \cpHumid = \cpGas + \humidityRatio \cdot \cpVapor
+    \end{equation}
+    \IfBooleanTF{#1}{}{%
+        \noindent donde:
+        \begin{itemize}
+            \item $\cpHumid$ es el calor específico húmedo de la
+                  mezcla: cantidad de calor necesaria para elevar en
+                  un kelvin la temperatura de la unidad de masa de gas
+                  seco junto con el vapor que le acompaña
+                  \unit{\frac{kJ}{kg_{\gas}}\cdot K }.
+            \item $\cpGas$ es el calor específico a presión constante
+                  del gas seco \unit{\frac{kJ}{kg \cdot K}}.
+            \item $\humidityRatio$ es la razón de humedad de la mezcla
+                  \unit{\frac{kg_{\vapor}}{kg_{\gas}}}.
+            \item $\cpVapor$ es el calor específico a presión constante
+                  del vapor \unit{\frac{kJ}{kg \cdot K}}.
+        \end{itemize}
+    }%
+}
+
+% ============================================================
+% PASO 6 — Entalpía específica compacta (forma final clásica)
+%
+%   h = c_{p,H}·T + λ·Y
+%
+%   CORRECCIÓN: \latentHeat → \vapLatentHeat
+%   CORRECCIÓN: \omega      → \humidityRatio (Y)
+% ============================================================
+\NewDocumentCommand{\eqEnthalpyCompact}{s}{%
+    \begin{equation}
+        \IfBooleanTF{#1}{}{\label{eq:enthalpy:compact}}
+        \hSpec
+        =
+        \cpHumid \cdot \left(\T - \Tref \right) + \vapLatentHeat\ \cdot \humidityRatio
+      %   \quad
+      %   \left[\frac{\text{kJ}}{\text{kg}_{\text{\gas}}}\right]
+    \end{equation}
+    \IfBooleanTF{#1}{}{%
+        \noindent donde:
+        \begin{itemize}
+            \item $\hSpec$ es la entalpía específica de la mezcla gaseosa
+                  por unidad de masa de gas seco \unit{\frac{kJ}{kg_{\gas}}}.
+            \item $\cpHumid$ es el calor específico húmedo de la
+                  mezcla, definido en la
+                  ecuación~\ref{eq:enthalpy:cp:humid}
+                  \unit{\frac{kJ}{kg_{\gas}}\cdot K }.
+            \item $\T$ es la temperatura seca de la mezcla \unit{K}.
+            \item $\vapLatentHeat$ es el calor latente de
+                  vaporización del componente que se condensa a la temperatura $\T$
+                  \unit{\frac{kJ}{kg}}.
+            \item $\humidityRatio$ es la razón de humedad de la mezcla
+                  \unit{\frac{kg_{\vapor}}{kg_{\gas}}}.
+        \end{itemize}
+    }%
+}

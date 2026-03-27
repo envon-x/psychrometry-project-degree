@@ -7,14 +7,14 @@ Para una mezcla gaseosa (componente  vapor y componente gas), se puede escribir 
 \begin{subequations}
     \label{eqn:every_component_mixture_of_gases} % Etiqueta para el grupo completo (opcional)
     \begin{align}
-        {\pVapor}{\volume[]{}[]} &= {\zVapor}{\vaporMole}{\idealConstantGas}{\tVapor}  \quad \text{(Para el Vapor)} \label{eqn:vapor} \\
-        {\pGas}{\volume[]{}[]}   &= {\zGas}{\gasMole}{\idealConstantGas}{\tGas}  \quad \text{(Para el Gas)} \label{eqn:gas}
+        {\pVapor}{\volume[]{}[]} &= {\zVapor}{\vaporMole}{\universalConstantGas}{\tVapor}  \quad \text{(Para el Vapor)} \label{eqn:vapor} \\
+        {\pGas}{\volume[]{}[]}   &= {\zGas}{\gasMole}{\universalConstantGas}{\tGas}  \quad \text{(Para el Gas)} \label{eqn:gas}
     \end{align}
 \end{subequations}
 
 Dividiendo la ecuación \eqref{eqn:vapor} y la ecuación \eqref{eqn:gas}:
 \begin{align}
-    \frac{{\pVapor}{\volume[]{}[]}}{{\pGas}{\volume[]{}[]}} &= \frac{{\zVapor}{\vaporMole}{\idealConstantGas}{\tVapor}}{{\zGas}{\gasMole}{\idealConstantGas}{\tGas}}
+    \frac{{\pVapor}{\volume[]{}[]}}{{\pGas}{\volume[]{}[]}} &= \frac{{\zVapor}{\vaporMole}{\universalConstantGas}{\tVapor}}{{\zGas}{\gasMole}{\universalConstantGas}{\tGas}}
 \end{align}
 
 Simplificando:
@@ -77,9 +77,11 @@ Donde $\pVapor$ se puede calcular a partir de la ecuación de Antoine, Wagner, L
     \eqAbsoluteHumidityToMolAsMolarVaporFraction
 
 
-    Y la fracción molar del vapor puede escribirse asi,
+    La fracción molar del vapor puede escribirse asi,
     \eqMoleVaporFractionAsAbsoluteHumidity
 
+    Reemplazando \eqref{eq:MoleVaporFractionAsAbsoluteHumidity} en la ecuación \eqref{eq:GasFracAsFrac} tenemos la fracción molar para el gas como una función de la humedad absoluta,
+    \eqMoleGasFractionAsAbsoluteHumidity
 
     También se puede escribir en función de la presión de vapor,
     \eqMixSimplAbsoluteHumidityAsPtotal
@@ -93,9 +95,38 @@ Donde $\pVapor$ se puede calcular a partir de la ecuación de Antoine, Wagner, L
 
     
 \subsubsection{Volumen específico y molar del aire}
-    % De la ecuación \eqref{eq:EosWithZ}; sustituimos 
-    % \eqEosWithMolarVolumeZ
+    De la ecuación \eqref{eq:EosWithZ}; sustituimos 
+    \eqEosWithMolarVolumeZ*
+    
+    Recordemos que $\molarVolume = \V / \n$; despejamos $\p$,
+    \eqEosPressureWithMolarVolumeZ*
+    
+    % Y $\z$ para la ecuación virial, se puede escribir como:
+    % \eqZVirialThirdCoeff*
+    % \eqVirialSecondMix
+    % \eqVirialThirdMix
+    Para los gases ideales, el factor de compresibilidad toma el valor de $\z = 1$.
 
+    \eqEnthalpyRigorous
+
+    De la ecuación \eqref{eq:enthalpy:rigorous}, considerando que $\zVapor = \zGas = 1$ y  $\molarVolume \to \infty$; se tiene una aproximación para gases ideales, donde los términos viriales se anulan y la entalpía molar depende únicamente de la temperatura y la composición; tal como sigue,
+    
+    \eqEnthalpyIdealMolar
+    
+    Además,
+    \eqEnthalpyConversion
+    
+    Las fracción molar $\vaporMoleFraction$ se calcula a partir de la ecuación \eqref{eq:MoleVaporFractionAsAbsoluteHumidity} y $\gasMoleFraction$ desde la ecuación \eqref{eq:MoleGasFractionAsAbsoluteHumidity}; finalmente se tiene la expresión,
+    
+    
+    \eqEnthalpyExpanded*
+    Reordenando,
+    \eqEnthalpyExpandedDevelop*
+    Haciendo un cambio de variable para,
+    \eqCpHumid*
+    Finalmente tenemos,
+    \eqEnthalpyCompact*
+    
 \subsubsection{Humedad absoluta molar}
     Se define la humedad absoluta molar como:
     \eqnMolarAbsoluteHumidity 

@@ -1,5 +1,5 @@
 \begin{equation}
-\frac{\alpha(r, \delta)}{\idealConstantGas \temperature[]{}} = \alpha^0(\tau, \delta) + \alpha^r(\tau, \delta)
+\frac{\alpha(r, \delta)}{\universalConstantGas \temperature[]{}} = \alpha^0(\tau, \delta) + \alpha^r(\tau, \delta)
 \end{equation}
 
 Donde:
@@ -13,7 +13,7 @@ Donde:
 La presión se obtiene mediante la relación:
 
 \begin{equation}
-    \pressure[]{}(\delta, \tau) = \rho {\idealConstantGas \temperature[]{}} \left[ 1 + \delta \left( \frac{\partial \alpha^r}{\partial \delta} \right)_\tau \right]
+    \pressure[]{}(\delta, \tau) = \rho {\universalConstantGas \temperature[]{}} \left[ 1 + \delta \left( \frac{\partial \alpha^r}{\partial \delta} \right)_\tau \right]
 \end{equation}
 
 Para encontrar la presión de vapor a una temperatura dada $\temperature[]{}$, CoolProp resuelve el sistema de ecuaciones para las densidades de saturación ($\delta_{liq}$ y $\delta_{vap}$) que satisfacen la condición de equilibrio de fases (Igualdad de Maxwell):

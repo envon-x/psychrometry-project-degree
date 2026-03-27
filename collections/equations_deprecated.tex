@@ -69,15 +69,15 @@
 \newcommand{\eqnVolumetricHumidity}{
     \begin{equation}
         \label{eqn:VolumetricHumidity}
-        \volumetricHumidity[]{} = \left(\frac{\vaporMolecularWeight}{\idealConstantGas \temperature{}} \right) \left( \frac{\pTotal \absoluteHumidity}{\vaporMolecularWeight / \gasMolecularWeight + \absoluteHumidity} \right)
+        \volumetricHumidity[]{} = \left(\frac{\vaporMolecularWeight}{\universalConstantGas \temperature{}} \right) \left( \frac{\pTotal \absoluteHumidity}{\vaporMolecularWeight / \gasMolecularWeight + \absoluteHumidity} \right)
     \end{equation}%
-    Donde \absoluteHumidity es la humedad absoluta, \pTotal\ es la presión total del sistema, \vaporMolecularWeight es el peso molecular del vapor, \gasMolecularWeight es el peso molecular del gas, \idealConstantGas\ es la constante ideal de gases.
+    Donde \absoluteHumidity es la humedad absoluta, \pTotal\ es la presión total del sistema, \vaporMolecularWeight es el peso molecular del vapor, \gasMolecularWeight es el peso molecular del gas, \universalConstantGas\ es la constante ideal de gases.
 }
 
 \newcommand{\eqnDegreeOfSaturation}{
     \begin{equation}
         \label{eqn:DegreeOfSaturation}
-        \degreeOfSaturation[]{} = {{\left( \frac{\absoluteHumidity}{\saturatedAbsoluteHumidity}\right)}}_{\temperature[]{}\text{, }\pressure[]{}\ }
+        \degreeOfSaturation[]{} = {{\left( \frac{\absoluteHumidity}{\saturatedAbsoluteHumidity}\right)}}_{\T\text{, }\pressure[]{}\ }
     \end{equation}%
     Donde \absoluteHumidity es la humedad absoluta, y se representa a la humedad absoluta saturada como \saturatedAbsoluteHumidity, el cual es la máxima cantidad de vapor que el aire puede contener a la misma presión y temperatura.
 
@@ -86,7 +86,7 @@
 \newcommand{\eqnClausiusClapeyron}{
     \begin{equation}
         \label{eqn:ClausiusClapeyron}
-        \frac{d \pressure[]{}}{d \temperature[]{}} = \frac{L}{\temperature[]{} \Delta \volume[]{}}
+        \frac{d \pressure[]{}}{d \T} = \frac{L}{\T \Delta \volume[]{}}
     \end{equation}%
     Donde \absoluteHumidity es la humedad absoluta, y se representa a la humedad absoluta saturada como \saturatedAbsoluteHumidity, el cual es la máxima cantidad de vapor que el aire puede contener a la misma presión y temperatura.
 
@@ -95,7 +95,7 @@
 \newcommand{\eqnAdiabaticSaturacion}{
     \begin{equation}
         \label{eqn:AdiabaticSaturacion}
-        \frac{d \pressure[]{}}{d \temperature[]{}} = \frac{L}{\temperature[]{} \Delta \volume[]{}}
+        \frac{d \pressure[]{}}{d \T} = \frac{L}{\T \Delta \volume[]{}}
     \end{equation}%
     Donde \absoluteHumidity es la humedad absoluta, y se representa a la humedad absoluta saturada como \saturatedAbsoluteHumidity, el cual es la máxima cantidad de vapor que el aire puede contener a la misma presión y temperatura.
 
@@ -104,7 +104,7 @@
 \newcommand{\eqnHeatFlow}{
     \begin{equation}
         \label{eqn:HeatFlow}
-        \heatFlow = {\specificHeatAtP}{\Delta \temperature[]{}}
+        \heatFlow = {\specificHeatAtP}{\Delta \T}
     \end{equation}%
     Donde 
 

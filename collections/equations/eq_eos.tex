@@ -2,16 +2,53 @@
 \NewDocumentCommand{\eqEosWithZ}{s}{
     \begin{equation}
         \IfBooleanTF{#1}{\nonumber}{\label{eq:EosWithZ}}
-        {\pressure[]{}}{\volume[]{}[]} = {\factorCompressibility[]{}}{\mole[]{}}{\idealConstantGas}{\temperature[]{}}
+        {\p}{\V} = {\z}{\n}{\universalConstantGas}{\T}
     \end{equation}
-    Donde $\pressure[]{}$ representa a la presión....
+    \IfBooleanTF{#1}{}{Donde $\p$ representa a la presión, $\V$ es el volumen, \n es el número de moles y $\T$ es la temperatura termodinámica}
 }
 
-% p v' = R T
+% p v' = z R T
 \NewDocumentCommand{\eqEosWithMolarVolumeZ}{s}{
     \begin{equation}
         \IfBooleanTF{#1}{\nonumber}{\label{eq:EosWithMolarVolumeZ}}
-        {\pressure[]{}}{\molarVolume} = {\factorCompressibility[]{}}{\idealConstantGas}{\temperature[]{}}
+        {\p}{\molarVolume} = {\z}{\universalConstantGas}{\T}
     \end{equation}
-    Donde $\pressure[]{}$ representa a la presión....
+    \IfBooleanTF{#1}{}{Donde $\p$ representa a la presión, $\molarVolume$ representa el volumen molar.}
+
+}
+
+% p = z R T / v'
+\NewDocumentCommand{\eqEosPressureWithMolarVolumeZ}{s}{
+    \begin{equation}
+        \IfBooleanTF{#1}{\nonumber}{\label{eq:EosPressureWithMolarVolumeZ}}
+        {\p} = {\z}{\frac{\universalConstantGas \T}{\molarVolume}}
+    \end{equation}
+    \IfBooleanTF{#1}{}{Donde $\p$ representa a la presión....}
+}
+
+\NewDocumentCommand{\eqZVirialThirdCoeff}{s}{
+    \begin{equation}
+        \IfBooleanTF{#1}{\nonumber}{\label{eq:ZVirialThirdCoeff}}
+        {\z} = 1 + {\frac{\constBm}{\molarVolume}} + {\frac{\constCm}{{\molarVolume}^2}}
+    \end{equation}
+    \IfBooleanTF{#1}{}{\qquad Donde $\constBm$ y $\constCm$ son el segundo y tercer coeficiente virial de la mezcla.}
+    \vspace{10pt}
+}
+
+% Ecuación para Bm (Ec. 10)
+\NewDocumentCommand{\eqVirialSecondMix}{s}{
+    \begin{equation}
+        \IfBooleanTF{#1}{\nonumber}{\label{eq:VirialSecondMix}}
+        \constBm = (1 - {\vaporMoleFraction})^2 \constBaa + 2(1 - {\vaporMoleFraction}){\vaporMoleFraction} \constBaw + {\vaporMoleFraction}^2 \constBww
+    \end{equation}
+}
+
+% Ecuación para Cm (Ec. 11)
+\NewDocumentCommand{\eqVirialThirdMix}{s}{
+    \begin{equation}
+        \IfBooleanTF{#1}{\nonumber}{\label{eq:VirialThirdMix}}
+        \constCm = (1 - {\vaporMoleFraction})^3 \constCaaa + 3(1 - {\vaporMoleFraction})^2 {\vaporMoleFraction} \constCaaw + 3(1 - {\vaporMoleFraction}) {\vaporMoleFraction}^2 \constCaww + {\vaporMoleFraction}^3 \constCwww
+    \end{equation}
+    
+    \vspace{10pt}
 }

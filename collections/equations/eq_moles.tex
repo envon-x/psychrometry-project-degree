@@ -25,7 +25,7 @@
         \IfBooleanTF{#1}{\nonumber}{\label{eq:GasFracAsVaporFrac}} % Etiqueta para el grupo completo (opcional)
         \begin{align}
             \vaporMoleFraction + \gasMoleFraction = 1 \label{eq:SumVapGasFrac}\\ %No dejar espacio entre las ecuaciones
-             \gasMoleFraction = 1 - \vaporMoleFraction \label{eq:GasFracAsVap}
+             \gasMoleFraction = 1 - \vaporMoleFraction \label{eq:GasFracAsFrac}
         \end{align}
     \end{subequations}
 }
@@ -34,6 +34,13 @@
     \begin{equation}
         \label{eq:MoleVaporFractionAsAbsoluteHumidity}
         \vaporMoleFraction =  \frac{{\absoluteHumidity}}{{(\frac{\vaporMolecularWeight}{\gasMolecularWeight} + \absoluteHumidity)}}
+    \end{equation}
+}
+
+\newcommand{\eqMoleGasFractionAsAbsoluteHumidity}{
+    \begin{equation}
+        \label{eq:MoleGasFractionAsAbsoluteHumidity}
+        \gasMoleFraction = 1 - \frac{{\absoluteHumidity}}{{(\frac{\vaporMolecularWeight}{\gasMolecularWeight} + \absoluteHumidity)}}
     \end{equation}
 }
 
