@@ -1,0 +1,56 @@
+<mxfile host="Electron" agent="Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) draw.io/27.0.9 Chrome/134.0.6998.205 Electron/35.4.0 Safari/537.36" version="27.0.9">
+  <diagram name="Page-1" id="TtdYsmr3GNGenKIs5DuW">
+    <mxGraphModel dx="1295" dy="572" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="413" pageHeight="291" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="7dfv3gXdlbBY-t3XSm3w-1" value="Magnitudes Fundamentales" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="-136" width="119" height="42" as="geometry" />
+        </mxCell>
+        <mxCell id="7dfv3gXdlbBY-t3XSm3w-2" value="Magnitudes Drivadas" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="-136" y="90" width="119" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="7dfv3gXdlbBY-t3XSm3w-3" value="" style="endArrow=classic;html=1;rounded=0;exitX=0.5;exitY=0;exitDx=0;exitDy=0;" edge="1" parent="1" source="7dfv3gXdlbBY-t3XSm3w-2" target="7dfv3gXdlbBY-t3XSm3w-1">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="-76" y="70" as="sourcePoint" />
+            <mxPoint x="-26" y="70" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="7dfv3gXdlbBY-t3XSm3w-4" value="Presión" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="-296" y="150" width="119" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="7dfv3gXdlbBY-t3XSm3w-9" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.5;entryY=1;entryDx=0;entryDy=0;" edge="1" parent="1" source="7dfv3gXdlbBY-t3XSm3w-5" target="7dfv3gXdlbBY-t3XSm3w-4">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="-336" y="220" />
+              <mxPoint x="-236" y="220" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="7dfv3gXdlbBY-t3XSm3w-5" value="Presión Absoluta" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="-396" y="250" width="119" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="7dfv3gXdlbBY-t3XSm3w-8" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.5;entryY=1;entryDx=0;entryDy=0;" edge="1" parent="1" source="7dfv3gXdlbBY-t3XSm3w-7" target="7dfv3gXdlbBY-t3XSm3w-4">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="-136" y="220" />
+              <mxPoint x="-236" y="220" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="7dfv3gXdlbBY-t3XSm3w-7" value="Presión Manométrica" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="-196" y="250" width="119" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="7dfv3gXdlbBY-t3XSm3w-10" value="" style="endArrow=classic;html=1;rounded=0;exitX=0.5;exitY=0;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" source="7dfv3gXdlbBY-t3XSm3w-4" target="7dfv3gXdlbBY-t3XSm3w-2">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="-116" y="110" as="sourcePoint" />
+            <mxPoint x="-66" y="60" as="targetPoint" />
+            <Array as="points">
+              <mxPoint x="-236" y="110" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

@@ -3,6 +3,8 @@
 %%%% los símbolos o subíndices van erguidas         %%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
+\newcommand{\ldp}{ Java}
+
 %%%%%%%%%%%%%%%%%%%%%%  Masa - inicio %%%%%%%%%%%%%%%%%%%%%%%%%%
 % 1. La base: #1=subíndice, #2=punto u otro acento (opcional)
 % Significado: \comando[opcional]{obligatorio}
@@ -88,7 +90,7 @@
 \newcommand{\pVapor}{\pressure[]{\vapor}}                 % Vapor pressure (reuses your \vapor command)
 \newcommand{\pGas}{\pressure{\gas}}                       % Gas pressure (reuses your \gas command)
 \newcommand{\pTotal}{\pressure{\total}}                   % Presión total
-\newcommand{\pCritic}{\pressure{\critical}}               % Presión crítica
+\newcommand{\pC}{\pressure{\critical}}               % Presión crítica
 \newcommand{\pTriple}{\pressure{\triple}}                 % Presión en el punto triple
 % \newcommand{\pSat}{\pressure[o]{v}\xspace}
 % \newcommand{\pVapor}{\pressure{\vapor}\xspace}
@@ -106,7 +108,7 @@
 \newcommand{\tGas}{\temperature{\gas}}                        % Temperatura del Gas
 \newcommand{\tAtm}{\temperature{\atmospheric}}   
 \newcommand{\Tref}{\temperature{\reference}}
-\newcommand{\tCritic}{\temperature{\critical}}                % Temperatura crítica
+\newcommand{\Tc}{\temperature{\critical}}                     % Temperatura crítica
 \newcommand{\tTriple}{\temperature{\triple}}                  % Temperatura en el punto triple
 \newcommand{\tDewPoint}{\temperature{\dewPointSymbol}}        % Temperatura en el punto rocío
 

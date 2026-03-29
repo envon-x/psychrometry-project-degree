@@ -1,0 +1,35 @@
+\section{Justificación Técnica}
+\section{Justificación Ambiental}
+    La elección del lengua de programación Rust para el motor de cálculo no responde únicamente a criterios de rendimiento, sino a una responsabilidad ambiental. Según el estudio de \parencite{bib:Pereira2017}, los lenguajes interpretados como Python pueden llegar a consumir 75 veces más energía eléctrica que los lenguajes compilados. Bajo el contexto actual de crisis climática, la migración de algoritmos termodinámicos hacia arquitecturas escritos en lenguajes  de programación como Rust permite reducir la huella de carbono digital; además de aumentar la eficiencia en el cómputo sin perder el control sobre la seguridad de memoria (como los lenguajes C/C++); gracias a los conceptos novedosos tales como: Ownership, Borrowing en el modelo de manejo memoria y consiguiendo un rendimiento superior a otros lenguajes de programación.
+
+    % El costo energético puede llevar a al peligro de suministro de energía y aumenta la huella de carbono sobre el medio ambiente
+
+    % Lento inestables (es como un idioma inventado por un genio, loco y desordenado), creas un programa que depende de otros programas, que cuando estos se actualizan se rompen las dependencias [entropía vinaria, youtbe]
+
+    \begin{table}[H]
+        \centering
+        \caption{Comparativa de Eficiencia Energética y Tiempo de Ejecución por Lenguaje \parencite{bib:Pereira2017}}
+        \label{tab:energy_efficiency}
+        \begin{tabular}{l c c} % 'l' para el nombre, 'c' para los números
+            \toprule
+            \textbf{Lenguaje} & \textbf{Tiempo de Ejecución} & \textbf{Consumo de Energía} \\
+            \midrule
+            C           & 1.00  & 1.00 \\
+            \textbf{Rust} & \textbf{1.04} & \textbf{1.03} \\
+            C++         & 1.56  & 1.34 \\
+            Java        & 1.89  & 1.98 \\
+            Go          & 2.83  & 3.23 \\
+            C\#         & 3.14  & 3.14 \\
+            JavaScript  & 6.52  & 4.45 \\
+            PHP         & 27.64 & 29.30 \\
+            Dart        & 6.67  & 3.83 \\
+            TypeScript  & 46.20 & 21.50 \\
+            Python      & 71.90 & 75.88 \\
+            Lua         & 82.91 & 45.98 \\
+            \bottomrule
+        \end{tabular}
+        \vspace{0.2cm}
+        \small \\ % Texto pequeño para la nota
+            Nota: Valores normalizados respecto a C (1.00). Los valores menores indican mayor eficiencia; tomado de: Energy Efficiency across Programming Languages.
+
+    \end{table}

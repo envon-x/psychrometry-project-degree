@@ -1,15 +1,7 @@
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%% ARCHIVO PRINCIPAL: main.tex
-%% Proyecto modular de cálculo de propiedades psicrométricas
-%% Version 2.0.0
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\documentclass[12pt]{article}
-%%%%
-% === CONFIGURACIÓN DE GEOMETRÍA ===
-% \usepackage[letterpaper, margin=1in]{geometry}
+\documentclass[12pt, oneside]{book}
 \usepackage[papersize={31.59cm,45.94cm}, margin=1in]{geometry}
-%%%%
-% === PAQUETES BÁSICOS ===
+% \usepackage[paperheight=11in, paperwidth=8.5in, margin=1in]{geometry} % APA7
+\usepackage{styles/texumsa/tesis}
 \usepackage[utf8]{inputenc}
 \usepackage[spanish]{babel}
 \usepackage{amsmath}
@@ -17,25 +9,20 @@
 \usepackage{nicefrac}
 \usepackage{siunitx}
 \usepackage{graphicx}
-\usepackage{hyperref}
 \usepackage{csquotes} 
-
 \usepackage{pgfplots}
 \pgfplotsset{compat=1.18}
 \usetikzlibrary{arrows.meta}
-
+\usepackage{booktabs} % Para líneas profesionales (\toprule, \midrule, \bottomrule)
+\usepackage{colortbl} % Si deseas resaltar algunas filas las filas de Rust y Python
 \usepackage[version=4]{mhchem}
 \usepackage{caption}
 \usepackage{float} % Para usar [H] si es necesario
-
 \usepackage{fontspec}
 % \setmainfont{Times New Roman} % O Georgia
 
-%%%%
-% Estilo APA - para bibliografía
 \usepackage[style=apa,sorting=nyt,backend=biber]{biblatex}
 \DeclareLanguageMapping{spanish}{spanish-apa}
-% Opciones adicionales de APA
 \ExecuteBibliographyOptions{
   sorting=nyt,      % Ordenar por nombre-año-título
   maxcitenames=2,   % Máximo 2 nombres en cita
@@ -52,22 +39,14 @@
 \usepackage{environ}
 \usepackage{expl3}
 \usepackage{hyperref}
+\usepackage[toc, acronym]{glossaries-extra} % 'toc' lo añade al índice general
+\makeglossaries % ESTA LÍNEA ES OBLIGATORIA AQUÍ, después de glossaries-extra
 \usepackage{bookmark}
-
-%
-% === CARGAR ESTILOS PERSONALIZADOS ===
 \input{styles/tikz_styles}
 \input{styles/algorithm_styles}
-%%%%
-% === INFORMACIÓN DEL DOCUMENTO ===
-\title{%
-    \textbf{Cálculo de Propiedades Termodinámicas}\\
-    \large Sistema Psicrométrico con Correlaciones Mejoradas
-}
-%%%%
-% cabecera definiciones y ecuaciones
 \input{collections/definitions.tex}
 \input{collections/commands.tex}
+\input{collections/acronyms.tex}
 \input{collections/equations_correlation.tex}
 \input{collections/equations/eq_moles.tex}                  % moles y fracciones molares
 \input{collections/equations/eq_eos.tex}                    % eos
@@ -77,49 +56,46 @@
 \input{collections/constants.tex}
 \input{collections/chart_water_pLog_T.tex}
 \input{collections/diagrams/water_pLog_T.tex}
-
 \input{collections/commands/cmd_with_simplified_align.tex}
-%%%%
-\author{Departamento de Ingeniería Química}
-\date{\today}
-
-
 
 \begin{document}
-
-    \maketitle
-
-    \tableofcontents
+    \sloppy
+     % \layout % Esto genera un diagrama con los nombres y tamaños de las partes de la página
+    \frontmatter
+    \include{chapters/details/01_cover}                         % Carátula
     \newpage
+    \pagenumbering{roman}                                       % Índices
+    \renewcommand\contentsname{\large Índice General}           % Contenido
+    \thispagestyle{plain}                                       % para que la cabecera esté en blanco
+    \tableofcontents
+    \setcounter{tocdepth}{2}
+    \include{chapters/details/02_dedicatoria}
+    \include{chapters/details/03_agradecimientos}
+    \include{chapters/details/04_resumen}
+    \include{chapters/details/05_abstract}
+    \ifx\generatoc\undefined
+    \else
+    \include{texumsa/toc}
+    \fi
+    \mainmatter     % Marcamos el  comienzo de  los capítulos (para  la numeración  de las páginas y ponemos la cabecera normal
+    \restauraCabecera
+    
+    \printglossary[type=\acronymtype, title={Lista de Acrónimos y Siglas}]
 
+    \newpage
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-    \section{Introducción}
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-    Este documento presenta un sistema completo para el cálculo de propiedades psicrométricas utilizando correlaciones termodinámicas mejoradas. El sistema incluye:
-
-    \begin{itemize}
-        \item Ecuación virial con correlaciones de Tsonopoulos y Meng-Duan
-        \item Método Lee-Kesler para condiciones extremas
-        \item Reglas de mezcla mejoradas para sistemas aire-vapor
-        \item Cálculo preciso de entalpía en exceso
-    \end{itemize}
-
-
-
-
-    %%%% Add chapters here
+    \include{chapters/introduction/content_intro}
     \input{sections/correlaciones.tex}
     \input{chapters/marco_metodologico/diseno_investig.tex}
     \input{chapters/marco_teorico/marco_teorico.tex}
     \input{chapters/marco_teorico/mt_psychrometry.tex}
     \input{chapters/marco_conceptual/marco_conceptual.tex}
     \input{chapters/marco_conceptual/procesos_psichrometricos.tex}
-
-
+    
+    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     \section{Diagramas de Flujo}
-    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
     \subsubsection{Diagrama Principal}
     \label{sec:flowchart_main}
@@ -166,8 +142,6 @@
     \label{sec:algo_saturation}cite
 
     \input{algorithms/saturation_pressure}
-
-
 
 
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
