@@ -1,20 +1,26 @@
-# Secuencia de comandos para la compilación
-La secuencia es: XeLaTeX > Biber > XeLaTeX > XeLaTeX
-For Latex inside Inkscape: Install TexText extension
-Install texlive:
-download and install inkscape:
+## Secuencia de comandos para la compilación
+La secuencia es: XeLaTeX > Biber > XeLaTeX > XeLaTeX <br><\br>
 
-Ensure python installed with: which python3
-Ensure python command with: sudo ln -s /usr/bin/python3 /usr/bin/python
+# Set up the project
+* Install Latex with texlive:
+* SVG Graphics and Latex with Inkscape:
+* Download and install inkscape:
+* Install TexText extension for Latex command into Inkscape
 
-$ rm ~/.config/textext/.cache.json
-cd <...>/textext-1.8.2
-Install texTex with: python3 setup.py --pdflatex-executable=$(which pdflatex)
+## On Linux Systems(Ubuntu/Debian/Linux Mint)
+* Ensure python installed with: which python3
+* Ensure python command with: sudo ln -s /usr/bin/python3 /usr/bin/python
+* MS fonts on linux, read: https://linuxcapable.com/how-to-install-microsoft-fonts-on-debian-linux/
 
-On Windows:
-Ensure python command with: mklink C:\Windows\System32\python.exe C:\Python38\python.exe
+# To Enable Xelatex for TexText into Inkscape 
+* $ rm ~/.config/textext/.cache.json
+* $ cd <...>/textext-1.8.2
+* Install texTex with: python3 setup.py --pdflatex-executable=$(which pdflatex)
 
+## On Windows:
+* Ensure python command with: mklink C:\Windows\System32\python.exe C:\Python38\python.exe
 
+## To format for apa7 style
 APA 7 style Font for latex
 Ensure install the package: 
 to use:
@@ -50,8 +56,6 @@ Helpers pages:
 https://www.codegenes.net/blog/how-to-make-python3-command-run-as-well-as-python/
 
 
-MS fonts on linux:
-https://linuxcapable.com/how-to-install-microsoft-fonts-on-debian-linux/
 
 
 # Export .svg to .pdf
