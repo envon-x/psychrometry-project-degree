@@ -1,6 +1,5 @@
-
-
-
+# Secuencia de comandos para la compilación
+La secuencia es: XeLaTeX > Biber > XeLaTeX > XeLaTeX
 For Latex inside Inkscape: Install TexText extension
 Install texlive:
 download and install inkscape:
