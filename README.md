@@ -12,8 +12,7 @@ La secuencia es: XeLaTeX > Biber > XeLaTeX > XeLaTeX<br/><br/>
 * Ensure python command with: sudo ln -s /usr/bin/python3 /usr/bin/python
 * MS fonts on linux, read: https://linuxcapable.com/how-to-install-microsoft-fonts-on-debian-linux/
 
-    On main.tex
-    ```
+    On main.tex    ```
     \usepackage{fontspec}
     \setmainfont{Times New Roman} % O Georgia
     ```
@@ -25,14 +24,14 @@ La secuencia es: XeLaTeX > Biber > XeLaTeX > XeLaTeX<br/><br/>
     # If your system still keeps the Debian mirrors in /etc/apt/sources.list, add contrib there instead:
     $ sudo sed -i '/^deb / {/\bcontrib\b/! s/ main/ main contrib/}' /etc/apt/sources.list
     sudo apt update
-    apt-cache policy ttf-mscorefonts-installer
+    $ apt-cache policy ttf-mscorefonts-installer
     ```
 
 4. Actualiza el caché de fuentes
 Para que aplicaciones como Inkscape y TexText las reconozcan de inmediato:
 bash
-sudo fc-cache -f -v
-To use MS fonts inside Inkscape with texText
+$ sudo fc-cache -f -v
+# To use MS fonts inside Inkscape with texText
 $ python3 setup.py --xelatex-executable=$(which xelatex)
 
 
@@ -56,10 +55,11 @@ serif fonts such as 12-point Times New Roman, 11-point Georgia, or normal (10-po
 
 
 ¿Cómo verificar que funcionó?
-fc-list | grep "Times New Roman"
-Helpers pages:
-https://www.codegenes.net/blog/how-to-make-python3-command-run-as-well-as-python/
-
+```
+$ fc-list | grep "Times New Roman"
+# Helpers pages:
+# https://www.codegenes.net/blog/how-to-make-python3-command-run-as-well-as-python/
+```
 
 # To export .svg to .pdf
 cd to the .svg  file folder content
