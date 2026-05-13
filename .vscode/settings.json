@@ -1,9 +1,18 @@
 {
     "editor.tabSize": 4,
+    "editor.insertSpaces": true,
+    "editor.detectIndentation": true,
     "cSpell.language": "en,es",
     "latex-workshop.view.pdf.viewer": "external",
-    "latex-workshop.view.pdf.external.viewer.command": "sioyek",
-    "latex-workshop.view.pdf.external.synctex.command": "sioyek",
+    "latex-workshop.view.pdf.external.viewer.command": "zathura",
+    "latex-workshop.view.pdf.external.synctex.command": "zathura",
+    "latex-workshop.view.pdf.internal.synctex.keybinding":"ctrl-click",
+    "latex-workshop.view.pdf.external.viewer.args": [
+      "--synctex-editor-command",
+      // "code -r -g \"%{input}:%{line}\"",
+      "code --no-sandbox -r -g \"%{input}:%{line}\"", // para zathura
+      "%PDF%"
+    ],
     "latex-workshop.view.pdf.external.synctex.args": [
         "--inverse-search",
         "--reuse-instance",
@@ -86,6 +95,7 @@
     "adiabáticamente",
     "Duan",
     "evaporativo",
+    "intermoleculares",
     "Kesler",
     "Meng",
     "psicrometría",
@@ -97,6 +107,11 @@
     "psicrométricos",
     "psicrómetro",
     "Tsonopoulos"
-  ]
+  ],
+  "[latex]": {
+    "editor.tabSize": 4,
+    "editor.formatOnPaste": false,
+    "editor.suggestSelection": "recentlyUsedByPrefix"
+  }
 
 }

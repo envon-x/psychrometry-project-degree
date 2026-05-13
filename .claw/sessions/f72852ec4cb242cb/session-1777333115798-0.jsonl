@@ -1,0 +1,3 @@
+{"created_at_ms":1777333115797,"model":"deepseek-v4-pro","session_id":"session-1777333115798-0","type":"session_meta","updated_at_ms":1777333115797,"version":1,"workspace_root":"/home/bon/Documents/tesis-psychro (2026-04-20)/docs"}
+{"text":"Lee el fichero chapters/introduction/04_objetivos.tex para generar la estructura del marco teórico secciones subsecciones, etc.","timestamp_ms":1777333135437,"type":"prompt_history"}
+{"message":{"blocks":[{"text":"Lee el fichero chapters/introduction/04_objetivos.tex para generar la estructura del marco teórico secciones subsecciones, etc.","type":"text"}],"role":"user"},"type":"message"}

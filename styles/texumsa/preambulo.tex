@@ -1,11 +1,4 @@
-% Paquete  que permite  cambiar  el formato  en  el que  se ponen  los
-% títulos   de   capítulos,  secciones,   etc.    También  define   el
-% comando \chaptertitlename, que  equivale a \chaptername ("Capítulo")
-% cuando se está  dentro de un capítulo o  a \apendixname ("Apéndice")
-% cuando se  está en un apéndice.  Eso se utiliza en  la definición de
-% las cabeceras.
 \usepackage{titlesec}
-
 \usepackage{verbatim}
 
 \ifx\generaacronimos\undefined
@@ -61,8 +54,8 @@
 \fi
 
 \usepackage{multicol}
-\usepackage{subfig}
-\makeatletter                                     %% Permite que @ sea tratado como una letra, lo que significa que puede ser utilizado en nombres de comandos.
+% \usepackage{subfig}       % deprecated
+\makeatletter                                     %%  Permite que @ sea tratado como una letra, lo que significa que puede ser utilizado en nombres de comandos.
 \newbox\sf@box
 
 \newenvironment{SubFloat}[2][]{                   %% Define el entorno SubFloat que acepta dos argumentos, #1 y #2. El primer argumento es opcional.
@@ -113,6 +106,7 @@
 % habitual.
 \setlength{\parskip}{0.2ex}
 
+\usepackage{titlesec}
 
 % El paquete  psboxit permite poner  una imagen Post Script  dentro de
 % una  caja de  TeX. La  imagen se  parametriza con  la posición  y el
@@ -207,7 +201,13 @@
 
 
 
-
+% Paquete  que permite  cambiar  el formato  en  el que  se ponen  los
+% títulos   de   capítulos,  secciones,   etc.    También  define   el
+% comando \chaptertitlename, que  equivale a \chaptername ("Capítulo")
+% cuando se está  dentro de un capítulo o  a \apendixname ("Apéndice")
+% cuando se  está en un apéndice.  Eso se utiliza en  la definición de
+% las cabeceras.
+\usepackage{titlesec}
 
 % \titleformat{\section}[frame]{\normalfont} %
 % {\filright\footnotesize\enspace SECCIÓN \thesection\enspace} %
@@ -253,29 +253,6 @@
   {\Huge\usefont{T1}{phv}{b}{n}\MakeUppercase}               % título en mayús
   [\vfill\clearpage]
 \titlespacing*{\chapter}{0pt}{0pt}{0pt}
-
-
-
-% \titleformat{\chapter}[display]
-%   {\vfill\centering\normalfont}
-%   {%
-%     \fontsize{48pt}{48pt}\usefont{T1}{phv}{m}{n}%
-%     \MakeUppercase{\chaptername}%
-%     \quad%
-%     {\fontsize{48pt}{48pt}\selectfont\thechapter}%   número grande
-%   }
-%   {0pt}
-%   {%
-%     \vspace{4pt}%
-%     \hrule height 0.8pt                              % línea separadora
-%     \vspace{8pt}%
-%     \Huge\usefont{T1}{phv}{b}{n}\MakeUppercase
-%   }
-%   [\vspace{6pt}\hrule height 0.4pt\vfill\clearpage] % línea inferior + vfill
-% \titlespacing*{\chapter}{0pt}{0pt}{0pt}
-
-
-
 
 
 % para la personalizacion de las secciones

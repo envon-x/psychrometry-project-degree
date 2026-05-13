@@ -104,6 +104,8 @@
   \ensuremath{{T}_{\text{#2}}^{#1}}%
 }
 \newcommand{\T}{\temperature[]{}}                             % Temperatura genérica
+\newcommand{\Tf}{\temperature[]{\final}}                             % Temperatura genérica
+\newcommand{\To}{\temperature[]{\initial}}                             % Temperatura genérica
 \newcommand{\tVapor}{\temperature{\vapor}}                    % Temperatura del Vapor
 \newcommand{\tGas}{\temperature{\gas}}                        % Temperatura del Gas
 \newcommand{\tAtm}{\temperature{\atmospheric}}   
@@ -132,6 +134,84 @@
 \newcommand{\fluxVolume}{\volume[\dot]{}}               %%%% Flujo  volumétrico (V con punto)
 \newcommand{\molarVolume}{\volume*[\bar]{}}            %%%% Volumen molar (V con barra)
 
+%%%%%%%%%%%%%%%%%%%%%%  Fuerza - inicio %%%%%%%%%%%%%%%%%%%%%%%%%%
+% 1. La base: #1=subíndice, #2=punto u otro acento (opcional)
+% Significado: \comando[opcional]{obligatorio}
+% Explicación:
+% [2]: Indica que el comando recibe dos argumentos en total.
+% [] (el segundo par de corchetes): Define que el primer argumento 
+% es opcional y que, por defecto, está vacío.
+% En LaTeX, el argumento opcional siempre es el #1 y se pasa entre 
+% corchetes [].
+% El argumento obligatorio es el #2 y se pasa entre llaves {}.
+% \mass*[acento]{subindice}[exponente]
+% Default: m  |  With *: M
+\NewDocumentCommand{\force}{s O{} m O{}}{%
+  \ensuremath{%
+    \let\baseF\relax
+    % If * is used, switch to uppercase M; otherwise, use lowercase m
+    \IfBooleanTF{#1}{\def\baseF{W}}{\def\baseF{w}}%
+    \ifx\\#2\\ % If no accent is provided
+      {\baseF}_{\text{#3}}^{#4}%
+    \else % If an accent (\dot, \bar, etc.) is provided
+      {#2{\baseF}}_{\text{#3}}^{#4}%
+    \fi
+  }%
+}
+
+
+%%%%%%%%%%%%%%%%%%%%%%  Energía - inicio %%%%%%%%%%%%%%%%%%%%%%%%%%
+% 1. La base: #1=subíndice, #2=punto u otro acento (opcional)
+% Significado: \comando[opcional]{obligatorio}
+% Explicación:
+% [2]: Indica que el comando recibe dos argumentos en total.
+% [] (el segundo par de corchetes): Define que el primer argumento 
+% es opcional y que, por defecto, está vacío.
+% En LaTeX, el argumento opcional siempre es el #1 y se pasa entre 
+% corchetes [].
+% El argumento obligatorio es el #2 y se pasa entre llaves {}.
+% \mass*[acento]{subindice}[exponente]
+% Default: m  |  With *: M
+\NewDocumentCommand{\energy}{s O{} m O{}}{%
+  \ensuremath{%
+    \let\baseE\relax
+    % If * is used, switch to uppercase M; otherwise, use lowercase m
+    \IfBooleanTF{#1}{\def\baseE{E}}{\def\baseE{e}}%
+    \ifx\\#2\\ % If no accent is provided
+      {\baseE}_{\text{#3}}^{#4}%
+    \else % If an accent (\dot, \bar, etc.) is provided
+      {#2{\baseE}}_{\text{#3}}^{#4}%
+    \fi
+  }%
+}
+
+%%%%%%%%%%%%%%%%%%%%%%  Trabajo - inicio %%%%%%%%%%%%%%%%%%%%%%%%%%
+% 1. La base: #1=subíndice, #2=punto u otro acento (opcional)
+% Significado: \comando[opcional]{obligatorio}
+% Explicación:
+% [2]: Indica que el comando recibe dos argumentos en total.
+% [] (el segundo par de corchetes): Define que el primer argumento 
+% es opcional y que, por defecto, está vacío.
+% En LaTeX, el argumento opcional siempre es el #1 y se pasa entre 
+% corchetes [].
+% El argumento obligatorio es el #2 y se pasa entre llaves {}.
+% \mass*[acento]{subindice}[exponente]
+% Default: m  |  With *: M
+\NewDocumentCommand{\work}{s O{} m O{}}{%
+  \ensuremath{%
+    \let\baseW\relax
+    % If * is used, switch to uppercase M; otherwise, use lowercase m
+    \IfBooleanTF{#1}{\def\baseW{W}}{\def\baseW{w}}%
+    \ifx\\#2\\ % If no accent is provided
+      {\baseW}_{\text{#3}}^{#4}%
+    \else % If an accent (\dot, \bar, etc.) is provided
+      {#2{\baseW}}_{\text{#3}}^{#4}%
+    \fi
+  }%
+}
+
+
+
 
 %%%%%%%%%%%%%%%%%%%%%%  Heat - inicio %%%%%%%%%%%%%%%%%%%%%%%%%%
 % 1. La base: #1=subíndice, #2=punto u otro acento (opcional)
@@ -157,7 +237,8 @@
     \fi
   }%
 }
-\newcommand{\heatFlow}{\heat[\dot]{}}  
+\newcommand{\heatFlow}{\heat[\dot]{}}
+\newcommand{\q}{\heat[]{}}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%  fin - Heat %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 %%%%%%%%%%%%%%%%%%%%%%  Specific Heat - inicio %%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -175,7 +256,7 @@
 \NewDocumentCommand{\specificHeat}{s O{} m O{}}{%
   \ensuremath{%
     \let\baseC\relax
-    \IfBooleanTF{#1}{\def\baseC{c}}{\def\baseC{C}}%
+    \IfBooleanTF{#1}{\def\baseC{c}}{\def\baseC{c}}%
     \ifx\\#2\\ % If no accent is provided
       {\baseC}_{\text{#3}}^{#4}%
     \else % If an accent (\dot, \bar, etc.) is provided
@@ -270,8 +351,17 @@
 %%%% Calor latente
 \newcommand{\latentHeat}{\heat{\latent{}}}
 
+\NewDocumentCommand{\heatCapacity}{s O{} m O{}}{%
+  \ensuremath{%
+    \IfBooleanTF{#1}{\def\baseC{c}}{\def\baseC{C}}%
+    \IfBlankTF{#2}%
+      {\baseC}%           sin acento
+      {#2{\baseC}}%       con acento: \dot{h}, \bar{H}, etc.
+    _{\text{#3}}%         subíndice siempre presente
+    \IfBlankTF{#4}{}{^{#4}}%  superíndice solo si hay contenido
+  }%
+}
 \newcommand{\heatCapacityAtConstantPressure}{\heatCapacity{p}}
-
 \newcommand{\heatCapacityAtConstantVolume}{\heatCapacity{v}}
 
 
@@ -300,3 +390,5 @@
   \newcommand{\zVapor}{\factorCompressibility[]{\vapor}}  %%%% Factor de compresibilidad para el vapor
   \newcommand{\zGas}{\factorCompressibility[]{\gas}}      %%%% Factor de compresibilidad para el gas
 %%%%%%%%%%%%%%%%%% Factor de compresibilidad - Fin %%%%%%%%%%%%%%%%%%%%%
+
+

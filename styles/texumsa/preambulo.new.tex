@@ -1,0 +1,251 @@
+% =============================================================================
+%  PREÁMBULO DE ESTILO  —  versión corregida
+%  Cambios respecto al original:
+%    1. glosstex  →  glossaries-extra  (sistema único de acrónimos)
+%    2. subfig    →  subcaption        (paquete moderno, no deprecado)
+%    3. \ifpdf/hyperref  →  carga directa moderna
+%    4. Geometría TikZ hardcodeada  →  relativa a \textwidth/\linewidth
+%    5. Código comentado de capítulos eliminado
+% =============================================================================
+
+% -----------------------------------------------------------------------------
+% TIPOGRAFÍA E IDIOMA
+% -----------------------------------------------------------------------------
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage[english, spanish, es-noindentfirst, activeacute]{babel}
+
+% Sobreescribimos los nombres que babel asigna en español
+% ("cuadro" → "Tabla", etc.) para convenciones latinoamericanas.
+\addto\captionsspanish{%
+  \def\tablename{Tabla}%
+  \def\listtablename{\'{I}ndice de Tablas}%
+  \def\contentsname{\'{I}ndice}%
+  \def\chaptername{Cap\'{i}tulo}%
+}
+
+% -----------------------------------------------------------------------------
+% HIPERVÍNCULOS  (carga directa — \ifpdf es innecesario con motores modernos:
+%                 pdflatex, xelatex y lualatex producen PDF de forma nativa)
+% -----------------------------------------------------------------------------
+\usepackage[
+  pdfborder  = {0 0 0},
+  colorlinks = true,
+  linkcolor  = purple,
+  filecolor  = purple,
+  citecolor  = purple,
+  urlcolor   = purple,
+  hyperindex,
+  pdfpagelabels
+]{hyperref}
+\usepackage{bookmark}   % debe ir después de hyperref
+
+% -----------------------------------------------------------------------------
+% ACRÓNIMOS Y GLOSARIOS  —  glossaries-extra (sistema único)
+%
+%   • Se elimina el bloque \ifx\generaacronimos que cargaba el paquete
+%     obsoleto "glosstex" y dejaba comandos vacíos como fallback.
+%   • glossaries-extra cubre todos los casos: si no se usan entradas
+%     simplemente no se imprime nada.
+%   • La opción [abbreviations] es el mecanismo nativo de glossaries-extra
+%     para siglas; [acronym] también funciona si usas \newacronym.
+%   • \makeglossaries DEBE ir después de \usepackage{glossaries-extra}.
+% -----------------------------------------------------------------------------
+\usepackage[
+  toc,           % añade los glosarios al índice general
+  acronym,       % crea el glosario tipo \acronymtype (compatible con \newacronym)
+  % abbreviations % alternativa nativa de glossaries-extra (usa \newabbreviation)
+]{glossaries-extra}
+\makeglossaries   % OBLIGATORIO aquí, genera los archivos .acn/.glo
+
+% -----------------------------------------------------------------------------
+% ÍNDICE GENERAL
+% -----------------------------------------------------------------------------
+\usepackage{makeidx}
+
+\ifx\generaindice\undefined
+\else
+  \makeindex
+\fi
+
+% -----------------------------------------------------------------------------
+% FIGURAS Y SUBFIGURAS
+%   subfig está deprecado; subcaption es el reemplazo moderno y es compatible
+%   con memoir, KOMA-Script y caption.
+% -----------------------------------------------------------------------------
+\usepackage{graphicx}
+\usepackage{epsfig}
+\usepackage[
+  font       = small,
+  labelfont  = bf,
+  format     = plain,
+  justification = centering
+]{caption}
+\usepackage{subcaption}   % reemplaza a subfig
+
+% Entorno SubFloat reimplementado sobre subcaption.
+% Uso:
+%   \begin{SubFloat}[etiqueta TOC]{Leyenda visible}
+%     <contenido>
+%   \end{SubFloat}
+%
+% Si #1 está vacío, usa solo la leyenda visible como etiqueta del subfloat.
+\makeatletter
+\newbox\sf@box
+\newenvironment{SubFloat}[2][]{%
+  \def\sf@one{#1}%
+  \def\sf@two{#2}%
+  \setbox\sf@box\hbox\bgroup
+}{%
+  \egroup
+  \ifx\@empty\sf@one\@empty\relax
+    \begin{subfigure}[t]{\wd\sf@box}%
+      \usebox\sf@box
+      \caption{\sf@two}%
+    \end{subfigure}%
+  \else
+    \begin{subfigure}[t]{\wd\sf@box}%
+      \usebox\sf@box
+      \caption[\sf@one]{\sf@two}%
+    \end{subfigure}%
+  \fi
+}
+\makeatother
+
+% -----------------------------------------------------------------------------
+% TABLAS
+% -----------------------------------------------------------------------------
+\usepackage{tabularx}
+\usepackage{multicol}
+
+% -----------------------------------------------------------------------------
+% LISTADOS DE CÓDIGO
+% -----------------------------------------------------------------------------
+\usepackage{listings}
+\lstset{
+  basicstyle      = \small\ttfamily,
+  showstringspaces= false,
+  tabsize         = 3
+}
+
+% -----------------------------------------------------------------------------
+% PAQUETES DE UTILIDAD
+% -----------------------------------------------------------------------------
+\usepackage{verbatim}
+\usepackage{shortvrb}
+\usepackage{url}
+\usepackage{calc}
+\usepackage{xcolor}
+\usepackage{tikz}
+\usetikzlibrary{shapes.misc}
+
+% Espaciado entre párrafos
+\setlength{\parskip}{0.2ex}
+
+% -----------------------------------------------------------------------------
+% FORMATO DE CAPÍTULOS
+% -----------------------------------------------------------------------------
+\usepackage{titlesec}
+
+\titleformat{\chapter}[display]
+  {\vfill\centering\normalfont}
+  {%
+    \fontsize{48pt}{48pt}\usefont{T1}{phv}{m}{n}%
+    \MakeUppercase{\chaptername}%
+    \quad
+    {\fontsize{48pt}{48pt}\selectfont\thechapter}%
+  }
+  {0pt}
+  {%
+    \vspace{4pt}%
+    \hrule height 0.8pt%
+    \vspace{8pt}%
+    \Huge\usefont{T1}{phv}{b}{n}\MakeUppercase
+  }
+  [\vspace{6pt}\hrule height 0.4pt\vfill\clearpage]
+\titlespacing*{\chapter}{0pt}{0pt}{0pt}
+
+% -----------------------------------------------------------------------------
+% FORMATO DE SECCIONES  —  APA 7, hoja carta / A4
+%
+%  REQUISITO: barra y nodo comienzan en el sangrado APA 7 de 1 pulgada
+%  (2.54 cm); el título de sección queda justo después del nodo.
+%
+%  ESTRATEGIA (corregida):
+%   1. \titlespacing* provee el sangrado izquierdo de 1 pulgada.
+%      x=0 dentro del tikzpicture corresponde al borde del sangrado.
+%
+%   2. La barra se dibuja con \begin{scope}[overlay]...\end{scope}.
+%      La clave "overlay" excluye ese contenido del bounding-box del
+%      tikzpicture, por lo que NO altera el ancho del label en \titleformat.
+%
+%   3. El nodo (rounded rectangle) se dibuja fuera del scope overlay:
+%      su ancho SÍ contribuye al bounding-box. Por tanto el label box
+%      tiene exactamente el ancho del nodo.
+%
+%   4. \titleformat coloca el título a {sep} del borde derecho del label,
+%      es decir, inmediatamente después del nodo. ✓
+%
+%   5. Sin trim left / trim right: ya no son necesarios.
+%
+%  DIAGNÓSTICO del bug anterior:
+%      trim right = \sectionbarwidth - \nodelabelwidth se calculaba en el
+%      preámbulo cuando \textwidth aún podía valer 0pt (antes de que
+%      geometry lo fijara), resultando en trim right ≈ −\nodelabelwidth.
+%      Con ese valor negativo el label box era MÁS ANCHO que la barra,
+%      el título quedaba al extremo derecho o se salía del margen.
+% -----------------------------------------------------------------------------
+
+% ── Parámetros APA 7 ─────────────────────────────────────────────────────────
+\newlength{\APAindent}
+\setlength{\APAindent}{2.54cm}   % 1 pulgada exacta
+
+% ── \section ─────────────────────────────────────────────────────────────────
+\newcommand\titlebar{%
+  \tikz[baseline=(nd.base)]{%
+    % Barra de fondo — overlay: no altera el bounding-box del label
+    \begin{scope}[overlay]
+      \fill[cyan!25]
+        (0pt, -1ex) rectangle (\dimexpr\linewidth\relax, 2.5ex);
+    \end{scope}
+    % Nodo — SÍ contribuye al bounding-box → define el ancho del label
+    \node[
+      fill           = cyan!60!white,
+      anchor         = base west,
+      rounded rectangle,
+      minimum height = 3.5ex,
+      inner sep      = 5pt
+    ] (nd) at (0pt, 0) {\textbf{\thesection.}};
+  }%
+}
+
+\titleformat{\section}
+  {\large}{\titlebar}{0.6em}{}
+
+% left = \APAindent aplica el sangrado APA 7.
+% Dentro del tikzpicture, \linewidth = \textwidth − \APAindent (ajustado por LaTeX).
+\titlespacing*{\section}{\APAindent}{1.5ex plus .4ex minus .2ex}{0.8ex}
+
+% ── \subsection ──────────────────────────────────────────────────────────────
+\newcommand{\subtitlebar}{%
+  \tikz[baseline=(nd.base)]{%
+    % Barra delgada — overlay
+    \begin{scope}[overlay]
+      \fill[cyan!25]
+        (0pt, -0.5ex) rectangle (\dimexpr\linewidth\relax, 1.8ex);
+    \end{scope}
+    % Nodo
+    \node[
+      fill           = cyan!60!white,
+      anchor         = base west,
+      rounded rectangle,
+      minimum height = 2.2ex,
+      inner sep      = 4pt
+    ] (nd) at (0pt, 0) {\textbf{\thesubsection.}};
+  }%
+}
+
+\titleformat{\subsection}
+  {\large}{\subtitlebar}{0.6em}{}
+
+\titlespacing*{\subsection}{\APAindent}{1.2ex plus .3ex minus .2ex}{0.6ex}

@@ -1,0 +1,49 @@
+\newcommand{\eqPhaseRule}{
+    \begin{equation}
+        \label{eq:PhaseRule}
+        \freedomDegree = \numberOfComponent - \numberOfPhases + 2
+    \end{equation}
+}
+
+
+\newcommand{\eqDoubleEosVaporGas}{
+  \begin{subequations}
+    \label{eq:DoubleEosVaporGas} % Etiqueta para el grupo completo (opcional)
+    \begin{align}
+        {\pVapor}{\volume[]{}[]} &= {\zVapor}{\vaporMole}{\universalConstantGas}{\tVapor}  \quad \text{(Para el Vapor)} \label{eq:eosVapor} \\
+        {\pGas}{\volume[]{}[]}   &= {\zGas}{\gasMole}{\universalConstantGas}{\tGas}  \quad \text{(Para el Gas)} \label{eq:eosGas}
+    \end{align}
+  \end{subequations}
+}
+
+
+\newcommand{\eqnClausiusClapeyron}{
+    \begin{equation}
+        \label{eqn:ClausiusClapeyron}
+        \frac{d \pressure[]{}}{d \T} = \frac{L}{\T \Delta \volume[]{}}
+    \end{equation}%
+    Donde \absoluteHumidity es la humedad absoluta, y se representa a la humedad absoluta saturada como \saturatedAbsoluteHumidity, el cual es la máxima cantidad de vapor que el aire puede contener a la misma presión y temperatura.
+
+}
+
+
+% Con número: \eqnTotalHeat
+% Sin número: \eqnTotalHeat*
+\NewDocumentCommand{\eqnTotalHeat}{s}{
+    \begin{equation}
+        \IfBooleanTF{#1}{\nonumber}{\label{eq:heatFlow}}
+        \totalHeat{} = \sensibleHeat{} + \latentHeat{}
+    \end{equation}
+}
+
+\newcommand{\eqnHeatFlow}{
+    \begin{equation}
+        \label{eqn:HeatFlow}
+        \heatFlow = {\specificHeatAtP}{\Delta \T}
+    \end{equation}%
+    Donde 
+
+}
+
+
+

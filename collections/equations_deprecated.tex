@@ -1,4 +1,4 @@
-
+%%% Deprecated en favor de collections/equations/...
 % Con número: \eqTotalPressure
 % Sin número: \eqTotalPressure*
 \NewDocumentCommand{\eqTotalPressure}{s}{
@@ -8,14 +8,6 @@
     \end{equation}
 }
 
-% Con número: \eqnTotalHeat
-% Sin número: \eqnTotalHeat*
-\NewDocumentCommand{\eqnTotalHeat}{s}{
-    \begin{equation}
-        \IfBooleanTF{#1}{\nonumber}{\label{eq:heatFlow}}
-        \totalHeat{} = \sensibleHeat{} + \latentHeat{}
-    \end{equation}
-}
 
 \NewDocumentCommand{\eqMassToMol}{s}{
         \begin{equation}
@@ -83,14 +75,6 @@
 
 }
 
-\newcommand{\eqnClausiusClapeyron}{
-    \begin{equation}
-        \label{eqn:ClausiusClapeyron}
-        \frac{d \pressure[]{}}{d \T} = \frac{L}{\T \Delta \volume[]{}}
-    \end{equation}%
-    Donde \absoluteHumidity es la humedad absoluta, y se representa a la humedad absoluta saturada como \saturatedAbsoluteHumidity, el cual es la máxima cantidad de vapor que el aire puede contener a la misma presión y temperatura.
-
-}
 
 \newcommand{\eqnAdiabaticSaturacion}{
     \begin{equation}
@@ -100,15 +84,4 @@
     Donde \absoluteHumidity es la humedad absoluta, y se representa a la humedad absoluta saturada como \saturatedAbsoluteHumidity, el cual es la máxima cantidad de vapor que el aire puede contener a la misma presión y temperatura.
 
 }
-
-\newcommand{\eqnHeatFlow}{
-    \begin{equation}
-        \label{eqn:HeatFlow}
-        \heatFlow = {\specificHeatAtP}{\Delta \T}
-    \end{equation}%
-    Donde 
-
-}
-
-
 

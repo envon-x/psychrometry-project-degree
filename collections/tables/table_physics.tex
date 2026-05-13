@@ -1,0 +1,42 @@
+%%%% Tabla de las unidades del SI
+%%%% Invocar como: \tblUnidadesSI{tbl:unidades_sistema_internacional}
+\newcommand{\tblUnidadesSI}[1]{
+    \apaTable{#1}
+    {Unidades básicas del Sistema Internacional de Unidades (SI)}
+    {llll}
+    { 
+      \multicolumn{2}{c}{MAGNITUD BÁSICA} & \multicolumn{2}{c}{UNIDAD BÁSICA} \\
+      Magnitud & Símbolo típico & Unidad & Símbolo 
+    }
+    { 
+      longitud & \textit{l}, \textit{x}, \textit{r}, etc. & metro & m \\
+      tiempo & \textit{t} & segundo & s \\
+      masa & \textit{m} & kilogramo & kg \\
+      corriente eléctrica & \textit{I}, \textit{i} & amperio & A \\
+      temperatura termodinámica & \textit {T} & kelvin & K \\
+      cantidad de sustancia & \textit{n} & mol & mol \\
+      intensidad luminosa & \textit{$I_v$} & candela & cd \\
+    }
+    {Tomado del Centro Español de Metrología (CEM), pág 16.}
+}
+
+
+%%%% Tabla de las unidades del SI
+%%%% Invocar como: \tblUnidadesSI{tbl:unidades_sistema_internacional}
+\newcommand{\tblUnidadesDerivadas}[1]{
+    \apaTable{#1}
+    {Unidades derivadas del Sistema Internacional de Unidades (SI)}
+    {llll}
+    { 
+      \multicolumn{2}{c}{MAGNITUD DERIVADA} & \multicolumn{2}{c}{UNIDAD DERIVADA} \\
+      Nombre de la magnitud & Símbolo & Nombre de la unidad & Símbolo 
+    }
+    { 
+      fuerza & {\force[]{}} & Newton & N \\
+      presión & {\pressure[]{}} & Pascal & Pa \\
+      trabajo & {\work[]{}} & Joule & J \\
+      energía & {\energy[]{}} & Joule & J \\
+      % temperatura &  {\temperature[]{}} & Celsius & \degreeCelsius \\
+    }
+    {Tomado del Centro Español de Metrología (CEM), pág X.}
+}

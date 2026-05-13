@@ -1,7 +1,17 @@
+% !TeX root = main.tex 
+% !TeX program = xelatex
 \documentclass[12pt, oneside]{book}
-\usepackage[papersize={31.59cm,45.94cm}, margin=1in]{geometry}
+\usepackage[
+  papersize={31.59cm,45.94cm}, 
+  margin=1in, 
+  headheight=15pt, % Resuelve la advertencia
+  headsep=0.5in,   % Espacio desde el borde superior al texto
+  includehead,
+  showframe
+]{geometry}
 % \usepackage[paperheight=11in, paperwidth=8.5in, margin=1in]{geometry} % APA7
 \usepackage{styles/texumsa/tesis}
+\usepackage{threeparttable}
 \usepackage[utf8]{inputenc}
 \usepackage[spanish]{babel}
 \usepackage{amsmath}
@@ -13,13 +23,26 @@
 \usepackage{pgfplots}
 \pgfplotsset{compat=1.18}
 \usetikzlibrary{arrows.meta}
-\usepackage{booktabs} % Para líneas profesionales (\toprule, \midrule, \bottomrule)
+\usepackage{
+  booktabs,   % Para líneas profesionales (\toprule, \midrule, \bottomrule) de tablas
+  multirow,   %
+  setspace,   % Fundamental para el interlineado 1.5 de tablas de APA7
+  caption,    % To customise the captions in floating envs like figure and table, and cooperates with many other packages
+  subcaption, % Paquete necesario para subfiguras
+} 
 \usepackage{colortbl} % Si deseas resaltar algunas filas las filas de Rust y Python
 \usepackage[version=4]{mhchem}
-\usepackage{caption}
 \usepackage{float} % Para usar [H] si es necesario
 \usepackage{fontspec}
-% \setmainfont{Times New Roman} % O Georgia
+\usepackage[shortlabels]{enumitem}
+
+% OPCIÓN 1: Times New Roman 12pt (Más común)
+\setmainfont{Times New Roman}
+\fontsize{12pt}{14.4pt}\selectfont
+
+% OPCIÓN 2: Arial 11pt (Descomentar para usar)
+% \setmainfont{Arial}
+% \fontsize{11pt}{13.2pt}\selectfont
 
 \usepackage[style=apa,sorting=nyt,backend=biber]{biblatex}
 \DeclareLanguageMapping{spanish}{spanish-apa}
@@ -48,15 +71,56 @@
 \input{collections/commands.tex}
 \input{collections/acronyms.tex}
 \input{collections/equations_correlation.tex}
-\input{collections/equations/eq_moles.tex}                  % moles y fracciones molares
-\input{collections/equations/eq_eos.tex}                    % eos
-\input{collections/equations/eq_absolute_humidity.tex}               % Load your equation library
+\input{collections/equations/eq_moles.tex}                          % moles y fracciones molares
+\input{collections/equations/eq_eos.tex}                            % eos
+\input{collections/equations/eq_absolute_humidity.tex}              % Load your equation library
 \input{collections/equations/eq_enthalpy.tex}
-\input{collections/equations_deprecated.tex}               % Load your equation library
+\input{collections/equations/eq_thermo.tex}
+\input{collections/equations_deprecated.tex}                        % Load your equation library
 \input{collections/constants.tex}
+\input{collections/diagrams/charts.tex}
 \input{collections/chart_water_pLog_T.tex}
 \input{collections/diagrams/water_pLog_T.tex}
 \input{collections/commands/cmd_with_simplified_align.tex}
+\input{collections/tables/table_physics.tex}
+
+% para la corrección al estilo apa de las etiquetas apa7
+\DeclareCaptionLabelSeparator*{spaced}{\\[2ex]}
+\captionsetup[table]{
+  labelfont=bf, 
+  textfont=it, 
+  format=plain, 
+  justification=justified, 
+  singlelinecheck=false,
+  labelsep=spaced,
+  skip=12pt, % <--- ESTA LÍNEA SUBSANA EL VSPACE
+}
+\captionsetup[figure]{
+    labelfont=bf,        % Figura 1 en negrita
+    textfont=it,         % Título en cursiva
+    format=plain,
+    % justification= %raggedleft, %raggedright, %justified, %centering,
+    justification=raggedright,
+    singlelinecheck=false, % Obligatorio para que no se centre si es una sola línea
+    singlelinecheck=false,
+    labelsep=spaced,  %newline,    % Título en nueva línea
+    font=small
+}
+% \captionsetup[figure]{
+%     labelfont=bf,
+%     textfont=it,
+%     format=plain,
+%     justification=raggedright, % Alineado a la izquierda
+%     singlelinecheck=false,     % ¡IMPORTANTE! Evita que se centre si el texto es corto
+%     labelsep=newline,
+%     position=top               % Indica que el caption va arriba
+% }
+\captionsetup[subfigure]{
+    labelformat=parens, % Formato (a)
+    labelsep=space,
+    font=small,
+    textfont=normalfont % El texto de la subfigura no es itálico en APA
+}
 
 \begin{document}
     \sloppy
@@ -85,13 +149,18 @@
     \newpage
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+        
     \include{chapters/introduction/content_intro}
-    \input{sections/correlaciones.tex}
-    \input{chapters/marco_metodologico/diseno_investig.tex}
-    \input{chapters/marco_teorico/marco_teorico.tex}
-    \input{chapters/marco_teorico/mt_psychrometry.tex}
-    \input{chapters/marco_conceptual/marco_conceptual.tex}
-    \input{chapters/marco_conceptual/procesos_psichrometricos.tex}
+    \include{chapters/marco_referencial/content_marco_referencial}
+    \include{chapters/marco_metodologico/content_marco_metodologico} 
+    % \input{chapters/marco_referencial/marco_conceptual/procesos_psichrometricos.tex}
+    \include{chapters/metodologia/content_metodologia}
+    \include{chapters/resultados/content_resultados}
+    \include{chapters/discuciones/content_discusiones}
+    \include{chapters/conclu_recomend/content_concusiones_recom}
+    % \input{sections/correlaciones.tex}
+    
+
     
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -110,7 +179,7 @@
     \newpage
     \subsection{Submódulo: Cálculo de $\Delta H_{\text{exceso}}$}
     \label{sec:flowchart_submodule}
-
+    
     Este diagrama detalla el cálculo de la entalpía en exceso, considerando diferentes correlaciones según las condiciones del sistema.
 
     \input{flowcharts/excess_enthalpy_submodule}

@@ -1,16 +1,12 @@
+
 \subsection{PSICROMETRÍA}
 
 De la ecuación del estado que describe el comportamiento de gases:
 \eqEosWithZ
 
 Para una mezcla gaseosa (componente  vapor y componente gas), se puede escribir las ecuaciones
-\begin{subequations}
-    \label{eqn:every_component_mixture_of_gases} % Etiqueta para el grupo completo (opcional)
-    \begin{align}
-        {\pVapor}{\volume[]{}[]} &= {\zVapor}{\vaporMole}{\universalConstantGas}{\tVapor}  \quad \text{(Para el Vapor)} \label{eq:eosVapor} \\
-        {\pGas}{\volume[]{}[]}   &= {\zGas}{\gasMole}{\universalConstantGas}{\tGas}  \quad \text{(Para el Gas)} \label{eq:eosGas}
-    \end{align}
-\end{subequations}
+
+\eqDoubleEosVaporGas
 
 Dividiendo la ecuación \eqref{eq:eosVapor} y la ecuación \eqref{eq:eosGas}:
 \begin{align}
@@ -33,9 +29,7 @@ Queda,
 
 Según la ley de Willard Gibbs, las variables independientes del sistema, son: \pTotal , \temperature[]{} y \pVapor (o \vaporMoleFraction)
 
-\begin{equation}
-    F = C - P + 2
-\end{equation}
+\eqPhaseRule
 
 De acuerdo a la Ley de Dalton,
 

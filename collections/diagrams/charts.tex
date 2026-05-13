@@ -1,53 +1,295 @@
+\usetikzlibrary{calc} % Necesario para el desplazamiento
 
-% --- DIAGRAMA P-T (Presión vs Temperatura) ---
-\begin{tikzpicture}
-\begin{axis}[
-    title={Diagrama P-T (Agua)},
-    xlabel={Temperatura $T$},
-    ylabel={Presión Parcial $P_v$},
-    xmin=0, xmax=100,
-    ymin=0, ymax=100,
-    xticklabels={}, yticklabels={},
-    axis lines=left,
-    clip=false
-]
-    % Curva de saturación (simplificada)
-    \addplot[blue, thick, domain=10:90, samples=100] {0.01*x^2};
-    \node[blue, right] at (axis cs:70,50) {Curva de Saturación};
+\newcommand{\figPhaseTransition}[1]{
+  \begin{figure}[htbp]
+    \centering
+    \caption{Fases de transición de estados de una sustancia} 
+    \label{#1}
+    \vspace{6pt}
 
-    % Proceso de enfriamiento (Punto de Rocío)
-    \draw[red, dashed, thick, -{Stealth}] (axis cs:80,40) -- (axis cs:63.2,40) node[pos=0, circle, fill, inner sep=1.5pt, label=above:{\small 1 (Aire Ambiente)}] {} ;
-    \node[circle, fill=orange, inner sep=2pt, label=above left:{\small 2 (Punto de Rocío)}] at (axis cs:63.2,40) {};
+    \begin{tikzpicture}[
+      node distance=3cm,
+      every node/.style={font=\small},
+      % Estilo para simplificar las flechas con offset y rotación
+      trans/.style={arrow_yes, sloped, midway} 
+      ]
 
-    % Proyecciones
-    \draw[gray, dotted] (axis cs:63.2,40) -- (axis cs:63.2,0) node[below, black] {$T_{dp}$};
-    \draw[gray, dotted] (axis cs:80,40) -- (axis cs:80,0) node[below, black] {$T_{actual}$};
-    \draw[gray, dotted] (axis cs:63.2,40) -- (axis cs:0,40) node[left, black] {$P_v$};
-\end{axis}
-\end{tikzpicture}
+      % Nodos principales
+      \node (gas) at (5,8.66) {Gas};
+      \node (solid) at (0,2) {Sólido};
+      \node (liquid) at (10,2) {Líquido};
 
-% --- DIAGRAMA T-S (Temperatura vs Entropía) ---
-\begin{tikzpicture}
-\begin{axis}[
-    title={Diagrama T-s (Agua en el Aire)},
-    xlabel={Entropía específica $s$},
-    ylabel={Temperatura $T$},
-    xmin=0, xmax=10,
-    ymin=0, ymax=100,
-    xticklabels={}, yticklabels={},
-    axis lines=left,
-    clip=false
-]
-    % Campana de saturación
-    \addplot[black, thick, domain=1:5, samples=50] {100 - (x-5)^2 * 4}; 
-    \addplot[black, thick, domain=5:9, samples=50] {100 - (x-5)^2 * 4};
-    \node at (axis cs:5, 70) {Líquido + Vapor};
+      % Flechas Sólido <-> Líquido
+      \draw[trans] ($(solid.east)+(0,0.1)$) -- node[above]{Fusión} ($(liquid.west)+(0,0.1)$);
+      \draw[trans] ($(liquid.west)-(0,0.1)$) -- node[below]{Solidificación} ($(solid.east)-(0,0.1)$);
 
-    % Punto de Rocío en la línea de vapor saturado
-    \draw[red, thick, -{Stealth}] (axis cs:9.5, 80) -- (axis cs:8.5, 64);
-    \node[circle, fill, inner sep=1.5pt, label=right:{\small 1 (Vapor Sobrecalentado)}] at (axis cs:9.5,80) {};
-    \node[circle, fill=orange, inner sep=2pt, label=left:{\small 2 ($T_{dp}$)}] at (axis cs:8.5,64) {};
+      % Flechas Líquido <-> Gas
+      \draw[trans] ($(liquid.north west)+(0.1,0.1)$) -- node[above]{Vaporización} ($(gas.south east)+(0.1,0.1)$);
+      \draw[trans] ($(gas.south east)-(0.1,0.1)$) -- node[below]{Condensación} ($(liquid.north west)-(0.1,0.1)$);
 
-    \node[right, align=left] at (axis cs:9, 40) {\small Línea de\\ \small Vapor Saturado};
-\end{axis}
-\end{tikzpicture}
+      % Flechas Sólido <-> Gas
+      \draw[trans] ($(solid.north east)+(-0.1,0.1)$) -- node[above]{Sublimación} ($(gas.south west)+(-0.1,0.1)$);
+      \draw[trans] ($(gas.south west)+(0.1,-0.1)$) -- node[below]{Deposición o sublimación inversa} ($(solid.north east)+(0.1,-0.1)$);
+
+    \end{tikzpicture}
+    
+    \begin{flushleft}
+        \small \textit{Nota.} Elaborado con el paquete TikZ.
+    \end{flushleft}
+\end{figure}
+}
+
+
+%%%% Diagrama de fases genérico para los estados sólido-líquido-vapor
+\newcommand{\figPhaseDiagram}[1]{
+    \begin{figure}[htbp]
+        \centering
+        % El caption se ajustará automáticamente por tus configuraciones previas:
+        % Figura X (negrita) 
+        % Título (cursiva)
+        \caption{Estados de una sustancia} 
+        \label{#1}
+        
+        \vspace{6pt} % Espacio estético entre título e imagen
+        \includegraphics[width=0.5\textwidth]{resources/images/vectorial/pt_phase_diagram.pdf}
+        
+        % Nota alineada a la izquierda según APA 7
+        \begin{flushleft}
+            \small \textit{Nota.} Elaboración propia. % O la fuente que corresponda
+        \end{flushleft}
+    \end{figure}
+}
+
+%%%% Por ahora no se Usa
+%%%% Sistema abierto, cerrado, aislado 
+%%%% Alinea desde el Borde Izquierdo
+\newcommand{\figTiposSistemaNotUsed}[1]{
+    % h (here): Intenta poner la figura aquí, justo donde escribiste el código en el texto.
+    % t (top): Intenta ponerla en la parte superior de la página actual o de la siguiente.
+    % b (bottom): Intenta ponerla en la parte inferior de la página.
+    % p (page): Intenta ponerla en una página dedicada solo a objetos flotantes (como una página que solo tenga imágenes y tablas).
+    % le estás diciendo: "Intenta ponerla aquí; si no cabe, ponla arriba; si no, abajo; y si de plano no hay espacio, mándala a una página de figuras".
+    \begin{figure}[htbp]
+        \centering
+        % El caption ahora saldrá con el formato: Figura X (negrita) \newline Título (cursiva)
+        \caption{Tipos de sistemas termodinámicos}
+        \label{#1}
+
+        \begin{subfigure}[t]{0.20\textwidth}
+            \centering
+            \includegraphics[width=\textwidth]{resources/images/vectorial/sist_abierto.pdf}
+            \caption{Sistema abierto}
+            \label{subFig:sistemaAbierto}
+        \end{subfigure}
+        % \hfill
+        \hspace{1.5cm}
+        \begin{subfigure}[t]{0.20\textwidth}
+            \centering
+            \includegraphics[width=\textwidth]{resources/images/vectorial/sist_cerrado.pdf}
+            \caption{Sistema cerrado}
+            \label{subFig:sistemaCerrado}
+        \end{subfigure}
+        % \hfill
+        \hspace{1.5cm}
+        \begin{subfigure}[t]{0.20\textwidth}
+            \centering
+            \includegraphics[width=\textwidth]{resources/images/vectorial/sist_aislado.pdf}
+            \caption{Sistema aislado}
+            \label{subFig:sistemaAislado}
+        \end{subfigure}
+
+        % Nota alineada a la izquierda según APA 7
+        \vspace{0.3cm}
+        \begin{flushleft}
+            \small \textit{Nota.} Elaboración propia.
+        \end{flushleft}
+    \end{figure}
+}
+
+% {}
+\newcommand{\figTiposSistema}[1]{
+      \apaSubFigures
+    {#1}                                       % 1. Label principal
+    {Tipos de sistemas termodinámicos}         % 2. Título de la figura (APA 7)
+    {0.75\textwidth}                           % 3. Ancho del bloque (para alinear Título y Nota)
+    {                                          % 4. BLOQUE DE SUBFIGURAS (Todo esto va aquí)
+        \begin{subfigure}[t]{0.25\textwidth}
+            \centering
+            \includegraphics[width=\textwidth]{resources/images/vectorial/sist_abierto.pdf}
+            \caption{Sistema abierto}
+            \label{subFig:abierto}
+        \end{subfigure}
+        \hspace{1cm} % Espacio controlado entre ellas
+        \begin{subfigure}[t]{0.25\textwidth}
+            \centering
+            \includegraphics[width=\textwidth]{resources/images/vectorial/sist_cerrado.pdf}
+            \caption{Sistema cerrado}
+            \label{subFig:cerrado}
+        \end{subfigure}
+        \hspace{1cm}
+        \begin{subfigure}[t]{0.25\textwidth}
+            \centering
+            \includegraphics[width=\textwidth]{resources/images/vectorial/sist_aislado.pdf}
+            \caption{Sistema aislado}
+            \label{subFig:aislado}
+        \end{subfigure}
+    }                                          % Cerramos el bloque 4
+    {Elaboración propia.}                      % 5. Texto de la nota
+
+}
+
+
+
+
+
+\newcommand{\figEstadosMateria}[1]{
+    \apaSubFigures
+    {#1}                                       % 1. Label principal
+    {Estados de la materia}         % 2. Título de la figura (APA 7)
+    {0.75\textwidth}                           % 3. Ancho del bloque (para alinear Título y Nota)
+    {                                          % 4. BLOQUE DE SUBFIGURAS (Todo esto va aquí)
+        \begin{subfigure}[t]{0.25\textwidth}
+            \centering
+            \includegraphics[width=\textwidth]{resources/images/vectorial/thermo/estado_sol.pdf}
+            \caption{Estado sólido}
+            \label{subFig:EstadoSol}
+        \end{subfigure}
+        \hspace{1.5cm} % Espacio controlado entre ellas
+        \begin{subfigure}[t]{0.25\textwidth}
+            \centering
+            \includegraphics[width=\textwidth]{resources/images/vectorial/thermo/estado_liq.pdf}
+            \caption{Estado líquido}
+            \label{subFig:Estadoliq}
+        \end{subfigure}
+        \hspace{1.5cm}
+        \begin{subfigure}[t]{0.20\textwidth}
+            \centering
+            \includegraphics[width=\textwidth]{resources/images/vectorial/thermo/estado_gaseoso.pdf}
+            \caption{Estado gaseoso}
+            \label{subFig:EstadGas}
+        \end{subfigure}
+    }                                          % Cerramos el bloque 4
+    {Elaboración propia, usando la herramienta de gráficos vectoriales, Inkscape.}                      % 5. Texto de la nota
+
+}
+
+\newcommand{\figSelectModelThermo}[1]{
+    \begin{figure}[htbp]
+        \centering
+        % El caption se ajustará automáticamente por tus configuraciones previas:
+        % Figura X (negrita) 
+        % Título (cursiva)
+        \caption{Selección de ecuaciones Eos} 
+        \label{#1}
+        
+        \vspace{6pt} % Espacio estético entre título e imagen
+        \includegraphics[width=1.0\textwidth]{resources/images/vectorial/thermo/selection_thermodynamic_model.pdf}
+        
+        % Nota alineada a la izquierda según APA 7
+        \begin{flushleft}
+            \small \textit{Nota.} Fuente: \parencite[p. 248]{bib:DimianBildea2014} . % O la fuente que corresponda
+            % https://libguides.norquest.ca/apa/graphs APA7
+        \end{flushleft}
+    \end{figure}
+}
+
+
+
+% % --- DIAGRAMA P-T (Presión vs Temperatura) ---
+% \begin{tikzpicture}
+% \begin{axis}[
+%     title={Diagrama P-T (Agua)},
+%     xlabel={Temperatura $T$},
+%     ylabel={Presión Parcial $P_v$},
+%     xmin=0, xmax=100,
+%     ymin=0, ymax=100,
+%     xticklabels={}, yticklabels={},
+%     axis lines=left,
+%     clip=false
+% ]
+%     % Curva de saturación (simplificada)
+%     \addplot[blue, thick, domain=10:90, samples=100] {0.01*x^2};
+%     \node[blue, right] at (axis cs:70,50) {Curva de Saturación};
+
+%     % Proceso de enfriamiento (Punto de Rocío)
+%     \draw[red, dashed, thick, -{Stealth}] (axis cs:80,40) -- (axis cs:63.2,40) node[pos=0, circle, fill, inner sep=1.5pt, label=above:{\small 1 (Aire Ambiente)}] {} ;
+%     \node[circle, fill=orange, inner sep=2pt, label=above left:{\small 2 (Punto de Rocío)}] at (axis cs:63.2,40) {};
+
+%     % Proyecciones
+%     \draw[gray, dotted] (axis cs:63.2,40) -- (axis cs:63.2,0) node[below, black] {$T_{dp}$};
+%     \draw[gray, dotted] (axis cs:80,40) -- (axis cs:80,0) node[below, black] {$T_{actual}$};
+%     \draw[gray, dotted] (axis cs:63.2,40) -- (axis cs:0,40) node[left, black] {$P_v$};
+% \end{axis}
+% \end{tikzpicture}
+
+% % --- DIAGRAMA T-S (Temperatura vs Entropía) ---
+% \begin{tikzpicture}
+% \begin{axis}[
+%     title={Diagrama T-s (Agua en el Aire)},
+%     xlabel={Entropía específica $s$},
+%     ylabel={Temperatura $T$},
+%     xmin=0, xmax=10,
+%     ymin=0, ymax=100,
+%     xticklabels={}, yticklabels={},
+%     axis lines=left,
+%     clip=false
+% ]
+%     % Campana de saturación
+%     \addplot[black, thick, domain=1:5, samples=50] {100 - (x-5)^2 * 4}; 
+%     \addplot[black, thick, domain=5:9, samples=50] {100 - (x-5)^2 * 4};
+%     \node at (axis cs:5, 70) {Líquido + Vapor};
+
+%     % Punto de Rocío en la línea de vapor saturado
+%     \draw[red, thick, -{Stealth}] (axis cs:9.5, 80) -- (axis cs:8.5, 64);
+%     \node[circle, fill, inner sep=1.5pt, label=right:{\small 1 (Vapor Sobrecalentado)}] at (axis cs:9.5,80) {};
+%     \node[circle, fill=orange, inner sep=2pt, label=left:{\small 2 ($T_{dp}$)}] at (axis cs:8.5,64) {};
+
+%     \node[right, align=left] at (axis cs:9, 40) {\small Línea de\\ \small Vapor Saturado};
+% \end{axis}
+% \end{tikzpicture}
+
+\def\figMolecularColissions{
+  \begin{figure}[!tbp]
+    \centering
+  \begin{minipage}[b]{0.49\textwidth}
+    \includegraphics[width=\textwidth]{resources/images/bitmap/Colision_pared_particula_gas.png}
+    \caption{Antes y después de la colisión de la partícula con la pared, muestra la conservación de la cantidad de movimiento.}
+  \end{minipage}
+  \hfill
+  \begin{minipage}[b]{0.49\textwidth}
+    \includegraphics[width=\textwidth]{resources/images/bitmap/Elemento_Volumen_numero_colisiones.png}
+    \caption{Elemento de volumen que permite determinar el número total de colisiones con la pared. \textit{Nota} Tomado de Chemistry }
+  \end{minipage}
+\end{figure}}
+
+%%%% Ya hay otro y mejor
+% \def\figPhaseDiagram{
+%   \begin{figure}[!bht]
+%     \centering
+%     \caption{\textit{Diagrama de fases o curva de coexistencia para una sustancia pura}}
+%     \label{fig:diag_phase}
+%     \includesvg[width=4.0in]{resources/images/vectorial/thermo/phase_diagram.p}
+%     \\
+%     \emph{Nota:} Realizado con el editor de gráficos Vectoriales %\href{https://inkscape.org/}{inkscape}. Fuente: An introduction to Atmospheric Thermodynamics, Tsonis. % pp 83
+%   \end{figure}
+% }
+
+
+\newcommand{\figCoordinatePV}[1]{
+    \begin{figure}[htbp]
+        \centering
+        % El caption se ajustará automáticamente por tus configuraciones previas:
+        % Figura X (negrita) 
+        % Título (cursiva)
+        \caption{Fases de transición de estados de una sustancia} 
+        \label{#1}
+        
+        \vspace{6pt} % Espacio estético entre título e imagen
+        \includegraphics[width=0.5\textwidth]{resources/images/vectorial/thermo/coord_P_V.pdf}
+        
+        % Nota alineada a la izquierda según APA 7
+        \begin{flushleft}
+            \small \textit{Nota.} Elaboración propia. % O la fuente que corresponda
+        \end{flushleft}
+\end{figure}
+}

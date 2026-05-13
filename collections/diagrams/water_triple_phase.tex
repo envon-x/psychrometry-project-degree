@@ -1,6 +1,6 @@
 % Diagrama real de eatados de agregación, para el agua 
 \begin{tikzpicture}
-\begin{axis}[
+  \begin{axis}[
     width=10cm, height=8cm,
     title={\textbf{Diagrama de Fases $P$-$T$ (Detalle Psicrométrico)}},
     xlabel={Temperatura $T$ [°C]},
@@ -8,6 +8,7 @@
     xmin=-20, xmax=\Tmax, 
     ymin=0, ymax=\Pmax,
     axis lines=left,
+    axis line style={line width=1.5pt},
     % Ticks dinámicos
     xtick={0, \Tdp, \Tamb}, 
     xticklabels={0, $T_{dp}$, $T_{amb}$},
@@ -17,7 +18,7 @@
     grid=both,
     grid style={line width=.1pt, draw=gray!10},
     major grid style={line width=.2pt,draw=gray!20}
-]
+  ]
     % --- REGIONES (Fills) ---
     % Sólido
     % \fill[cyan!10] (axis cs:-20,0) -- plot[domain=-20:\Ttp] (axis cs:\x, {0.611*exp(22.5*(1 - 273.16/(\x+273.15)))}) -- (axis cs:-20,\Pmax) -- cycle;

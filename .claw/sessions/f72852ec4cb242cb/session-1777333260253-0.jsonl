@@ -1,0 +1,2 @@
+{"created_at_ms":1777333260252,"model":"claude-opus-4-6","session_id":"session-1777333260253-0","type":"session_meta","updated_at_ms":1777333260252,"version":1,"workspace_root":"/home/bon/Documents/tesis-psychro (2026-04-20)/docs"}
+{"message":{"blocks":[{"text":"promt say hello","type":"text"}],"role":"user"},"type":"message"}

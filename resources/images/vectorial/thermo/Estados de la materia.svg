@@ -1,0 +1,281 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   width="105mm"
+   height="74mm"
+   viewBox="0 0 105 74"
+   version="1.1"
+   id="svg5"
+   inkscape:version="1.2.2 (b0a8486541, 2022-12-01)"
+   sodipodi:docname="Estados de la materia.svg"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <sodipodi:namedview
+     id="namedview7"
+     pagecolor="#ffffff"
+     bordercolor="#000000"
+     borderopacity="0.25"
+     inkscape:showpageshadow="2"
+     inkscape:pageopacity="0.0"
+     inkscape:pagecheckerboard="0"
+     inkscape:deskcolor="#d1d1d1"
+     inkscape:document-units="mm"
+     showgrid="true"
+     inkscape:zoom="1.9456229"
+     inkscape:cx="140.57195"
+     inkscape:cy="132.86233"
+     inkscape:window-width="1366"
+     inkscape:window-height="711"
+     inkscape:window-x="0"
+     inkscape:window-y="20"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="layer1">
+    <inkscape:grid
+       type="xygrid"
+       id="grid569" />
+  </sodipodi:namedview>
+  <defs
+     id="defs2">
+    <inkscape:perspective
+       sodipodi:type="inkscape:persp3d"
+       inkscape:vp_x="105 : 26.797517 : 1"
+       inkscape:vp_y="0 : 1000 : 0"
+       inkscape:vp_z="0 : 24.327451 : 1"
+       inkscape:persp3d-origin="51.232493 : 11.347834 : 1"
+       id="perspective240" />
+  </defs>
+  <g
+     inkscape:label="Layer 1"
+     inkscape:groupmode="layer"
+     id="layer1">
+    <g
+       id="g5732"
+       inkscape:export-filename="estado_gaseoso.pdf"
+       inkscape:export-xdpi="96"
+       inkscape:export-ydpi="96">
+      <g
+         class="curl1"
+         id="g4684"
+         transform="matrix(0.12031698,0,0,0.15371031,51.746575,-15.900196)">
+        <path
+           d="m 264,370 c -14,-15 14,-35 0,-52 -14,-17 11,-36 0,-53"
+           fill="none"
+           stroke="#b0ccd8"
+           stroke-width="7"
+           stroke-linecap="round"
+           opacity="0.85"
+           id="path4682" />
+      </g>
+      <g
+         class="curl2"
+         id="g4688"
+         transform="matrix(0.12031698,0,0,0.15371031,50.159074,-15.900196)">
+        <path
+           d="m 300,368 c -15,-18 15,-40 0,-58 -15,-18 12,-38 0,-55"
+           fill="none"
+           stroke="#a8c8d8"
+           stroke-width="9"
+           stroke-linecap="round"
+           opacity="0.8"
+           id="path4686" />
+      </g>
+      <g
+         class="curl3"
+         id="g4692"
+         transform="matrix(0.12031698,0,0,0.15371031,48.571573,-16.95853)">
+        <path
+           d="m 340,365 c -18,-20 20,-45 0,-65 -20,-20 15,-42 0,-62"
+           fill="none"
+           stroke="#bcd4e0"
+           stroke-width="11"
+           stroke-linecap="round"
+           opacity="0.75"
+           id="path4690" />
+      </g>
+      <g
+         class="curl4"
+         id="g4696"
+         transform="matrix(0.12031698,0,0,0.15371031,46.984072,-15.900196)">
+        <path
+           d="m 378,368 c 17,-18 -13,-40 2,-58 15,-18 -12,-38 0,-55"
+           fill="none"
+           stroke="#a8c8d8"
+           stroke-width="9"
+           stroke-linecap="round"
+           opacity="0.8"
+           id="path4694" />
+      </g>
+      <g
+         class="curl5"
+         id="g4700"
+         transform="matrix(0.12031698,0,0,0.15371031,45.396571,-15.900196)">
+        <path
+           d="m 414,372 c 14,-17 -14,-37 0,-54 14,-17 -11,-36 0,-53"
+           fill="none"
+           stroke="#b0ccd8"
+           stroke-width="7"
+           stroke-linecap="round"
+           opacity="0.85"
+           id="path4698" />
+      </g>
+    </g>
+    <g
+       id="g5617"
+       transform="matrix(0.93117349,0,0,1.2206557,-23.562898,-12.741301)"
+       inkscape:export-filename="estado_liq.pdf"
+       inkscape:export-xdpi="96"
+       inkscape:export-ydpi="96">
+      <ellipse
+         cx="83.457794"
+         cy="40.544247"
+         rx="14.438038"
+         ry="2.7667856"
+         fill="#c8b9a8"
+         id="ellipse4660"
+         style="stroke-width:0.135992" />
+      <ellipse
+         cx="83.457794"
+         cy="39.929405"
+         rx="13.234869"
+         ry="2.1519444"
+         fill="#ddd0c0"
+         id="ellipse4662"
+         style="stroke-width:0.135992" />
+      <path
+         d="m 69.019754,31.629047 q 0.240634,7.685516 2.40634,10.14488 4.812679,2.459366 12.031698,2.459366 7.219016,0 12.031703,-2.459366 2.165702,-2.459364 2.406335,-10.14488 z"
+         fill="#e8ddd0"
+         id="path4664"
+         style="fill:#d0d9e8;fill-opacity:1;stroke-width:0.135992" />
+      <path
+         d="m 69.019754,31.629047 q 0.240634,4.61131 2.40634,7.070674 4.812679,2.459365 12.031698,2.459365 7.219016,0 12.031703,-2.459365 2.165702,-2.459364 2.406335,-7.070674 z"
+         fill="#f2ebe0"
+         id="path4666"
+         style="stroke-width:0.135992" />
+      <ellipse
+         cx="83.457794"
+         cy="31.629047"
+         rx="14.438038"
+         ry="2.7667856"
+         fill="#f0e8d8"
+         id="ellipse4668"
+         style="stroke-width:0.135992" />
+      <ellipse
+         cx="83.457794"
+         cy="31.629047"
+         rx="14.197403"
+         ry="2.4593649"
+         fill="#faf5ec"
+         id="ellipse4670"
+         style="stroke-width:0.135992" />
+      <ellipse
+         cx="83.457794"
+         cy="31.629047"
+         rx="12.994233"
+         ry="1.998234"
+         fill="#7b4f2e"
+         id="ellipse4672"
+         style="fill:#b6bfe4;fill-opacity:1;stroke-width:0.135992" />
+      <ellipse
+         cx="83.457794"
+         cy="31.629047"
+         rx="12.031697"
+         ry="1.5371031"
+         fill="#5c3317"
+         opacity="0.6"
+         id="ellipse4674"
+         style="fill:#33c2cb;fill-opacity:1;stroke-width:0.135992" />
+      <ellipse
+         cx="80.810822"
+         cy="31.167917"
+         rx="3.6095095"
+         ry="0.92226189"
+         fill="#c8843a"
+         opacity="0.25"
+         id="ellipse4676"
+         style="fill:#fcfcfc;fill-opacity:1;stroke-width:0.135992" />
+      <path
+         d="m 97.655197,33.934702 q 6.256483,0 6.256483,3.535337 0,3.381627 -6.256483,3.381627"
+         fill="none"
+         stroke="#e0d5c5"
+         stroke-width="1.9039"
+         stroke-linecap="round"
+         id="path4678" />
+      <path
+         d="m 97.655197,33.934702 q 5.534583,0 5.534583,3.535337 0,2.766785 -5.534583,3.381627"
+         fill="none"
+         stroke="#f2ebe0"
+         stroke-width="1.08794"
+         stroke-linecap="round"
+         id="path4680" />
+      <path
+         d="m 69.501022,35.471805 q 13.95677,1.537103 27.913541,0"
+         fill="none"
+         stroke="#d4c5b0"
+         stroke-width="0.271986"
+         opacity="0.5"
+         id="path4702" />
+      <ellipse
+         cx="83.457794"
+         cy="39.929405"
+         rx="9.6253586"
+         ry="1.2296824"
+         fill="#ffffff"
+         opacity="0.15"
+         id="ellipse4704"
+         style="stroke-width:0.135992" />
+    </g>
+    <g
+       id="g6860"
+       inkscape:export-filename="estado_gaseoso.pdf"
+       inkscape:export-xdpi="96"
+       inkscape:export-ydpi="96">
+      <g
+         id="g5710"
+         transform="translate(-0.66145897,-1.9843744)"
+         inkscape:export-filename="estado_solido.pdf"
+         inkscape:export-xdpi="96"
+         inkscape:export-ydpi="96">
+        <path
+           id="rect1339"
+           style="opacity:0.509926;fill:#45a8ed;fill-opacity:1;stroke:none;stroke-width:0.352954"
+           d="m 20.505209,31.75 6.614583,-6.614583 V 39.6875 l -6.614583,6.614583 z"
+           sodipodi:nodetypes="ccccc" />
+        <path
+           id="rect1339-6"
+           style="opacity:0.533992;fill:#999999;stroke:none;stroke-width:0.352954"
+           d="M 5.9531255,31.75 12.567709,25.135417 V 39.6875 l -6.6145835,6.614583 z"
+           sodipodi:nodetypes="ccccc" />
+        <path
+           id="rect1536-3"
+           style="opacity:0.443206;fill:#45a8ed;fill-opacity:1;stroke:none;stroke-width:0.352954"
+           d="M 12.567708,25.135417 H 27.119791 L 20.505208,31.75 H 5.9531255 Z"
+           sodipodi:nodetypes="ccccc" />
+        <path
+           id="rect1536-5"
+           style="opacity:0.735729;fill:#45a8ed;fill-opacity:1;stroke:none;stroke-width:0.352954"
+           d="m 12.567709,39.6875 h 14.552083 l -6.614583,6.614584 H 5.9531255 Z"
+           sodipodi:nodetypes="ccccc" />
+        <rect
+           style="opacity:0.740172;fill:#45a8ed;fill-opacity:1;stroke:none;stroke-width:0.352954"
+           id="rect1683"
+           width="14.552083"
+           height="14.552083"
+           x="5.953126"
+           y="31.75" />
+      </g>
+      <path
+         id="path6483"
+         style="opacity:0.969352;fill:#ffffff;fill-opacity:1;stroke-width:0.147734"
+         d="m 19.613416,27.043802 c -0.363987,0.295213 -0.91666,0.274806 -1.23443,-0.04558 -0.317769,-0.320384 0.267175,0.132229 0.631163,-0.162982 0.363987,-0.295213 0.369181,-1.22646 0.686951,-0.906075 0.317769,0.320384 0.280303,0.819425 -0.08368,1.114637 z"
+         sodipodi:nodetypes="sssss" />
+      <path
+         id="path6485"
+         style="opacity:0.969352;fill:#ffffff;fill-opacity:1;stroke-width:0.175797"
+         d="m 21.034677,26.558355 c 0.52801,0.474859 0.05929,1.273228 -1.046921,1.783206 -1.106208,0.509979 -2.431004,0.53845 -2.959014,0.06359 -0.52801,-0.474858 1.257447,0.04074 2.363655,-0.469236 1.106209,-0.509978 1.11427,-1.852419 1.64228,-1.37756 z"
+         sodipodi:nodetypes="sssss" />
+    </g>
+  </g>
+</svg>

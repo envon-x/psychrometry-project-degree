@@ -246,3 +246,50 @@
         \end{itemize}
     }%
 }
+
+%%%% C = m.c; C = capacidad calorífica
+\NewDocumentCommand{\eqHeatCapacity}{s}{%
+    \begin{equation}
+        \IfBooleanTF{#1}{}{\label{eq:HeatCapacity}}
+        \heatCapacity[]{}
+        =
+        \mass[]{} \cdot \specificHeat[]{}
+        \quad \quad
+        \unit{\joule/(\gram \cdot \degreeCelsius)}
+    \end{equation}
+    \IfBooleanTF{#1}{}{%
+        \noindent donde $\heatCapacity[]{}$ es la capacidad calorífica de la sustancia, $\mass[]{}$ representa la masa y $\specificHeat[]{}$ es el calor específico.
+    }%
+}
+
+%%%% Q = m.c.𝚫T
+\NewDocumentCommand{\eqHeatChangeWithSpecificHeat}{s}{%
+    \begin{equation}
+        \IfBooleanTF{#1}{}{\label{eq:HeatChangeWithSpecificHeat}}
+        \q[]{}
+        =
+        \mass[]{} \cdot \specificHeat[]{}[] \cdot \Delta \T
+        \quad \quad
+        \unit{\joule/(\gram \cdot \degreeCelsius)}
+    \end{equation}
+    \IfBooleanTF{#1}{}{%
+        \noindent donde $\q[]{}$ es el calor involucrado en proceso, $\mass[]{}$ representa la masa, $\specificHeat[]{}[]$ es el calor específico de la sustancia y $\Delta \T = \Tf - \To$ es el cambio de temperatura desde un estado inicial hasta un estado final.
+    }%
+}
+
+%%%% Q = C𝚫T
+\NewDocumentCommand{\eqHeatChangeWithHeatCapacity}{s}{%
+    \begin{equation}
+        \IfBooleanTF{#1}{}{\label{eq:HeatChangeWithHeatCapacity}}
+        \q[]{}
+        =
+        \mass[]{} \cdot \specificHeat[]{} \cdot \Delta \T
+        \quad \quad
+        \unit{\joule/(\gram \cdot \degreeCelsius)}
+    \end{equation}
+    \IfBooleanTF{#1}{}{%
+        \noindent Donde $\q[]{}$ es el calor ..., $\mass[]{}$ representa la masa y $\Delta \T = \Tf - \To$ es el cambio de temperatura desde un estado inicial hasta un estado final.
+    }%
+}
+
+%cardomariano

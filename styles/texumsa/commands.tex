@@ -1,0 +1,178 @@
+% \definecolor{name}{model}{spec}
+\definecolor{freakishgreen}{HTML}{0A982B}
+\definecolor{color_bp}{HTML}{3365FF}
+\definecolor{color_or}{HTML}{FA2F00}
+\definecolor{color_bg}{HTML}{085D04}
+\definecolor{color_bc}{HTML}{3365FF}
+\definecolor{color_tbl_header}{HTML}{b2dfee} % From: color_aquamarine
+\definecolor{color_tbl_row}{HTML}{ECD0F5}
+
+    % \newcommand{\redsout}{\bgroup\markoverwith{\textcolor{red}{\rule[0.5ex]{2pt}{0.4pt}}}\ULon}
+    % \newcommand{\orangesout}{\bgroup\markoverwith{\textcolor{orange}{\rule[0.5ex]{2pt}{0.4pt}}}\ULon}
+    % \newcommand{\deleteline}[2]{\textsuperscript{\textcolor{black}{ #1}} \textcolor{red}{\sout{#2}}}
+    % \newcommand{\addline}[2]{\textsuperscript{\textcolor{black}{ #1}} \textcolor{green}{#2}}
+
+% Temporal, deprecated
+% Definición del comando para tablas en formato APA 7
+% Argumentos:
+% #1: Label (etiqueta)
+% #2: Caption (título)
+% #3: Column specification (ej: ll|ll)
+% #4: Header content (las filas de cabecera con sus \hline)
+% #5: Body content (los datos)
+% #6: Note (nota al pie de la tabla)
+\NewDocumentCommand{\mitabla}{ m m m m m m }{
+    \begin{table}[H]
+        \centering
+        % El entorno threeparttable ajusta las notas al ancho de la tabla automáticamente
+        \begin{threeparttable}
+            \caption{#2}
+            \label{#1}
+            \vspace{2mm}
+            \rowcolors{3}{color_tbl_row}{} 
+            \begin{tabular}{#3}
+                \hline
+                \rowcolor{color_tbl_header}
+                #4 \\
+                \hline
+                #5
+                \hline
+            \end{tabular}
+            
+            \ifx\relax#6\relax\else
+                \begin{tablenotes}[flushleft] % Alinea la nota al borde izquierdo de la tabla
+                    \small
+                    \item \textit{Nota}. #6
+                \end{tablenotes}
+            \fi
+        \end{threeparttable}
+    \end{table}
+}
+
+% % Comando para tablas APA 7 con posición opcional
+% % Argumentos:
+% % O{H} : Argumento opcional de posición (Default: H)
+% % #2   : Label (etiqueta)
+% % #3   : Caption (título)
+% % #4   : Column specification (ej: ll|ll)
+% % #5   : Header content
+% % #6   : Body content
+% % #7   : Note (nota al pie de la tabla)
+% \NewDocumentCommand{\apaTable}{ O{H} m m m m m m }{
+%     \begin{table}[#1]
+%         \centering
+%         \begin{threeparttable}
+%             \caption{#3} % Eliminamos las barras temporales
+%             \label{#2}
+%             % No hace falta \vspace aquí, el captionsetup hace el trabajo el cual 
+%             % se define en la cabecera de main.tex
+%             \rowcolors{3}{color_tbl_row}{} 
+%             \begin{tabular}{#4}
+%                 \hline
+%                 \rowcolor{color_tbl_header}
+%                 #5 \\
+%                 \hline
+%                 #6
+%                 \hline
+%             \end{tabular}       
+%             \ifx\relax#7\relax\else
+%                 \begin{tablenotes}[flushleft]
+%                     \small
+%                     \item \textit{Nota}. #7
+%                 \end{tablenotes}
+%             \fi
+%         \end{threeparttable}
+%     \end{table}
+% }
+
+% \NewDocumentCommand{\apaTable}{ O{htbp} m m m m m m }{
+%     \begin{table}[#1]
+%         \centering
+%         \begin{threeparttable}
+%             \caption{#3}
+%             \label{#2}
+%             % Eliminamos colores para cumplir APA 7
+%             \begin{tabular}{#4}
+%                 \toprule
+%                 #5 \\
+%                 \midrule
+%                 #6
+%                 \bottomrule
+%             \end{tabular}       
+%             \ifx\relax#7\relax\else
+%                 \begin{tablenotes}[flushleft, para]
+%                     \small
+%                     \textit{Nota}. #7
+%                 \end{tablenotes}
+%             \fi
+%         \end{threeparttable}
+%     \end{table}
+% }
+
+\NewDocumentCommand{\apaTable}{ O{htbp} m m m m m m }{
+    \begin{table}[#1]
+        \centering
+        \begin{threeparttable}
+            \caption{#3}
+            \label{#2}
+            % Eliminamos colores para cumplir APA 7
+            \begin{tabular}{#4}
+                \toprule
+                #5 \\
+                \midrule
+                #6
+                \bottomrule
+            \end{tabular}       
+            \ifx\relax#7\relax\else
+                \begin{tablenotes}[flushleft, para]
+                    \small
+                    \textit{Nota}. #7
+                \end{tablenotes}
+            \fi
+        \end{threeparttable}
+    \end{table}
+}
+
+% test
+% Requiere \usepackage{threeparttable} y \usepackage{graphicx}
+\NewDocumentCommand{\apaFigure}{ O{htbp} m m m m }{
+    \begin{figure}[#1]
+        \centering
+        % Definimos un ancho fijo (ej: 0.5\textwidth) para alinear todo
+        \begin{minipage}{0.5\textwidth} 
+            \caption{#3} % Título
+            \label{#2}   % Label
+            
+            \vspace{6pt}
+            \includegraphics[width=\textwidth]{#4} % Ruta del PDF
+            
+            \vspace{6pt}
+            \small \textit{Nota}. #5 % Nota
+        \end{minipage}
+    \end{figure}
+}
+
+% Requiere \usepackage{subcaption}
+% #1: Label principal
+% #2: Título de la figura
+% #3: Ancho total del bloque (ej: 0.8\textwidth)
+% #4: Contenido de las subfiguras (los entornos \begin{subfigure}...)
+% #5: Texto de la nota
+\NewDocumentCommand{\apaSubFigures}{ m m m m m }{
+    \begin{figure}[htbp]
+        \centering
+        \begin{minipage}{#3} % Define el ancho donde se alineará el título y la nota
+            \caption{#2}
+            \label{#1}
+            
+            \vspace{6pt}
+            \centering % Centra las subfiguras dentro de la minipage
+            #4 
+            
+            \vspace{10pt}
+            \begin{flushleft}
+                \small \textit{Nota}. #5
+            \end{flushleft}
+        \end{minipage}
+    \end{figure}
+}
